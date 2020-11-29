@@ -4,12 +4,12 @@ from django.db import transaction
 from django.contrib.auth import get_user_model
 
 from .models import User
-from ..customers.models import Customer
-from ..vendors.models import Vendor
+from customers.models import Customer
+from vendors.models import Vendor
 
 class CustomerSignUpForm(UserCreationForm):
     class Meta:
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'location', 'culture', 'profile_pic')
+        fields = '__all__'
         model = get_user_model()
 
     @transaction.atomic()
@@ -26,7 +26,7 @@ class CustomerSignUpForm(UserCreationForm):
 
 class VendorSignUpForm(UserCreationForm):
     class Meta:
-        fields = ('username', 'email', 'vendor_name', 'password1', 'password2', 'logo', 'cover_image', 'about')
+        exclude = ('first_name', 'last_name')
         model = get_user_model()
 
     def __init__(self, *args, **kwargs):
