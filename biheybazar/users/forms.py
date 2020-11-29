@@ -2,46 +2,60 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 from django.contrib.auth import get_user_model
+from django.db.transaction import commit
+from django.forms import fields
 
 from .models import User
 from customers.models import Customer
 from vendors.models import Vendor
 
-class CustomerSignUpForm(UserCreationForm):
+class UserCustomerForm(UserCreationForm):
     class Meta:
-        fields = '__all__'
-        model = get_user_model()
-
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
+    
     @transaction.atomic()
     def save(self):
         user = super().save(commit=False)
         user.is_customer = True
         user.save()
-        customer = Customer.objects.create(user=user)
-        customer.location = self.cleaned_data.get('location')
-        customer.culture = self.cleaned_data.get('culture')
-        customer.profile_pic = self.cleaned_data.get('profile_pic')
-        return user
+        return user.pk
 
-
-class VendorSignUpForm(UserCreationForm):
+class CustomerSignUpForm(forms.ModelForm):
     class Meta:
-        exclude = ('first_name', 'last_name')
-        model = get_user_model()
+        exclude = ('user', 'location', 'culture')
+        model = Customer
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(self, *args, **kwargs)
-        self.fields['vendor_name'].label = 'Vendor Name'
-        self.fields['cover_image'].label = 'Cover Image'
+    @transaction.atomic()
+    def save(self, user):
+        customer = Customer.objects.create(user=user)
+        return customer
 
+class UserVendorForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
+    
     @transaction.atomic()
     def save(self):
         user = super().save(commit=False)
         user.is_vendor = True
         user.save()
-        customer = Customer.objects.create(user=user)
-        customer.vendor_name = self.cleaned_data.get('vendor_name')
-        customer.logo = self.cleaned_data.get('logo')
-        customer.cover_image = self.cleaned_data.get('cover_image')
-        customer.about = self.cleaned_data.get('about')
-        return user
+        return user.pk
+
+
+class VendorSignUpForm(forms.ModelForm):
+    user = UserVendorForm()
+    class Meta:
+        exclude=('user',)
+        model = Vendor
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['vendor_name'].label = 'Vendor Name'
+        self.fields['cover_image'].label = 'Cover Image'
+
+    @transaction.atomic()
+    def save(self, user):
+        vendor = Vendor.objects.create(user=user)
+        return vendor

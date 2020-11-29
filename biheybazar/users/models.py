@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     # Boolean Fields for determining user types
     is_customer = models.BooleanField(default=False)
-    is_teacher = models.BooleanField(default=False)
+    is_vendor = models.BooleanField(default=False)
 
 
     def __str__(self):

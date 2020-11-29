@@ -23,6 +23,6 @@ class Customer(models.Model):
     # A One-to-one Relationship between user and customer.
     # Allows addition of fields which are only specific to Customers
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    location = models.PositiveIntegerField(choices=LOCATION_CHOICES)
-    culture = models.PositiveIntegerField(choices=CULTURE_CHOICES)
+    location = models.PositiveIntegerField(choices=LOCATION_CHOICES, blank=True, null=True)
+    culture = models.PositiveIntegerField(choices=CULTURE_CHOICES, blank=True, null=True)
     profile_pic = models.ImageField(upload_to='profile_pic')

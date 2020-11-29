@@ -4,10 +4,11 @@
 {% block content %}
     <div class="container">
         <h1>Sign Up - Vendor</h1>
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            {% bootstrap_form form %}
-            <input type="submit" value="" class="btn btn-success" value="Sign Up">
+            {% bootstrap_form user_form %}
+            {% bootstrap_form vendor_form %}
+            <input type="submit" class="btn btn-success" value="Sign Up">
         </form>
     </div>
 {% endblock content %}
