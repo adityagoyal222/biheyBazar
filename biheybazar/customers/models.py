@@ -25,3 +25,4 @@ class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     location = models.PositiveIntegerField(choices=LOCATION_CHOICES)
     culture = models.PositiveIntegerField(choices=CULTURE_CHOICES)
+    profile_pic = models.ImageField(upload_to='profile_pic')
