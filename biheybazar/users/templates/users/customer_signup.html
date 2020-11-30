@@ -1,15 +1,21 @@
-{% extends 'base.html' %}
+{% extends 'users/base.html' %}
 {% load bootstrap4 %}
+{%block precontent%}
+<li class='list-item'><a href="{% url 'users:signup_vendor' %}" class="nav-link"><button type="button" class="text-right btn btn-danger">Sign up as vendor</button></a></li>
+{% endblock precontent %}
 
+{% block logincontent %}
+    <li><a href="{% url 'users:login' %}" class="nav-link"><button type="button" class="btn btn-danger">Log In</button></a></li>
+{% endblock logincontent %}
 {% block content %}
     <div class="container">
-        <h1>Sign Up - Customer</h1>
+        <h1>Sign Up - Customer </h1> 
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {% bootstrap_form user_form %}
             {% bootstrap_form customer_form %}
             <input type="submit" class="btn btn-success" value="Sign Up">
-        </form>
+          
     </div>
 {% endblock content %}
     

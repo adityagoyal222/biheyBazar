@@ -5,6 +5,7 @@ from django.contrib.auth import login
 from django.urls.base import reverse_lazy
 from django.views.generic import CreateView
 
+
 from .forms import CustomerSignUpForm, VendorSignUpForm, UserVendorForm, UserCustomerForm
 from .models import User
 
@@ -75,6 +76,8 @@ def customerSignUpView(request):
             'user_form': UserCustomerForm(),
             'customer_form': CustomerSignUpForm(),
         }
+    
+    
 
     return render(request, 'users/customer_signup.html', context)
 

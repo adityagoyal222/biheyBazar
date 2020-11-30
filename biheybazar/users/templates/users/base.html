@@ -1,0 +1,64 @@
+{% load static  %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bihey Bazar</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+</head>
+<body>
+    {# a simple navigaion bar using bootstarp #}
+    <nav class="navbar navbar-expand-sm navbar-dark bg-primary mynav" role="navigation" id="navbar">
+        <div class="navbar-header">
+            <a class='navbar-brand mynav' href="{%url 'home' %}">BiheyBazar</a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                {# logical statements to check and display nav elements if user is authenticated i.e account exists #}
+            {% if user.is_authenticated %}
+                
+
+                {# logical statement to check if the logged in user is cu8stomer or vendor #}
+            
+                {% if user.is_customer %}
+                <li class="list-item "><a href="#" class="nav-link">Customer profile</a></li>
+                {% elif user.is_vendor %}
+                <li class="list-item "><a href="#" class="nav-link">Vendor profile</a></li>
+                {% endif %}    
+                <li><a href="{% url 'users:logout' %}" class="nav-link"><button type="button" class="btn btn-warning">Log Out</button></a></li>
+                
+            {% else %}
+
+            {# injection of  signup as vendor button from customer_signup.html #}
+            {% block precontent%}
+            {% endblock precontent%}
+
+            {% block altercontent%}
+            {% endblock altercontent%}
+            
+            {% block logincontent %}
+            {% endblock logincontent %}
+                    
+
+            {% endif %}
+
+            
+            </ul>
+        </div>
+    </nav>
+    
+    {% block content %}
+    {% endblock content %}
+        
+    
+    {% block body_content %}
+        
+    {% endblock body_content %}
+        
+</body>
+</html>

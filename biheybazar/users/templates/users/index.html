@@ -1,0 +1,16 @@
+{% extends 'users/base.html' %}
+
+
+{% block logincontent %}   
+    <li><a href="{% url 'users:login' %}" class="nav-link"><button type="button" class="btn btn-danger">Log In</button></a></li>
+{% endblock logincontent %}
+
+{% block content %}
+<div class="container">
+   <h1>This is the Home Page </h1> 
+</div>
+    
+    
+        
+    
+{% endblock content %}
