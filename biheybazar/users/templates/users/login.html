@@ -1,20 +1,21 @@
 {# index.html extends from users base.html #}
 {% extends 'users/base.html' %}
 {% load bootstrap4 %}
+   
+{% block content %}
 
 {# this block contains signup button #}
-{% block altercontent%}          
-    <li><a href="{% url 'users:signup_customer' %}" class="nav-link"><button type="button" class="btn btn-warning">Sign Up</button></a></li>
-{% endblock altercontent%}
+  {% block altercontent%}          
+      <li><a href="{% url 'users:signup_customer' %}" class="nav-link"><button type="button" class="btn btn-warning">Sign Up</button></a></li>
+  {% endblock altercontent%}
 
 
 {% block title %}
     biheybazar - Login
 {% endblock title %}
     
-
-{% block body_content %}
     {# login form shouldn't be displayed if the user is already logged in #}
+
     {% if user.is_authenticated %}
         <div class="container">
             <div class="jumbotron">
@@ -37,5 +38,5 @@
 
     {% endif %}
 
-{% endblock body_content %}
+{% endblock content %}
     

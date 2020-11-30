@@ -10,6 +10,10 @@ class Vendor(models.Model):
     cover_image = models.ImageField(upload_to='cover_image')
     about = models.TextField()
 
+    # String representation of vendor model
+    def __str__(self):
+        return self.user.username
+
 class VendorImage(models.Model):
     # Model for uploading images to a vendor account
     vendor = models.ForeignKey(Vendor, on_delete=CASCADE, related_name='images')
