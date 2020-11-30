@@ -10,6 +10,7 @@ class Vendor(models.Model):
     cover_image = models.ImageField(upload_to='cover_image')
     about = models.TextField()
 
+    # String representation of vendor model
     def __str__(self):
         return self.user.username
 

@@ -9,6 +9,6 @@ class User(AbstractUser):
     is_customer = models.BooleanField(default=False)
     is_vendor = models.BooleanField(default=False)
 
-
+    # String representation of the User model
     def __str__(self):
         return self.username
