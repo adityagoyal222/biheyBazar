@@ -1,0 +1,72 @@
+{% load static  %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bihey Bazar</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+</head>
+<body>
+    {#created a simple navigaion bar using bootstrap #}
+    <nav class="navbar navbar-expand-sm navbar-dark bg-primary mynav" role="navigation" id="navbar">
+        <div class="navbar-header">
+            <a class='navbar-brand mynav' href="{%url 'home' %}">BiheyBazar</a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                
+                {# logical statements to check and display nav elements if user is authenticated i.e account exists #}
+            {% if user.is_authenticated %}
+                {# logical statement to check if the logged in user is customer or vendor #}
+                
+                {#nav elements to be dispayed if the user is customer #}
+                {% if user.is_customer %}
+                <li class="list-item "><a href="#" class="nav-link">Customer profile</a></li>
+
+                {#nav elements to be dispayed if the user is vendor#}
+                {% elif user.is_vendor %}
+                <li class="list-item "><a href="#" class="nav-link">Vendor profile</a></li>
+                {% endif %}    
+                <li><a href="{% url 'users:logout' %}" class="nav-link"><button type="button" class="btn btn-warning">Log Out</button></a></li>
+            
+                
+            {# if user isn't authenticated following lines of code will be executed  #}
+            {% else %}
+
+            {# injection of  signup as vendor button from customer_signup.html #}
+            {% block precontent%}
+            {% endblock precontent%}
+
+
+            {# injection of signup as customer from vendor_signup.html #}
+            {% block altercontent%}
+            {% endblock altercontent%}
+            
+            {# injection of login button from index.html #}
+            {% block logincontent %}
+            {% endblock logincontent %}
+                    
+            
+            {% endif %}
+
+            
+            </ul>
+        </div>
+    </nav>
+    
+
+    {# all the lines of code inside block content will be injected here#}
+    {% block content %}
+    {% endblock content %}
+        
+    {# all the lines of code inside block body-content will be injected here#}
+    {% block body_content %}
+    {% endblock body_content %}
+        
+</body>
+</html>

@@ -1,6 +1,19 @@
-{% extends 'base.html' %}
+{#  vendors_signup.html extends from users(app) base.html #}
+{% extends 'users/base.html' %}
 {% load bootstrap4 %}
 
+{# this block contains signup as customer button #}
+{% block altercontent%}          
+    <li><a href="{% url 'users:signup_customer' %}" class="nav-link"><button type="button" class="btn btn-warning">Sign Up as customer</button></a></li>
+{% endblock altercontent%}
+
+{# this block contains login button #}
+{% block logincontent %}   
+    <li><a href="{% url 'users:login' %}" class="nav-link"><button type="button" class="btn btn-danger">Log In</button></a></li>
+{% endblock logincontent %}
+
+
+{# block content contains the main content of this page i.e form to sign up as vendor#}
 {% block content %}
     <div class="container">
         <h1>Sign Up - Vendor</h1>
