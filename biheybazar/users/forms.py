@@ -28,7 +28,9 @@ class CustomerSignUpForm(forms.ModelForm):
 
     @transaction.atomic()
     def save(self, user):
-        customer = Customer.objects.create(user=user)
+        customer = Customer.objects.create(
+            user=user, 
+            profile_pic=self.cleaned_data['profile_pic'])
         return customer
 
 class UserVendorForm(UserCreationForm):
@@ -57,5 +59,10 @@ class VendorSignUpForm(forms.ModelForm):
 
     @transaction.atomic()
     def save(self, user):
-        vendor = Vendor.objects.create(user=user)
+        vendor = Vendor.objects.create(
+            user=user,
+            vendor_name=self.cleaned_data['vendor_name'],
+            logo=self.cleaned_data['logo'],
+            cover_image=self.cleaned_data['cover_image'],
+            about=self.cleaned_data['about'])
         return vendor
