@@ -1,17 +1,20 @@
+{# index.html extends from users base.html #}
 {% extends 'users/base.html' %}
 {% load bootstrap4 %}
 
+{# this block contains signup button #}
 {% block altercontent%}          
     <li><a href="{% url 'users:signup_customer' %}" class="nav-link"><button type="button" class="btn btn-warning">Sign Up</button></a></li>
 {% endblock altercontent%}
 
+
 {% block title %}
-    LMS - Login
+    biheybazar - Login
 {% endblock title %}
     
 
 {% block body_content %}
-    
+    {# login form shouldn't be displayed if the user is already logged in #}
     {% if user.is_authenticated %}
         <div class="container">
             <div class="jumbotron">
@@ -23,6 +26,8 @@
 
     <div class="container">
         <h1>Log In</h1>
+        
+        {# login form where user can input username and password#}
         <form method="POST">
             {% csrf_token %}
             {% bootstrap_form form %}
