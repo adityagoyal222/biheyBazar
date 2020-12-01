@@ -18,3 +18,7 @@ class VendorImage(models.Model):
     # Model for uploading images to a vendor account
     vendor = models.ForeignKey(Vendor, on_delete=CASCADE, related_name='images')
     image = models.ImageField(upload_to='vendor_images')
+
+
+class VendorTag(models.Model):
+    pass
