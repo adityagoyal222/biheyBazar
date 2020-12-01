@@ -6,8 +6,8 @@ from django.db.transaction import commit
 from django.forms import fields
 
 from .models import User
-from customers.models import Customer
-from vendors.models import Vendor
+from biheybazar.customers.models import Customer
+from biheybazar.vendors.models import Vendor
 
 
 # Form for registering user instance in the database for customer signup
@@ -62,6 +62,7 @@ class VendorSignUpForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['vendor_name'].label = 'Vendor Name'
         self.fields['cover_image'].label = 'Cover Image'
+        self.fields['category'].label = 'Categories'
 
     @transaction.atomic()
     def save(self, user):
@@ -70,5 +71,6 @@ class VendorSignUpForm(forms.ModelForm):
             vendor_name=self.cleaned_data['vendor_name'],
             logo=self.cleaned_data['logo'],
             cover_image=self.cleaned_data['cover_image'],
-            about=self.cleaned_data['about'])
+            about=self.cleaned_data['about'],
+            category=self.cleaned_data['category'])
         return vendor

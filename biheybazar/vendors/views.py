@@ -1,3 +1,4 @@
+from biheybazar.vendors.models import Categories
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -6,10 +7,11 @@ from django.views.generic import (CreateView, DetailView,
 from django.views.generic.base import RedirectView
 from django.contrib import messages
 
-from vendors.models import Tag, Vendor, VendorTag
+from biheybazar.vendors.models import Tag, Vendor, VendorTag
 
 # Create your views here.
 
+# TAGS
 class CreateTag(LoginRequiredMixin, CreateView):
     fields = ('tag_name', 'description')
     model = Tag
@@ -46,3 +48,9 @@ class RemoveTag(LoginRequiredMixin, RedirectView):
             vendortag.delete()
             messages.success(self.request, "The tag was removed from your profile")
         return super().get(self.request, *args, **kwargs)
+
+# CATEGORIES
+class CreateCategory(LoginRequiredMixin, CreateView):
+    fields = ('category_name', 'description')
+    model = Categories
+
