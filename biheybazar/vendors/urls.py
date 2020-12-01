@@ -1,6 +1,6 @@
 from biheybazar.vendors.views import RemoveTag
 from django.conf.urls import url
-from vendors import views
+from biheybazar.vendors import views
 
 app_name = "vendors"
 urlpatterns = [
