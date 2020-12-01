@@ -47,3 +47,7 @@ class VendorTag(models.Model):
 
     class Meta:
         unique_together = ('vendor', 'tag')
+
+
+class Categories(models.Model):
+    pass
