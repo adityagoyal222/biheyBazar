@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.fields import related
+from django.urls import reverse
 from users.models import User
 from django.db.models.deletion import CASCADE
 
@@ -20,5 +22,16 @@ class VendorImage(models.Model):
     image = models.ImageField(upload_to='vendor_images')
 
 
-class VendorTag(models.Model):
-    pass
+class Tag(models.Model):
+    tag_name = models.CharField(max_length=150)
+    description = models.TextField(max_length=300)
+    vendors = models.ManyToManyField(Vendor, through="VendorTag", related_name="vendro_tag")
+
+    def __str__(self):
+        self.tag_name
+    
+    # def get_absolute_url(self):
+    #     return reverse('')
+
+    class Meta:
+        ordering = ['tag_name']
