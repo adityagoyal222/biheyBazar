@@ -1,13 +1,13 @@
-from biheybazar.vendors.models import Categories
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import (CreateView, DetailView,
-                                 DeleteView, UpdateView)
+                                 DeleteView, UpdateView,
+                                 ListView)
 from django.views.generic.base import RedirectView
 from django.contrib import messages
 
-from biheybazar.vendors.models import Tag, Vendor, VendorTag
+from vendors.models import Tag, Vendor, VendorTag, Categories
 
 # Create your views here.
 
@@ -18,7 +18,7 @@ class CreateTag(LoginRequiredMixin, CreateView):
 
 class AddTag(LoginRequiredMixin, RedirectView):
     def get_redirect_url(self, *args, **kwargs):
-        return reverse('vendors:profile', kwargs={'pk':self.request.user.username})
+        return reverse('vendors:profile', kwargs={'username':self.request.user.username})
     
     def get(self, *args, **kwargs):
         tag = get_object_or_404(Tag, pk=self.kwargs.get('pk'))
@@ -28,12 +28,12 @@ class AddTag(LoginRequiredMixin, RedirectView):
         except:
             messages.warning(self.request, 'You already have this tag')
         else:
-            messages.success(self.request, "You nnow have this tag")
+            messages.success(self.request, "You now have this tag")
         return super().get(self.request, *args, **kwargs)
 
 class RemoveTag(LoginRequiredMixin, RedirectView):
     def get_redirect_url(self, *args, **kwargs):
-        return reverse('vendors:profile', kwargs={'pk':self.request.user.username})
+        return reverse('vendors:profile', kwargs={'username':self.request.user.username})
 
     def get(self, *args, **kwargs):
         
@@ -54,3 +54,17 @@ class CreateCategory(LoginRequiredMixin, CreateView):
     fields = ('category_name', 'description')
     model = Categories
 
+# VendorProfile
+class VendorListView(ListView):
+    model = Vendor
+
+class VendorProfileView(DetailView):
+    model = Vendor
+
+    def get_context_data(self, **kwargs):
+        tags = VendorTag.objects.filter(vendor=self.kwargs['pk'])
+        category = Categories.objects.filter(vendor=self.kwargs['pk'])
+        context = super(VendorProfileView, self).get_context_data(**kwargs)
+        context['tags'] = tags
+        context['category'] = category
+        return context

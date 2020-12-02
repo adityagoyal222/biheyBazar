@@ -2,8 +2,7 @@ from enum import unique
 from django.db import models
 from django.db.models.fields import related
 from django.urls import reverse
-from biheybazar.users.models import User
-from biheybazar.vendors.models import Vendor
+from users.models import User
 from django.db.models.deletion import CASCADE
 
 #Create your models here.
@@ -20,7 +19,7 @@ class Vendor(models.Model):
     logo = models.ImageField(upload_to='logo')
     cover_image = models.ImageField(upload_to='cover_image')
     about = models.TextField()
-    category = models.ForeignKey(Categories, on_delete=models.CASCADE, related_name='category')
+    category = models.ForeignKey(Categories, on_delete=models.CASCADE, related_name='categories')   
 
     # String representation of vendor model
     def __str__(self):
@@ -35,7 +34,7 @@ class VendorImage(models.Model):
 class Tag(models.Model):
     tag_name = models.CharField(max_length=150)
     description = models.TextField(max_length=300)
-    vendors = models.ManyToManyField(Vendor, through="VendorTag", related_name="vendor_tag")
+    vendor = models.ManyToManyField(Vendor, through="VendorTag", related_name="vendor_tag")
 
     def __str__(self):
         self.tag_name
