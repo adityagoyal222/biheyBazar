@@ -1,0 +1,14 @@
+/* just a sample css file */
+
+
+.review-text{
+    height: 100px;
+    width: 80%;
+    display:block;
+    content: 'Enter your reviews';
+}
+
+/* .about-text{
+    display: block;
+    height: 500px;
+} */

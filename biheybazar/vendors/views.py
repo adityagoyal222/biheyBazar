@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import (CreateView, DetailView,
-                                 DeleteView, UpdateView)
+                                 DeleteView, UpdateView, ListView)
 from django.views.generic.base import RedirectView
 from django.contrib import messages
 
@@ -90,3 +90,13 @@ class UpdateAbout(UpdateView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['vendor'] = self.kwargs['slug']
+
+class VendorList(ListView):
+    '''class based view to list out all the vendors '''
+    model = Vendor
+    
+    def get_queryset(self):      
+        vendor=Vendor.objects.all()
+        context = {'vendor_list':vendor}
+        return super().get_queryset()
+
