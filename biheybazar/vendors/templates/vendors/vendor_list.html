@@ -1,7 +1,43 @@
-{% extends 'users/base.html' %}
+{% extends 'vendors/base.html' %}
 
+{# in progress,(don't touch) lots of changes to be mades #}
+{% block vendor_content %}
 
-{% block content %}
-    {{vendors}}
-{% endblock content %}
+<div class="container">
+    <h3>The lists of registered vendors are:</h3>
+    {% for vendor in vendor_list %}
+    {% if vendor.vendor_name == 'Laxmi Sweets'%}
+        <div class="tailor">
+            <h1> <a href="{% url 'vendors:reviews' pk=user.pk %}">laxmi sweets exists</a></h1>
+        </div>
+
+    {% elif vendor.vendor_name == 'newari khaja ghar' %}
+    <div class="photgrapher">
+        <h1> newari khaja ghar exists</h1>
+    </div>
+
+    {% elif vendor.vendor_name == 'Palpasa' %}
+    <div class="catering">
+        <h1> Palpasa exists</h1>
+    </div>
+
+    {% elif vendor.vendor_name == 'Om Veg MoMo' %}
+    <div class="venue">
+        <h1> Om Veg MoMo exists</h1>
+    </div>
+
+    {% elif vendor.vendor_name == 'Om Veg MoMo' %}
+    <div class="makeup">
+        <h1> Om Veg MoMo exists</h1>
+    </div>
+
+    {% elif vendor.vendor_name == 'Om Veg MoMo' %}
+    <div class="decorations">
+        <h1> Om Veg MoMo exists</h1>
+    </div>
+
+   {% endif %}
     
+    {% endfor %}
+</div>
+{% endblock %}

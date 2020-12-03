@@ -1,0 +1,37 @@
+{% extends 'vendors/base.html' %}
+{% load bootstrap4 %}
+
+
+{% block vendor_content %}
+    {{vendor.slug}}
+
+    <div class="profile-pic">
+        <img src="{{ vendor.profile_pic }}" alt="profile_pic">x{{vendor.vendor_name}}
+    </div>
+    <div class="cover-image">
+
+    </div>
+    <div class="main-info">
+
+    </div>
+    <div class="about">
+
+    </div>
+    <div class="tag">
+
+    </div>
+    <div class="images">
+
+    </div>
+
+    {% if user.is_vendor and vendor.user.username == user.username %}
+        {% for tag in tags %}
+            {{tag}}
+        {% endfor %}
+
+    {% else %}
+        
+    {% endif %}
+        
+{% endblock vendor_content %}
+    

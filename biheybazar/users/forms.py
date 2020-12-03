@@ -1,10 +1,14 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
+<<<<<<< HEAD
+=======
 from django.contrib.auth import get_user_model
 from django.db.transaction import commit
 from django.forms import fields
+from ckeditor.fields import RichTextField
 
+>>>>>>> 424c9c001e76a9515cc4c814e84672b0d0a97ffa
 from .models import User
 from customers.models import Customer
 from vendors.models import Vendor
@@ -42,6 +46,10 @@ class UserVendorForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
+
+        # widgets={
+        #     'about':forms.Textarea(attrs={ 'class':"editable medium-editor-textarea"})
+        #     }
     
     @transaction.atomic()
     def save(self):
@@ -55,14 +63,33 @@ class UserVendorForm(UserCreationForm):
 class VendorSignUpForm(forms.ModelForm):
     user = UserVendorForm()
     class Meta:
+<<<<<<< HEAD
         exclude=('user', 'category')
+=======
+        exclude=('user', 'slug')
+>>>>>>> tmp
         model = Vendor
+
+
+        widgets={
+            'about':forms.Textarea(attrs={ 'class':"about-text"})
+            }
+
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['vendor_name'].label = 'Vendor Name'
         self.fields['cover_image'].label = 'Cover Image'
+<<<<<<< HEAD
         # self.fields['category'].label = 'Categories'
+=======
+<<<<<<< HEAD
+        self.fields['category'].label = 'Category'
+=======
+        self.fields['about'].label=''
+>>>>>>> 424c9c001e76a9515cc4c814e84672b0d0a97ffa
+>>>>>>> tmp
 
     @transaction.atomic()
     def save(self, user):
@@ -71,6 +98,12 @@ class VendorSignUpForm(forms.ModelForm):
             vendor_name=self.cleaned_data['vendor_name'],
             logo=self.cleaned_data['logo'],
             cover_image=self.cleaned_data['cover_image'],
+<<<<<<< HEAD
             about=self.cleaned_data['about'],)
             # category=self.cleaned_data['category'])
+=======
+            about=self.cleaned_data['about'],
+            category=self.cleaned_data['category'],
+            slug=user.username)
+>>>>>>> tmp
         return vendor
