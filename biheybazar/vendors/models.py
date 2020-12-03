@@ -26,7 +26,7 @@ class Categories(models.Model):
 
     def __str__(self):
         return self.category_name
-        
+
 class Vendor(models.Model):
     user = models.OneToOneField(User, on_delete=CASCADE, primary_key=True)
     vendor_name = models.CharField(max_length=200, blank=False)
@@ -49,7 +49,7 @@ class VendorImage(models.Model):
 class Tag(models.Model):
     tag_name = models.CharField(max_length=150)
     description = models.TextField(max_length=300)
-    vendor = models.ManyToManyField(Vendor, through="VendorTag", related_name="vendor_tag")
+    vendors = models.ManyToManyField(Vendor, through="VendorTag", related_name="vendor_tag")
 
     def __str__(self):
         return self.tag_name

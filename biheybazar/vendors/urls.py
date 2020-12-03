@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from vendors import views
+from . import views
 
 app_name = "vendors"
 urlpatterns = [
@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^remove/tag/$', views.RemoveTag.as_view(), name="remove_tag"),
     url(r'^new/category/$', views.CreateCategory.as_view(), name="create_category"),
     url(r'^profile/(?P<slug>[-\w]+)/$', views.VendorProfile.as_view(), name='profile'),
+    url(r'', views.VendorList.as_view(), name="vendor_list"),
 ]

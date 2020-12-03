@@ -2,21 +2,12 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import (CreateView, DetailView,
-<<<<<<< HEAD
-                                 DeleteView, UpdateView,
-                                 ListView)
-from django.views.generic.base import RedirectView
-from django.contrib import messages
-
-from vendors.models import Tag, Vendor, VendorTag, Categories
-=======
                                  DeleteView, UpdateView, ListView)
 from django.views.generic.base import RedirectView
 from django.contrib import messages
 
 from vendors.models import Tag, Vendor, VendorTag, Category
 from .forms import UpdateLogoForm, UpdateAboutForm, UpdateCoverImageForm
->>>>>>> tmp
 
 # Create your views here.
 
@@ -27,11 +18,7 @@ class CreateTag(LoginRequiredMixin, CreateView):
 
 class AddTag(LoginRequiredMixin, RedirectView):
     def get_redirect_url(self, *args, **kwargs):
-<<<<<<< HEAD
-        return reverse('vendors:profile', kwargs={'username':self.request.user.username})
-=======
         return reverse('vendors:profile', kwargs={'slug':self.request.user.username})
->>>>>>> tmp
     
     def get(self, *args, **kwargs):
         tag = get_object_or_404(Tag, pk=self.kwargs.get('pk'))
@@ -46,11 +33,7 @@ class AddTag(LoginRequiredMixin, RedirectView):
 
 class RemoveTag(LoginRequiredMixin, RedirectView):
     def get_redirect_url(self, *args, **kwargs):
-<<<<<<< HEAD
-        return reverse('vendors:profile', kwargs={'username':self.request.user.username})
-=======
         return reverse('vendors:profile', kwargs={'slug':self.request.user.username})
->>>>>>> tmp
 
     def get(self, *args, **kwargs):
         
@@ -66,11 +49,10 @@ class RemoveTag(LoginRequiredMixin, RedirectView):
             messages.success(self.request, "The tag was removed from your profile")
         return super().get(self.request, *args, **kwargs)
 
-<<<<<<< HEAD
 # CATEGORIES
 class CreateCategory(LoginRequiredMixin, CreateView):
     fields = ('category_name', 'description')
-    model = Categories
+    model = Category
 
 # VendorProfile
 class VendorListView(ListView):
@@ -81,12 +63,12 @@ class VendorProfileView(DetailView):
 
     def get_context_data(self, **kwargs):
         tags = VendorTag.objects.filter(vendor=self.kwargs['pk'])
-        category = Categories.objects.filter(vendor=self.kwargs['pk'])
+        category = Category.objects.filter(vendor=self.kwargs['pk'])
         context = super(VendorProfileView, self).get_context_data(**kwargs)
         context['tags'] = tags
         context['category'] = category
         return context
-=======
+
 # Category
 class CreateCategory(LoginRequiredMixin, CreateView):
     fields=('category_name', 'description')
@@ -138,5 +120,3 @@ class VendorList(ListView):
         vendor=Vendor.objects.all()
         context = {'vendor_list':vendor}
         return super().get_queryset()
-
->>>>>>> tmp
