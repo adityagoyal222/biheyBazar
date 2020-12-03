@@ -2,10 +2,17 @@
 {% extends 'users/base.html' %}
 {% load bootstrap4 %}
 
+
+{% block title %}
+    BiheyBazar - Signup | Customer
+{% endblock title %}
+
 {# this block contains signup as vendor button #}
 {%block precontent%}
-<li class='list-item'><a href="{% url 'users:signup_vendor' %}" class="nav-link"><button type="button" class="text-right btn btn-danger">Sign up as vendor</button></a></li>
+    <li class='list-item'><a href="{% url 'users:signup_vendor' %}" class="nav-link"><button type="button" class="text-right btn btn-danger">Sign up as vendor</button></a></li>
 {% endblock precontent %}
+
+
 
 {# this block contains login button #}
 {% block logincontent %}

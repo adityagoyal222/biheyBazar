@@ -6,7 +6,7 @@ from django.views.generic import (CreateView, DetailView,
 from django.views.generic.base import RedirectView
 from django.contrib import messages
 
-from vendors.models import Tag, Vendor, VendorTag
+from vendors.models import Tag, Vendor, VendorTag, Category
 
 # Create your views here.
 
@@ -16,7 +16,7 @@ class CreateTag(LoginRequiredMixin, CreateView):
 
 class AddTag(LoginRequiredMixin, RedirectView):
     def get_redirect_url(self, *args, **kwargs):
-        return reverse('vendors:profile', kwargs={'pk':self.request.user.username})
+        return reverse('vendors:profile', kwargs={'slug':self.request.user.username})
     
     def get(self, *args, **kwargs):
         tag = get_object_or_404(Tag, pk=self.kwargs.get('pk'))
@@ -31,7 +31,7 @@ class AddTag(LoginRequiredMixin, RedirectView):
 
 class RemoveTag(LoginRequiredMixin, RedirectView):
     def get_redirect_url(self, *args, **kwargs):
-        return reverse('vendors:profile', kwargs={'pk':self.request.user.username})
+        return reverse('vendors:profile', kwargs={'slug':self.request.user.username})
 
     def get(self, *args, **kwargs):
         
@@ -46,3 +46,19 @@ class RemoveTag(LoginRequiredMixin, RedirectView):
             vendortag.delete()
             messages.success(self.request, "The tag was removed from your profile")
         return super().get(self.request, *args, **kwargs)
+
+# Category
+class CreateCategory(LoginRequiredMixin, CreateView):
+    fields=('category_name', 'description')
+    model = Category
+
+class VendorProfile(DetailView):
+    model = Vendor
+    template_name = "vendors/vendors_profile.html"
+    def get_context_data(self,**kwargs):
+        tags = Tag.objects.filter(vendors__user__username=self.kwargs['slug'])
+        all_tags = Tag.objects.all()
+        context = super(VendorProfile, self).get_context_data(**kwargs)
+        context['tags'] = tags
+        context['all_tags'] = all_tags
+        return context

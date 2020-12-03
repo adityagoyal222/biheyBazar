@@ -3,20 +3,32 @@ from django.db import models
 from django.db.models.fields import related
 from django.urls import reverse
 from users.models import User
-from vendors.models import Vendor
 from django.db.models.deletion import CASCADE
 
-#Create your models here.
+# Create your models here.
+
+class Category(models.Model):
+    category_name = models.CharField(max_length=100)
+    description = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.category_name
+
+    def get_absolute_url(self):
+        return reverse('home')
+
 class Vendor(models.Model):
     user = models.OneToOneField(User, on_delete=CASCADE, primary_key=True)
     vendor_name = models.CharField(max_length=200, blank=False)
     logo = models.ImageField(upload_to='logo')
     cover_image = models.ImageField(upload_to='cover_image')
     about = models.TextField()
+    slug = models.SlugField(default='')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='category')
 
     # String representation of vendor model
     def __str__(self):
-        return self.user.username
+        return self.vendor_name
 
 class VendorImage(models.Model):
     # Model for uploading images to a vendor account
@@ -30,17 +42,17 @@ class Tag(models.Model):
     vendors = models.ManyToManyField(Vendor, through="VendorTag", related_name="vendor_tag")
 
     def __str__(self):
-        self.tag_name
+        return self.tag_name
     
-    # def get_absolute_url(self):
-    #     return reverse('')
+    def get_absolute_url(self):
+        return reverse('home')
 
     class Meta:
         ordering = ['tag_name']
 
 class VendorTag(models.Model):
     vendor = models.ForeignKey(Vendor, related_name="vendor_tags", on_delete=models.CASCADE)
-    tag = models.ForeignKey(Tag, related_name="vendors", on_delete=models.CASCADE)
+    tag = models.ForeignKey(Tag, related_name="vendor", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.vendor.vendor_name

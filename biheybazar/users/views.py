@@ -55,7 +55,7 @@ def vendorSignUpView(request):
             id = user_form.save()
             user = User.objects.get(id=id)
             vendor_form.save(user)
-            return HttpResponseRedirect(reverse_lazy("vendors:detail"))        
+            return HttpResponseRedirect(reverse_lazy("vendors:profile", kwargs={'slug':user.username}))        
 
         else:
             context = {
