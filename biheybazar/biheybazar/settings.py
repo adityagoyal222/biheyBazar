@@ -48,10 +48,12 @@ INSTALLED_APPS = [
 
     'bootstrap4',
     'debug_toolbar',
+    'ckeditor',
 
     'customers',
     'users',
     'vendors',
+    'reviews',
 ]
 
 MIDDLEWARE = [

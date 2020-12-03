@@ -10,8 +10,24 @@
         {% endblock title %}
             
     </title>
+
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8"> 
+    
+
+<!-- jquery here -->
+    <link href="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.min.css' %}" rel="stylesheet">
+    <link href="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.structure.min.css' %}" rel="stylesheet">
+    <link href="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.theme.min.css' %}" rel="stylesheet">
+
+    <link rel="stylesheet" href="{%static 'css/style.css' %}">
+
+
+
 </head>
 <body>
     {#created a simple navigaion bar using bootstrap #}
@@ -22,11 +38,19 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
+        
+
           <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="{% url 'vendors:vendor_list' %}">Vendors <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
             <ul class="navbar-nav ml-auto">
+
                 
                 {# logical statements to check and display nav elements if user is authenticated i.e account exists #}
-            {% if user.is_authenticated %}
+                {% if user.is_authenticated %}
                 {# logical statement to check if the logged in user is customer or vendor #}
                 
                 {#nav elements to be dispayed if the user is customer #}
@@ -72,6 +96,12 @@
     {# all the lines of code inside block body-content will be injected here#}
     {% block body_content %}
     {% endblock body_content %}
+    
+     
+     <!-- javascript here -->
+    <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.js' %}"></script>
+    <script src="{% static 'js/custom-jquery.js' %}"></script>
         
 </body>
 </html>

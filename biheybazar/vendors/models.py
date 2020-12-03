@@ -1,6 +1,7 @@
 from django.db import models
 from users.models import User
 from django.db.models.deletion import CASCADE
+from ckeditor.fields import RichTextField
 
 #Create your models here.
 class Vendor(models.Model):
@@ -8,8 +9,7 @@ class Vendor(models.Model):
     vendor_name = models.CharField(max_length=200, blank=False)
     logo = models.ImageField(upload_to='logo')
     cover_image = models.ImageField(upload_to='cover_image')
-    about = models.TextField()
-
+    about = RichTextField(blank=True,default='',null=True)
     # String representation of vendor model
     def __str__(self):
         return self.user.username
