@@ -7,6 +7,7 @@ from django.views.generic.base import RedirectView
 from django.contrib import messages
 
 from vendors.models import Tag, Vendor, VendorTag, Category
+from .forms import UpdateLogoForm, UpdateAboutForm, UpdateCoverImageForm
 
 # Create your views here.
 
@@ -62,3 +63,30 @@ class VendorProfile(DetailView):
         context['tags'] = tags
         context['all_tags'] = all_tags
         return context
+
+class UpdateLogo(UpdateView):
+    model = Vendor
+    template_name = "vendors/vendor_profile.html"
+    form_class = UpdateLogoForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['vendor'] = self.kwargs['slug']
+
+class UpdateCoverImage(UpdateView):
+    model = Vendor
+    template_name = "vendors/vendor_profile.html"
+    form_class = UpdateCoverImageForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['vendor'] = self.kwargs['slug']
+
+class UpdateAbout(UpdateView):
+    model = Vendor
+    template_name = "vendors/vendor_profile.html"
+    form_class = UpdateAboutForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['vendor'] = self.kwargs['slug']

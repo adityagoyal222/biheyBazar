@@ -1,10 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
-from django.contrib.auth import get_user_model
-from django.db.transaction import commit
-from django.forms import fields
-
 from .models import User
 from customers.models import Customer
 from vendors.models import Vendor
