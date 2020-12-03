@@ -4,6 +4,7 @@ from django.db import transaction
 from django.contrib.auth import get_user_model
 from django.db.transaction import commit
 from django.forms import fields
+from ckeditor.fields import RichTextField
 
 from .models import User
 from customers.models import Customer
@@ -42,6 +43,10 @@ class UserVendorForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
+
+        # widgets={
+        #     'about':forms.Textarea(attrs={ 'class':"editable medium-editor-textarea"})
+        #     }
     
     @transaction.atomic()
     def save(self):
@@ -58,10 +63,18 @@ class VendorSignUpForm(forms.ModelForm):
         exclude=('user',)
         model = Vendor
 
+
+        widgets={
+            'about':forms.Textarea(attrs={ 'class':"about-text"})
+            }
+
+
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['vendor_name'].label = 'Vendor Name'
         self.fields['cover_image'].label = 'Cover Image'
+        self.fields['about'].label=''
 
     @transaction.atomic()
     def save(self, user):
