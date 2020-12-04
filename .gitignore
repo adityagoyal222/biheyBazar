@@ -43,9 +43,3 @@ pip-delete-this-directory.txt
 *.py[cod] 
 *$py.class 
 
-# Django #
-*.log
-*.pot
-*.pyc
-__pycache__
-db.sqlite3
