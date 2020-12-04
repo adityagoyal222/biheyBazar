@@ -29,5 +29,6 @@ urlpatterns = [
     url(r'^users/', include('users.urls', namespace="users")),
     url(r'^customers/', include('customers.urls', namespace="customers")),
     url(r'^vendors/', include('vendors.urls', namespace="vendors")),
+    url(r'^checklist/', include('checklist.urls', namespace="checklist")),
 ] + static(settings.MEDIA_URL,
                          document_root=settings.MEDIA_ROOT) # To include media urls

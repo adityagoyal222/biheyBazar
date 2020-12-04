@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'users',
     'vendors',
     'reviews',
+    'checklist',
 ]
 
 MIDDLEWARE = [
