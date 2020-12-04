@@ -19,14 +19,6 @@ class Category(models.Model):
         return reverse('home')
 
 
-#Create your models here.
-class Categories(models.Model):
-    category_name = models.CharField(max_length=100)
-    description = models.CharField(max_length=300)
-
-    def __str__(self):
-        return self.category_name
-
 class Vendor(models.Model):
     user = models.OneToOneField(User, on_delete=CASCADE, primary_key=True)
     vendor_name = models.CharField(max_length=200, blank=False)
