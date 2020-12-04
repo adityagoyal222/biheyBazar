@@ -1,0 +1,36 @@
+{% extends 'users/base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+    <div>
+    My Checklists
+    </div>
+    <div>
+        {% for list in author_checklist %}
+        {{list.checklist_name}}
+        {% endfor %}
+    </div>
+    <div>
+    Shared with me
+    </div>
+    <div>
+        
+        {% for list in checklists %}
+            {% if user in list.collaborators.all %}
+                {{list.checklist_name}}
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div>
+        {{ checklist.checklist_name }}
+        {{ checklist.description }}
+        {{ checklist.author }}
+        {{ collaborators }}
+    </div>
+    <div>
+        <form method="POST">
+            {% csrf_token %}
+            {% bootstrap_form category_form %}
+        </form>
+    </div>
+{% endblock content %}
