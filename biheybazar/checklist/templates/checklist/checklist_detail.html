@@ -28,9 +28,27 @@
         {{ collaborators }}
     </div>
     <div>
-        <form method="POST">
+        <form method="POST" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
             {% csrf_token %}
-            {% bootstrap_form category_form %}
+            {% bootstrap_form form %}
+            {# {{ checklistcategory_form }} #}
+            <input type="submit" class="btn btn-primary" name="checklist_category" value="Create Category">
         </form>
+    </div>
+    <div>
+        Categories: {{checklist_category.text}}
+        
+       {% for category in checklist_category %}
+            {{checklist_category.text}}
+            <div>
+                <form method="POST" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
+                    {% csrf_token %}
+                    {% bootstrap_form note_form %}
+                    {#{{ note_form }}#}
+                    <input type="hidden" name="category_pk" value='{{category.pk}}'>
+                    <input type="submit" class="btn btn-primary" name="note" value="Add Note">
+                </form>
+            </div>
+        {% endfor %}
     </div>
 {% endblock content %}

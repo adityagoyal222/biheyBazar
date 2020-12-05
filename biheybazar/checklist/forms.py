@@ -1,7 +1,8 @@
 from django.db.models import fields
 from django.db.models.base import Model
 from django.forms import ModelForm
-from .models import Checklist, ChecklistCategory
+from django.shortcuts import get_object_or_404
+from .models import Checklist, ChecklistCategory, Note
 from customers.models import Customer
 
 class CreateChecklistForm(ModelForm):
@@ -29,13 +30,30 @@ class CreateChecklistCategoryForm(ModelForm):
         model = ChecklistCategory
 
     def __init__(self, *args, **kwargs):
-        checklist = kwargs.pop('checklist')
         super().__init__(*args, **kwargs)
-        self.checklist = Checklist.objects.filter(pk=checklist)[0]
+        self.fields['cat_name'].label = "Category Name"
 
-    def save(self):
+    def save(self, checklist):
         checklist_category = ChecklistCategory.objects.create(
             cat_name=self.cleaned_data['cat_name'],
-            checklist = self.checklist
+            checklist = checklist
         )
         return checklist_category
+
+class CreateNoteForm(ModelForm):
+    class Meta:
+        fields = ("text",)
+        model = Note
+
+    # def __init__(self, *args, **kwargs):
+    #     category = kwargs.pop('template_category')
+    #     print(category)
+    #     super().__init__(*args, **kwargs)
+    #     self.category = get_object_or_404(ChecklistCategory, pk=category)
+    
+    def save(self, category):
+        note = Note.objects.create(
+            text=self.cleaned_data['text'],
+            category = category
+        )
+        return note
