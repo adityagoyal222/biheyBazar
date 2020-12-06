@@ -37,12 +37,12 @@ class ChecklistDetail(LoginRequiredMixin, DetailView, FormView):
         checklists = Checklist.objects.all()
         checklist = Checklist.objects.filter(pk=self.kwargs['pk'])[0]
         categories = get_list_or_404(ChecklistCategory, checklist=checklist)
-        category = self.request.POST.get('category_pk')
         context = super(ChecklistDetail, self).get_context_data(**kwargs)
         context['checklists'] = checklists
         context['checklist'] = checklist
         context['author_checklist'] = author_checklist
         context['checklist_category'] = categories
+        context['notes'] = Note.objects.all()
         if 'checklistcategory_form' not in kwargs:
             kwargs['checklistcategory_form'] = CreateChecklistCategoryForm
         if 'note_form' not in context:
@@ -68,7 +68,7 @@ class ChecklistDetail(LoginRequiredMixin, DetailView, FormView):
         context = {}
 
         if 'checklist_category' in request.POST:
-            checklistcategory_form = CreateChecklistCategoryForm(request.POST, use_required_attribute=False)
+            checklistcategory_form = CreateChecklistCategoryForm(request.POST)
             
             if checklistcategory_form.is_valid():
                 checklistcategory_form.save(Checklist.objects.filter(pk=self.kwargs['pk'])[0])
