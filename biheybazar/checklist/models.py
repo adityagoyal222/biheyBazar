@@ -9,7 +9,7 @@ class Checklist(models.Model):
     description = models.CharField(max_length=200)
     author = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="author")
     can_edit = models.BooleanField(default=True)
-    checklist_collaborators = models.ManyToManyField(Customer, through='Collaborators', related_name='checklist_collaborators', blank=True, null=True)
+    collaborators = models.ManyToManyField(Customer, blank=True)
 
     def __str__(self):
         return self.checklist_name
@@ -31,12 +31,12 @@ class Note(models.Model):
     def __str__(self):
         return self.text
 
-class Collaborators(models.Model):
-    checklist = models.ForeignKey(Checklist, on_delete=models.CASCADE)
-    collaborator = models.ForeignKey(Customer, on_delete=models.CASCADE)
+# class Collaborators(models.Model):
+#     checklist = models.ForeignKey(Checklist, on_delete=models.CASCADE)
+#     collaborator = models.ForeignKey(Customer, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.checklist.checklist_name
+#     def __str__(self):
+#         return self.checklist.checklist_name
 
 class VendorCheckCategory(models.Model):
     category = models.ForeignKey(ChecklistCategory, on_delete=models.CASCADE)

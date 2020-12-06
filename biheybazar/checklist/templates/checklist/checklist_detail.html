@@ -7,17 +7,16 @@
     </div>
     <div>
         {% for list in author_checklist %}
-        {{list.checklist_name}}
+            <a href="{% url 'checklist:checklist_detail' pk=list.pk %}">{{list.checklist_name}}</a>
         {% endfor %}
     </div>
     <div>
     Shared with me
     </div>
     <div>
-        
         {% for list in checklists %}
-            {% if user in list.collaborators.all %}
-                {{list.checklist_name}}
+            {% if customer_obj in list.collaborators.all %}
+            <a href="{% url 'checklist:checklist_detail' pk=list.pk %}">{{list.checklist_name}}</a>
             {% endif %}
         {% endfor %}
     </div>
@@ -26,7 +25,21 @@
         {{ checklist.checklist_name }}
         {{ checklist.description }}
         {{ checklist.author }}
-        {{ collaborators }}
+        Collaborators:
+        {% for i in checklist.collaborators.all %}
+            {{i}} 
+        {% endfor %}
+            
+        <div>
+            <h6>Invite Collaborator</h6>
+            <button type="button" class="btn btn-primary" id="collab-button-show">Invite Collaborator</button>
+            <button type="button" class="btn btn-primary" id="collab-button-hide">close</button>
+            <form method="POST" id="collab-form" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
+                {% csrf_token %}
+                {% bootstrap_form collaborator_form %}
+                <input type="submit" class="btn btn-primary" name="collaborator" value="Invite">
+            </form>
+        </div>
     </div>
     <div>
         <button type="button" class="btn btn-primary" id="category-button-show">Add Category</button>
@@ -34,7 +47,6 @@
         <form method="POST" id="category-form" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
             {% csrf_token %}
             {% bootstrap_form form %}
-            {# {{ checklistcategory_form }} #}
             <input type="submit" class="btn btn-primary" name="checklist_category" value="Create Category">
         </form>
     </div>
@@ -49,7 +61,6 @@
                 <form method="POST" class="note-form" id="note-form-{{category.pk}}" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
                     {% csrf_token %}
                     {% bootstrap_form note_form %}
-                    {#{{ note_form }}#}
                     <input type="hidden" name="category_pk" value='{{category.pk}}'>
                     <input type="submit" class="btn btn-primary" name="note" value="Add Note">
                 </form>
@@ -73,6 +84,10 @@
         $("#category-button-show").show();
         $("#category-button-hide").hide();
 
+        $("#collab-form").hide();
+        $("#collab-button-show").show();
+        $("#collab-button-hide").hide();
+
         $(".note-form").hide();
         $(".note-button-show").show();
         $(".note-button-hide").hide();
@@ -86,6 +101,16 @@
             $("#category-form").hide();
             $("#category-button-show").show();
             $("#category-button-hide").hide();
+        });
+        $("#collab-button-show").click(function() {
+            $("#collab-form").show();
+            $("#collab-button-hide").show();
+            $("#collab-button-show").hide();
+        });
+        $("#collab-button-hide").click(function() {
+            $("#collab-form").hide();
+            $("#collab-button-show").show();
+            $("#collab-button-hide").hide();
         });
         $(".note-button-show").click(function() {
             var value = $(this).attr("value");
