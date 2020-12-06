@@ -94,9 +94,13 @@ class ChecklistDetail(LoginRequiredMixin, DetailView, FormView):
             collaborator_form = AddCollaborator(request.POST)
 
             if collaborator_form.is_valid():
-                collaborator = Customer.objects.filter(user__username=collaborator_form.cleaned_data['collaborators'])[0]
-                checklist = self.kwargs['pk']
-                collaborator_form.save(collaborator, checklist)
+                try:
+                    collaborator = Customer.objects.filter(user__username=collaborator_form.cleaned_data['collaborators'])[0]
+                except:
+                    messages.error(self.request, 'Invalid Username!')
+                else:
+                    checklist = self.kwargs['pk']
+                    collaborator_form.save(collaborator, checklist)
             else:
                 context['collaborator_form'] = collaborator_form
         

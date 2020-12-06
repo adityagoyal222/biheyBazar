@@ -2,6 +2,16 @@
 {% load bootstrap4 %}
 
 {% block content %}
+
+<div class="container-fluid">
+    <div class="col-lg-3 col-sm-12 m-auto">
+    
+        {% include 'checklist/messages.html' %}
+            
+    </div>
+</div>
+
+
     <div>
     My Checklists
     </div>
@@ -20,8 +30,17 @@
             {% endif %}
         {% endfor %}
     </div>
-    <a href="{% url 'checklist:checklist_create' %}" class="btn btn-primary">Add Checklist</a>
+    
+    {% if user.is_customer %}
+        <a href="{% url 'checklist:checklist_create' %}" class="btn btn-primary">Add Checklist</a>
+    {% endif %}
+    
+
+        
+    {% if checklist.author == customer_obj or customer_obj in checklist.collaborators.all %}
     <div>
+        
+            
         {{ checklist.checklist_name }}
         {{ checklist.description }}
         {{ checklist.author }}
@@ -29,17 +48,21 @@
         {% for i in checklist.collaborators.all %}
             {{i}} 
         {% endfor %}
+        
+        {% if checklist.author == customer_obj %}
+            <div>
+                <h6>Invite Collaborator</h6>
+                <button type="button" class="btn btn-primary" id="collab-button-show">Invite Collaborator</button>
+                <button type="button" class="btn btn-primary" id="collab-button-hide">close</button>
+                <form method="POST" id="collab-form" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
+                    {% csrf_token %}
+                    {% bootstrap_form collaborator_form %}
+                    <input type="submit" class="btn btn-primary" name="collaborator" value="Invite">
+                </form>
+            </div>
+        {% endif %}
             
-        <div>
-            <h6>Invite Collaborator</h6>
-            <button type="button" class="btn btn-primary" id="collab-button-show">Invite Collaborator</button>
-            <button type="button" class="btn btn-primary" id="collab-button-hide">close</button>
-            <form method="POST" id="collab-form" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
-                {% csrf_token %}
-                {% bootstrap_form collaborator_form %}
-                <input type="submit" class="btn btn-primary" name="collaborator" value="Invite">
-            </form>
-        </div>
+        
     </div>
     <div>
         <button type="button" class="btn btn-primary" id="category-button-show">Add Category</button>
@@ -76,6 +99,7 @@
                 
         {% endfor %}
     </div>
+    {% endif %}
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
     
