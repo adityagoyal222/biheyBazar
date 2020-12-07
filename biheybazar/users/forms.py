@@ -16,12 +16,12 @@ class UserCustomerForm(UserCreationForm):
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
     
-    @transaction.atomic() # makes the transaction atomic. i.e. all or none
-    def save(self):
-        user = super().save(commit=False)
-        user.is_customer = True # determines that the user will registered as customer
-        user.save()
-        return user.pk
+    # @transaction.atomic() # makes the transaction atomic. i.e. all or none
+    # def save(self, commit):
+    #     user = super().save(commit=False)
+    #     user.is_customer = True # determines that the user will registered as customer
+    #     user.save(commit=commit)
+    #     return user.pk
 
 
 # Form for registering customer instance in the database for customer signup

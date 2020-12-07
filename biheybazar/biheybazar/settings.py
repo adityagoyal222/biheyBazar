@@ -12,12 +12,13 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from . import myEnvVar
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
-
+myEnvVar.setVar()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'debug_toolbar',
     'ckeditor',
+    'verify_email',
 
     'customers',
     'users',
@@ -170,3 +172,12 @@ LOGOUT_REDIRECT_URL = '/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
+
+
+# Email Verification
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
