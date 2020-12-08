@@ -57,7 +57,7 @@ class AddToChecklistForm(ModelForm):
         super().__init__(*args, **kwargs)
         field = []
         categories = []
-        author = Customer.objects.filter(user=user)[0]
+        author = Customer.objects.filter(user=user).first()
         checklist = Checklist.objects.filter(author=author)
         for i in checklist:
             field.append(self.fields['category'].queryset.filter(checklist=i))
