@@ -4,6 +4,7 @@
 {% block vendor_content %}
 
 <div class="container">
+
     {% for category in categories %}
     <h2>{{category.category_name}}:</h2>
     {% for vendor in vendor_list %}
@@ -17,9 +18,7 @@
         <br>
     {% endif %}
     {% endfor %}
-
-    {#  #}
-    
+  
     {% endfor %}
 </div>
 {% endblock %}

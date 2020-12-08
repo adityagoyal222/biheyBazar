@@ -1,14 +1,26 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.db.transaction import commit
+from django.http.response import HttpResponse
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib.auth import login
 from django.urls.base import reverse_lazy
 from django.views.generic import CreateView
+from verify_email.email_handler import send_verification_email
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_text
+from django.core.mail import EmailMessage
 
 
 from .forms import CustomerSignUpForm, VendorSignUpForm, UserVendorForm, UserCustomerForm
 from .models import User
+
+from .tokens import account_activation_token
+
+
 from customers.models import Customer
+
 # Create your views here.
 
 # View for signing up the customer
@@ -21,10 +33,30 @@ def customerSignUpView(request):
 
         if user_form.is_valid() and customer_form.is_valid():
             # form validation and updating models
-            id = user_form.save()
-            user = User.objects.get(id=id)
-            customer_form.save(user)
-            return HttpResponseRedirect(reverse_lazy("users:login"))        
+            user = user_form.save(commit=False)
+            user.is_customer = True
+            user.save()
+            user_obj = User.objects.get(username=user_form.cleaned_data['username'])
+            customer_form.save(user_obj)
+            # inactive_user = send_verification_email(request, user_form)
+            # print(user_form.cleaned_data['email'])
+            user.is_active = False
+            user.save()
+            current_site = get_current_site(request)
+            mail_subject = 'Activate you BiheyBazar account'
+            message = render_to_string('users/acc_active_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+            })
+            to_email = user_form.cleaned_data.get('email')
+            email = EmailMessage(
+                mail_subject, message, to=[to_email]
+            )
+            email.content_subtype = "html"
+            email.send()
+            return HttpResponseRedirect(reverse_lazy("customers:questions"))        
 
         else:
             context = {
@@ -72,6 +104,20 @@ def vendorSignUpView(request):
     return render(request, 'users/vendor_signup.html', context)
 
 
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        # login(request, user)
+        return HttpResponseRedirect(reverse_lazy("users:login"))
+    else:
+        return HttpResponse('Activation link is invalid')
+
 
 # function view to check the type of user and redirct them accordingly,
 def userCheckView(request):
@@ -91,3 +137,4 @@ def userCheckView(request):
             return HttpResponseRedirect(reverse_lazy("home"))
     else:
         return HttpResponseRedirect(reverse_lazy("home"))
+

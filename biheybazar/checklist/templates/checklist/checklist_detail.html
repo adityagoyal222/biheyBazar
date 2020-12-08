@@ -1,0 +1,155 @@
+{% extends 'users/base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="col-lg-3 col-sm-12 m-auto">
+    
+        {% include 'checklist/messages.html' %}
+            
+    </div>
+</div>
+
+
+    <div>
+    My Checklists
+    </div>
+    <div>
+        {% for list in author_checklist %}
+            <a href="{% url 'checklist:checklist_detail' pk=list.pk %}">{{list.checklist_name}}</a>
+        {% endfor %}
+    </div>
+    <div>
+    Shared with me
+    </div>
+    <div>
+        {% for list in checklists %}
+            {% if customer_obj in list.collaborators.all %}
+            <a href="{% url 'checklist:checklist_detail' pk=list.pk %}">{{list.checklist_name}}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+    
+    {% if user.is_customer %}
+        <a href="{% url 'checklist:checklist_create' %}" class="btn btn-primary">Add Checklist</a>
+    {% endif %}
+    
+
+        
+    {% if checklist.author == customer_obj or customer_obj in checklist.collaborators.all %}
+    <div>
+        
+            
+        {{ checklist.checklist_name }}
+        {{ checklist.description }}
+        {{ checklist.author }}
+        Collaborators:
+        {% for i in checklist.collaborators.all %}
+            {{i}} 
+        {% endfor %}
+        
+        {% if checklist.author == customer_obj %}
+            <div>
+                <h6>Invite Collaborator</h6>
+                <button type="button" class="btn btn-primary" id="collab-button-show">Invite Collaborator</button>
+                <button type="button" class="btn btn-primary" id="collab-button-hide">close</button>
+                <form method="POST" id="collab-form" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
+                    {% csrf_token %}
+                    {% bootstrap_form collaborator_form %}
+                    <input type="submit" class="btn btn-primary" name="collaborator" value="Invite">
+                </form>
+            </div>
+        {% endif %}
+            
+        
+    </div>
+    <div>
+        <button type="button" class="btn btn-primary" id="category-button-show">Add Category</button>
+        <button type="button" class="btn btn-primary" id="category-button-hide">Close</button>
+        <form method="POST" id="category-form" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <input type="submit" class="btn btn-primary" name="checklist_category" value="Create Category">
+        </form>
+    </div>
+    <div>
+        Categories: {{checklist_category.text}}
+        
+       {% for category in checklist_category %}
+            <h4>{{category.cat_name}}</h4>
+            <div>
+                <button type="button" class="btn btn-primary note-button-show" id="note-button-show-{{category.pk}}" value="{{category.pk}}">Add</button>
+                <button type="button" class="btn btn-primary note-button-hide" id="note-button-hide-{{category.pk}}" value="{{category.pk}}">close</button>
+                <form method="POST" class="note-form" id="note-form-{{category.pk}}" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
+                    {% csrf_token %}
+                    {% bootstrap_form note_form %}
+                    <input type="hidden" name="category_pk" value='{{category.pk}}'>
+                    <input type="submit" class="btn btn-primary" name="note" value="Add Note">
+                </form>
+            </div>
+            
+            {% for note in notes %}
+                
+                {% if note.category == category %}
+                    <h6>{{note.text}}</h6>
+                {% endif %}
+                    
+            {% endfor %}
+                
+        {% endfor %}
+    </div>
+    {% endif %}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    
+    $(document).ready(function() {
+        $("#category-form").hide();
+        $("#category-button-show").show();
+        $("#category-button-hide").hide();
+
+        $("#collab-form").hide();
+        $("#collab-button-show").show();
+        $("#collab-button-hide").hide();
+
+        $(".note-form").hide();
+        $(".note-button-show").show();
+        $(".note-button-hide").hide();
+
+        $("#category-button-show").click(function() {
+            $("#category-form").show();
+            $("#category-button-hide").show();
+            $("#category-button-show").hide();
+        });
+        $("#category-button-hide").click(function() {
+            $("#category-form").hide();
+            $("#category-button-show").show();
+            $("#category-button-hide").hide();
+        });
+        $("#collab-button-show").click(function() {
+            $("#collab-form").show();
+            $("#collab-button-hide").show();
+            $("#collab-button-show").hide();
+        });
+        $("#collab-button-hide").click(function() {
+            $("#collab-form").hide();
+            $("#collab-button-show").show();
+            $("#collab-button-hide").hide();
+        });
+        $(".note-button-show").click(function() {
+            var value = $(this).attr("value");
+            $("#note-form-" + value).show();
+            $("#note-button-show-" + value).hide();
+            $("#note-button-hide-" + value).show();
+        })
+        $(".note-button-hide").click(function() {
+            var value = $(this).attr("value");
+            $("#note-form-" + value).hide();
+            $("#note-button-hide-" + value).hide();
+            $("#note-button-show-" + value).show();
+            
+        })
+    });
+    
+</script>
+{% endblock content %}

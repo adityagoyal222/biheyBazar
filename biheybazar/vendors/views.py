@@ -59,7 +59,6 @@ class CreateCategory(LoginRequiredMixin, CreateView):
 class VendorListView(ListView):
     model = Vendor
     # context_object_name = 'vendor_list'
-
     def get_context_data(self,**kwargs):
         vendor = Vendor.objects.all()
         categories = Category.objects.all()
@@ -130,12 +129,3 @@ class UpdateAbout(UpdateView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['vendor'] = self.kwargs['slug']
-
-class VendorList(ListView):
-    '''class based view to list out all the vendors '''
-    model = Vendor
-    
-    def get_queryset(self):      
-        vendor=Vendor.objects.all()
-        context = {'vendor_list':vendor}
-        return super().get_queryset()

@@ -1,0 +1,9 @@
+{% load bootstrap4 %}
+
+<div>
+    <form method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" class="btn btn-primary" value="Submit">
+    </form>
+</div>
