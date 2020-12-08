@@ -1,14 +1,13 @@
 from django.conf.urls import url
-from django.urls import path, re_path
-from reviews import views as review_views
-from vendors import views as vendor_views
-
-
+from . import views
+from reviews import views as re_view
 
 app_name = "vendors"
 urlpatterns = [
-    path('',vendor_views.VendorList.as_view(),name='vendor_list'),
-    re_path(r'^(?P<pk>\d+)/vendor_profile/$',review_views.give_reviews,name="reviews")
-    
-    
+    url(r'^new/tag/$', views.CreateTag.as_view(), name="create_tag"),
+    url(r'^add/tag/$', views.AddTag.as_view(), name="add_tag"),
+    url(r'^remove/tag/$', views.RemoveTag.as_view(), name="remove_tag"),
+    url(r'^new/category/$', views.CreateCategory.as_view(), name="create_category"),
+    url(r'^profile/(?P<slug>[-\w]+)/$', views.VendorProfile.as_view(), name='profile'),
+    url(r'', views.VendorListView.as_view(), name="vendor_list"),
 ]

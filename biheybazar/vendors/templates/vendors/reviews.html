@@ -1,22 +1,29 @@
 
 {% block review_form %}
 <div class="container">
-    {% for review in reviews %}
-    <div class='container'>
-        <div class="date"><strong>{{review.customer}}</strong> &nbsp;{{review.published_date|date:"d-m-Y"}}</div>
-        <div>{{review.ratings}} stars</div>
-        <p>{{review.description|safe}}</p>
-    </div>
-    {% endfor %}
+   
 
-{#if user is customer s/he'll be able to give reviews to vendor #}
+<h4>Reviews from customers:</h4>
+{% for review in reviews %}
+<!-- display reviews and ratings -->
+<div class='container'>
+    <div class="date"><strong>{{review.customer}}</strong> &nbsp;{{review.published_date|date:"d-m-Y"}}</div>
+    <div>{{review.ratings}} stars
+    <br>{{review.description|safe}}
+</div>
+</div>
+{% endfor %}
+
+
+<!-- if user is customer he should be able to give reviews to the vendor  -->
 {% if user.is_customer%}
-
-<h3>Give review</h3>
+<h4>Give review</h4>
     <form class="post-form" method="POST">
         {% csrf_token %}
+        
         {{form.media}}
         {{form.as_p}}
+        
         <button type="submit" class="save btn btn-danger">Post review</button>
     </form>
 

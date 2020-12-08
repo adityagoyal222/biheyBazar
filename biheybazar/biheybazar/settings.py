@@ -123,9 +123,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
-    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
 ]
 
 # Internationalization
@@ -154,7 +154,11 @@ STATICFILES_DIRS = [
 
 AUTH_USER_MODEL = "users.User"
 
-LOGIN_REDIRECT_URL = '/'
+
+#if user is valid, they will be redirected to following url after logging in
+LOGIN_REDIRECT_URL = 'users:check' 
+
+
 LOGOUT_REDIRECT_URL = '/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
