@@ -17,18 +17,16 @@ class ReviewForm(forms.ModelForm):
             'description':forms.Textarea(attrs={ 'class':"review-text"})
             }
 
-    def __init__(self,*args,**kwargs):
-        vendor = kwargs.pop('vendor')
-        customer = kwargs.pop('customer')
-        super().__init__(*args,**kwargs)
-        self.vendor_obj=Vendor.objects.filter(user__username=vendor).first()
-        self.customer_obj=Customer.objects.filter(user__username=customer).first()
+    # def __init__(self,*args,**kwargs):
+    #     vendor = kwargs.pop('vendor')
+    #     customer = kwargs.pop('customer')
+    #     super().__init__(*args,**kwargs)
 
-    def save(self):
+    def save(self, vendor, customer):
         review = Review.objects.create(ratings=self.cleaned_data['ratings'],
         description=self.cleaned_data['description'],
-        customer =self.customer_obj,
-        vendor = self.vendor_obj
+        customer = customer,
+        vendor = vendor
         )
 
         return review

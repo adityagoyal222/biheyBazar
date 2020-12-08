@@ -21,10 +21,10 @@
     <form class="post-form" method="POST">
         {% csrf_token %}
         
-        {{form.media}}
-        {{form.as_p}}
+        {{review_form.media}}
+        {{review_form.as_p}}
         
-        <button type="submit" class="save btn btn-danger">Post review</button>
+        <button type="submit" class="save btn btn-danger" name="review">Post review</button>
     </form>
 
 {% endif %}

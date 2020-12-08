@@ -15,6 +15,8 @@ from django.core.mail import EmailMessage
 
 from .forms import CustomerSignUpForm, VendorSignUpForm, UserVendorForm, UserCustomerForm
 from .models import User
+from customers.models import Customer
+from checklist.models import Checklist
 
 from .tokens import account_activation_token
 
@@ -138,3 +140,16 @@ def userCheckView(request):
     else:
         return HttpResponseRedirect(reverse_lazy("home"))
 
+
+def checklist_url(request):
+    author_checklists = Checklist.objects.filter(author__user=request.user)
+    shared_checklists = Checklist.objects.filter(collaborators__user=request.user)
+    if author_checklists:
+        pk = author_checklists.first().pk
+        return redirect("checklist:checklist_detail", pk=pk)
+    else:
+        if shared_checklists:
+            pk = shared_checklists.first().pk
+            return redirect("checklist:checklist_detail", pk=pk)
+        else:
+            return redirect("checklist:checklist_create")

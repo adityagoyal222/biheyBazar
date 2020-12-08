@@ -18,7 +18,35 @@
        <img src="{{ vendor.logo.url }}" class="profile_pic" alt="profile_pic">
         <span class="vendor_name">{{vendor.vendor_name}}</span>
     </div>
-    
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+    Add Vendor to Checklist
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Add Vendor to Checklist</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" action="{% url 'vendors:profile' slug=vendor.user.username %}">
+                {% csrf_token %}    
+                {% bootstrap_form add_checklist_form %}
+                <input type="submit" class="btn btn-primary" 
+                value="Add To Checklist" name="add_to_checklist">
+            </form>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>   
+
+    </div>
     <div class="main-info">
 
     </div>
@@ -36,6 +64,7 @@
     </div>
     </div>
 
+    
     <!-- reviews given to vendor will be dipayed below -->
     <div class="reviews">
     {% include 'vendors/reviews.html' %}
@@ -50,7 +79,17 @@
         
     {% endif %}
 
-    
-        
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            $('[data-toggle="popover"]').popover({
+                html: true,
+                sanitize: false,
+            })
+
+        })
+    </script>
 {% endblock vendor_content %}
     

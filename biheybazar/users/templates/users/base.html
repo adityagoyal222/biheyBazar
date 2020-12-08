@@ -63,14 +63,14 @@
           
         <a class="nav-link type1" href="{% url 'customers:questions' %}">Recommended</a>
       </li>
-
-      {% endif %}
       <li><hr class="my-0" style="border-top: 1px solid #f2f2f2;"></li>
       <li class="nav-item">
-        <a class="nav-link type1" href="#">Checklist</a>
+        
+        <a class="nav-link type1" href="{% url 'checklist:all' %}">Checklist</a>
       </li><li><hr class="my-0" style="border-top: 1px solid #f2f2f2;"></li>
     </ul>
     <ul class="navbar-nav ml-auto">
+            {% endif %}
       {% if user.is_authenticated %}
         <div class="btn-group">
             <button type="button" class="btn  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
