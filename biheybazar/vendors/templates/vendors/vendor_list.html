@@ -4,39 +4,21 @@
 {% block vendor_content %}
 
 <div class="container">
-    <h3>The lists of registered vendors are:</h3>
+    {% for category in categories %}
+    <h2>{{category.category_name}}:</h2>
     {% for vendor in vendor_list %}
-    {% if vendor.vendor_name == 'Laxmi Sweets'%}
-        <div class="tailor">
-            <h1> <a href="{% url 'vendors:reviews' pk=user.pk %}">laxmi sweets exists</a></h1>
+    
+    {% if vendor.category == category %}
+    
+        <div class="categories">
+            <!-- by clicking in vendor name user will be reirected to that particular vendor's profile -->
+            <H3><a href="{% url 'vendors:profile' slug=vendor.user.username %}">{{vendor.vendor_name}}</a></H3> 
         </div>
+        <br>
+    {% endif %}
+    {% endfor %}
 
-    {% elif vendor.vendor_name == 'newari khaja ghar' %}
-    <div class="photgrapher">
-        <h1> newari khaja ghar exists</h1>
-    </div>
-
-    {% elif vendor.vendor_name == 'Palpasa' %}
-    <div class="catering">
-        <h1> Palpasa exists</h1>
-    </div>
-
-    {% elif vendor.vendor_name == 'Om Veg MoMo' %}
-    <div class="venue">
-        <h1> Om Veg MoMo exists</h1>
-    </div>
-
-    {% elif vendor.vendor_name == 'Om Veg MoMo' %}
-    <div class="makeup">
-        <h1> Om Veg MoMo exists</h1>
-    </div>
-
-    {% elif vendor.vendor_name == 'Om Veg MoMo' %}
-    <div class="decorations">
-        <h1> Om Veg MoMo exists</h1>
-    </div>
-
-   {% endif %}
+    {#  #}
     
     {% endfor %}
 </div>

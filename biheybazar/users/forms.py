@@ -59,7 +59,7 @@ class UserVendorForm(UserCreationForm):
 class VendorSignUpForm(forms.ModelForm):
     user = UserVendorForm()
     class Meta:
-        exclude=('user', 'slug')
+        exclude=('user', 'slug','about')
         model = Vendor
 
 
@@ -75,7 +75,7 @@ class VendorSignUpForm(forms.ModelForm):
         self.fields['cover_image'].label = 'Cover Image'
         # self.fields['category'].label = 'Categories'
         self.fields['category'].label = 'Category'
-        self.fields['about'].label=''
+        # self.fields['about'].label=''
 
     @transaction.atomic()
     def save(self, user):
@@ -84,7 +84,7 @@ class VendorSignUpForm(forms.ModelForm):
             vendor_name=self.cleaned_data['vendor_name'],
             logo=self.cleaned_data['logo'],
             cover_image=self.cleaned_data['cover_image'],
-            about=self.cleaned_data['about'],
+            # about=self.cleaned_data['about'],
             category=self.cleaned_data['category'],
             slug=user.username)
         return vendor

@@ -8,7 +8,7 @@ from django.views.generic import CreateView
 
 from .forms import CustomerSignUpForm, VendorSignUpForm, UserVendorForm, UserCustomerForm
 from .models import User
-
+from customers.models import Customer
 # Create your views here.
 
 # View for signing up the customer
@@ -24,7 +24,7 @@ def customerSignUpView(request):
             id = user_form.save()
             user = User.objects.get(id=id)
             customer_form.save(user)
-            return HttpResponseRedirect(reverse_lazy("customers:questions"))        
+            return HttpResponseRedirect(reverse_lazy("users:login"))        
 
         else:
             context = {
@@ -70,3 +70,24 @@ def vendorSignUpView(request):
         }
 
     return render(request, 'users/vendor_signup.html', context)
+
+
+
+# function view to check the type of user and redirct them accordingly,
+def userCheckView(request):
+    user = request.user
+
+    #if user is vendor s/he should be redirected to their respective profile
+    if user.is_vendor:
+        return redirect('vendors:profile', slug=user)
+
+    #if user is customer redirect them to either questions page or home page    
+    elif user.is_customer:
+        customer=Customer.objects.get(user=user)
+        if customer.location==None or customer.culture==None:
+            return HttpResponseRedirect(reverse_lazy("customers:questions"))
+
+        else:
+            return HttpResponseRedirect(reverse_lazy("home"))
+    else:
+        return HttpResponseRedirect(reverse_lazy("home"))
