@@ -3,18 +3,29 @@
 
 
 {% block vendor_content %}
-    {{vendor.slug}}
+    {#{{vendor.slug}}#}
 
-    <div class="profile-pic">
-        <img src="{{ vendor.profile_pic }}" alt="profile_pic">x{{vendor.vendor_name}}
-    </div>
+    <div class="container">
+
     <div class="cover-image">
 
+
     </div>
+
+    <!-- this div tag contains vendor's profile picture and cover pictures inside it  -->
+    <div class="pictures">
+        <img src="{{ vendor.cover_image.url }}" class="cover_pic" alt="profile_pic">
+       <img src="{{ vendor.logo.url }}" class="profile_pic" alt="profile_pic">
+        <span class="vendor_name">{{vendor.vendor_name}}</span>
+    </div>
+    
     <div class="main-info">
 
     </div>
+    <hr>
     <div class="about">
+        <h4>About:</h4>
+        <strong>{{vendor.about|safe}}</strong>
 
     </div>
     <div class="tag">
@@ -22,6 +33,12 @@
     </div>
     <div class="images">
 
+    </div>
+    </div>
+
+    <!-- reviews given to vendor will be dipayed below -->
+    <div class="reviews">
+    {% include 'vendors/reviews.html' %}
     </div>
 
     {% if user.is_vendor and vendor.user.username == user.username %}
@@ -32,6 +49,8 @@
     {% else %}
         
     {% endif %}
+
+    
         
 {% endblock vendor_content %}
     

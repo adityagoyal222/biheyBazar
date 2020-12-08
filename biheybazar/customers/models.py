@@ -25,7 +25,7 @@ class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     location = models.PositiveIntegerField(choices=LOCATION_CHOICES, blank=True, null=True)
     culture = models.PositiveIntegerField(choices=CULTURE_CHOICES, blank=True, null=True)
-    profile_pic = models.ImageField(upload_to='profile_pic')
+    profile_pic = models.ImageField(blank=True, null=True, upload_to='profile_pic')
 
     def __str__(self):
         return self.user.username

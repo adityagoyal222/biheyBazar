@@ -4,6 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
     <title>
         
         {% block title %}
@@ -25,77 +30,101 @@
     <link href="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.theme.min.css' %}" rel="stylesheet">
 
     <link rel="stylesheet" href="{%static 'css/style.css' %}">
-
+    <link rel="stylesheet" href="{%static 'css/nav-bar.css' %}">
+    <link rel="stylesheet" href="{%static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{%static 'css/login-style.css' %}">
 
 
 </head>
 <body>
     {#created a simple navigaion bar using bootstrap #}
-    <nav class="navbar navbar-expand-sm navbar-dark bg-primary mynav" role="navigation" id="navbar">
-        <div class="navbar-header">
-            <a class='navbar-brand mynav' href="{%url 'home' %}">BiheyBazar</a>
-        </div>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        
+    <div class="navbar-container">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #EB5757;">
+        <a class="navbar-brand brand-bb" href="{%url 'home' %}"><img class="brandimg-bb" src="{% static 'images/Logo_Title_White.png'  %}" height="50px">Bihey Bazar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
 
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+
+    {# navbar-content #}
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                  <a class="nav-link" href="{% url 'vendors:vendor_list' %}">Vendors <span class="sr-only">(current)</span></a>
+                  <a class="nav-link type1" href="{% url 'vendors:vendor_list' %}">Vendors</a>
                 </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-
-                
-                {# logical statements to check and display nav elements if user is authenticated i.e account exists #}
-                {% if user.is_authenticated %}
-                {# logical statement to check if the logged in user is customer or vendor #}
-                
-                {#nav elements to be dispayed if the user is customer #}
-                {% if user.is_customer %}
-                <li class="list-item "><a href="#" class="nav-link">Customer profile</a></li>
-
-                {#nav elements to be dispayed if the user is vendor#}
-                {% elif user.is_vendor %}
-                <li class="list-item "><a href="#" class="nav-link">Vendor profile</a></li>
-                {% endif %}    
-                <li><a href="{% url 'users:logout' %}" class="nav-link"><button type="button" class="btn btn-warning">Log Out</button></a></li>
+                <li><hr class="my-0" style="border-top: 1px solid #f2f2f2;"></li>
+                <li class="nav-item">
+                <a class="nav-link type1" href="#">Venues</a>
             
-                
-            {# if user isn't authenticated following lines of code will be executed  #}
-            {% else %}
 
-            {# injection of  signup as vendor button from customer_signup.html #}
-            {% block precontent%}
-            {% endblock precontent%}
+            <li><hr class="my-0" style="border-top: 1px solid #f2f2f2;"></li>
+            {% if user.is_customer %}
+            <li class="nav-item">
+          
+        <a class="nav-link type1" href="{% url 'customers:questions' %}">Recommended</a>
+      </li>
+
+      {% endif %}
+      <li><hr class="my-0" style="border-top: 1px solid #f2f2f2;"></li>
+      <li class="nav-item">
+        <a class="nav-link type1" href="#">Checklist</a>
+      </li><li><hr class="my-0" style="border-top: 1px solid #f2f2f2;"></li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      {% if user.is_authenticated %}
+        <div class="btn-group">
+            <button type="button" class="btn  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{user.username}}
+            </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item dark-red" href="{% url 'users:logout' %}">Log out</span></a>
+            </div>
+          </div>
+      </ul>
+
+    {# if user is not authenticated #}
+      {% else %}
+       {# injection of  signup as vendor button from customer_signup.html #}
+       {% block precontent%}
+       {% endblock precontent%}
 
 
-            {# injection of signup as customer from vendor_signup.html #}
-            {% block altercontent%}
-            {% endblock altercontent%}
+       {# injection of signup as customer from vendor_signup.html #}
+       {% block altercontent%}
+       {% endblock altercontent%}
+       
+       {# injection of login button from index.html #}
+       {% block logincontent %}
+       {% endblock logincontent %}
+      
+     
+
+      {% endif %}
             
-            {# injection of login button from index.html #}
-            {% block logincontent %}
-            {% endblock logincontent %}
-                    
-            
-            {% endif %}
 
             
-            </ul>
+         
         </div>
     </nav>
+</div>
     
 
-    {# all the lines of code inside block content will be injected here#}
-    {% block content %}
-    {% endblock content %}
+    
+   
         
     {# all the lines of code inside block body-content will be injected here#}
     {% block body_content %}
     {% endblock body_content %}
+
+
+    {# all the lines of code inside block content will be injected here#}
+    {% block content %}
+    {% endblock content %}
+
     
      
      <!-- javascript here -->
@@ -107,5 +136,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         
+
+    
 </body>
 </html>

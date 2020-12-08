@@ -2,13 +2,14 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import (CreateView, DetailView,
-                                 DeleteView, UpdateView, ListView)
+                                 DeleteView, UpdateView, ListView, FormView)
 from django.views.generic.base import RedirectView
 from django.contrib import messages
-
+from reviews.forms import ReviewForm
+from reviews.models import Review
 from vendors.models import Tag, Vendor, VendorTag, Category
 from .forms import UpdateLogoForm, UpdateAboutForm, UpdateCoverImageForm
-
+from django.http import HttpResponseRedirect
 # Create your views here.
 
 # TAGS
@@ -58,41 +59,49 @@ class CreateCategory(LoginRequiredMixin, CreateView):
 class VendorListView(ListView):
     model = Vendor
     # context_object_name = 'vendor_list'
-
     def get_context_data(self,**kwargs):
         vendor = Vendor.objects.all()
         categories = Category.objects.all()
         context= super(VendorListView,self).get_context_data(**kwargs)
         context['vendor_list']=vendor
-        context['categories']=categories
+        context['categories']=categories       
         return context
-
-class VendorProfileView(DetailView):
-    model = Vendor
-
-    def get_context_data(self, **kwargs):
-        tags = VendorTag.objects.filter(vendor=self.kwargs['pk'])
-        category = Category.objects.filter(vendor=self.kwargs['pk'])
-        context = super(VendorProfileView, self).get_context_data(**kwargs)
-        context['tags'] = tags
-        context['category'] = category
-        return context
+    
 
 # Category
 class CreateCategory(LoginRequiredMixin, CreateView):
     fields=('category_name', 'description')
     model = Category
 
-class VendorProfile(DetailView):
+class VendorProfile(FormView,DetailView):
     model = Vendor
+    form_class = ReviewForm
     template_name = "vendors/vendors_profile.html"
     def get_context_data(self,**kwargs):
         tags = Tag.objects.filter(vendors__user__username=self.kwargs['slug'])
         all_tags = Tag.objects.all()
+        reviews= Review.objects.filter(vendor__user__username=self.kwargs['slug'])
         context = super(VendorProfile, self).get_context_data(**kwargs)
         context['tags'] = tags
         context['all_tags'] = all_tags
+        context['reviews'] = reviews
         return context
+
+    def get_form_kwargs(self,**kwargs):
+        kwargs=super().get_form_kwargs()
+        kwargs['customer']=self.request.user.username
+        kwargs['vendor']=self.kwargs['slug']
+        return kwargs
+
+    # def get_queryset(self):      
+    #     reviews=Review.objects.all()
+    #     context = {'reviews':reviews}
+    #     return super().get_queryset()
+
+    def form_valid(self,form):
+        form.save()
+        return HttpResponseRedirect(self.request.path_info)
+
 
 class UpdateLogo(UpdateView):
     model = Vendor

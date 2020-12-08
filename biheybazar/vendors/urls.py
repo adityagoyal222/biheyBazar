@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from . import views
+from reviews import views as re_view
 
 app_name = "vendors"
 urlpatterns = [

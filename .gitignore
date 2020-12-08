@@ -43,6 +43,7 @@ pip-delete-this-directory.txt
 *.py[cod] 
 *$py.class 
 
+
 # Django #
 *.log
 *.pot
@@ -52,3 +53,4 @@ db.sqlite3
 
 # Email, Passowrd
 myEnvVar.py
+

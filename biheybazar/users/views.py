@@ -15,7 +15,11 @@ from django.core.mail import EmailMessage
 
 from .forms import CustomerSignUpForm, VendorSignUpForm, UserVendorForm, UserCustomerForm
 from .models import User
+
 from .tokens import account_activation_token
+
+
+from customers.models import Customer
 
 # Create your views here.
 
@@ -113,3 +117,24 @@ def activate(request, uidb64, token):
         return HttpResponseRedirect(reverse_lazy("users:login"))
     else:
         return HttpResponse('Activation link is invalid')
+
+
+# function view to check the type of user and redirct them accordingly,
+def userCheckView(request):
+    user = request.user
+
+    #if user is vendor s/he should be redirected to their respective profile
+    if user.is_vendor:
+        return redirect('vendors:profile', slug=user)
+
+    #if user is customer redirect them to either questions page or home page    
+    elif user.is_customer:
+        customer=Customer.objects.get(user=user)
+        if customer.location==None or customer.culture==None:
+            return HttpResponseRedirect(reverse_lazy("customers:questions"))
+
+        else:
+            return HttpResponseRedirect(reverse_lazy("home"))
+    else:
+        return HttpResponseRedirect(reverse_lazy("home"))
+

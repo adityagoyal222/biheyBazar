@@ -1,0 +1,17 @@
+.vendor_name{
+    font-size: xx-large;
+    display: block;
+   
+}
+
+.profile_pic{
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+}
+
+.cover_pic{
+    height: 300px;
+    width: fit-content;
+    
+}

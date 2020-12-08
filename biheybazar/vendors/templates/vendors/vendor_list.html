@@ -4,21 +4,21 @@
 {% block vendor_content %}
 
 <div class="container">
-    
+
     {% for category in categories %}
     <h2>{{category.category_name}}:</h2>
     {% for vendor in vendor_list %}
-
+    
     {% if vendor.category == category %}
-
+    
         <div class="categories">
-            <H3><a href="{% url 'vendors:profile' slug=vendor.user.username %}">{{vendor.vendor_name}}</a></H3>
-
+            <!-- by clicking in vendor name user will be reirected to that particular vendor's profile -->
+            <H3><a href="{% url 'vendors:profile' slug=vendor.user.username %}">{{vendor.vendor_name}}</a></H3> 
         </div>
         <br>
     {% endif %}
     {% endfor %}
-
+  
     {% endfor %}
 </div>
 {% endblock %}

@@ -14,27 +14,29 @@ from reviews.models import Review
 
 #====== in progress, might have to use CBVs =========#
 
-@login_required
-def give_reviews(request,pk):
-    user = get_object_or_404(User,pk=pk)
-    customer = get_object_or_404(Customer,pk=pk)
+# @login_required
+# def give_reviews(request,slug):
+#     print("hello")
+#     template_name = "vendors/vendors_profile.html"
+#     user = get_object_or_404(User,pk=request.user.pk)
+#     customer = get_object_or_404(Customer,user=user)
 
-    vendor= get_object_or_404(Vendor,pk=7)
+#     vendor= get_object_or_404(Vendor,slug=slug)
     
-    
-    if request.method == 'POST':
-        form= ReviewForm(request.POST)
+#     if request.method == 'POST':
+#         form= ReviewForm(request.POST)
         
-        if form.is_valid():
-            review = form.save(commit=False)
-            review.customer = customer
-            review.vendor=vendor
-            review.save()
+#         if form.is_valid():
+#             review = form.save(commit=False)
+#             review.customer = customer
+#             review.vendor=vendor
+#             review.save()
            
             
-            messages.success(request, 'Review submitted')
-        return redirect('vendors:reviews',pk=user.pk)
+#             messages.success(request, 'Review submitted')
+#         return redirect('vendors:profile',pk=user.pk)
 
-    else:
-        form = ReviewForm
-    return render(request,'vendors/vendor_profile.html',{'form':form,'reviews':Review.objects.all()})
+#     else:
+       
+#         form = ReviewForm()
+#     return render(request,'vendors/vendors_profile.html',{ 'form':form,'reviews':Review.objects.all()})
