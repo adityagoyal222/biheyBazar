@@ -12,9 +12,8 @@ class CreateChecklistForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
-        print(user)
         super().__init__(*args, **kwargs)
-        self.customer_object = Customer.objects.filter(user=user)
+        self.customer_object = Customer.objects.filter(user=user)[0]
 
     def save(self):
         checklist = Checklist.objects.create(
@@ -22,6 +21,8 @@ class CreateChecklistForm(ModelForm):
             description=self.cleaned_data['description'],
             author=self.customer_object,
             can_edit=True)
+        print(self.customer_object.user.pk)
+        print(checklist.pk)
         return checklist
 
     

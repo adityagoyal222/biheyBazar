@@ -34,7 +34,6 @@
     {% if user.is_customer %}
         <a href="{% url 'checklist:checklist_create' %}" class="btn btn-primary">Add Checklist</a>
     {% endif %}
-    
 
         
     {% if checklist.author == customer_obj or customer_obj in checklist.collaborators.all %}
@@ -69,7 +68,7 @@
         <button type="button" class="btn btn-primary" id="category-button-hide">Close</button>
         <form method="POST" id="category-form" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
             {% csrf_token %}
-            {% bootstrap_form form %}
+            {% bootstrap_form checklistcategory_form %}
             <input type="submit" class="btn btn-primary" name="checklist_category" value="Create Category">
         </form>
     </div>
@@ -102,7 +101,6 @@
     {% endif %}
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
-    
     $(document).ready(function() {
         $("#category-form").hide();
         $("#category-button-show").show();

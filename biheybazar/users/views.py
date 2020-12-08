@@ -56,7 +56,7 @@ def customerSignUpView(request):
             )
             email.content_subtype = "html"
             email.send()
-            return HttpResponseRedirect(reverse_lazy("customers:questions"))        
+            return HttpResponseRedirect(reverse_lazy("users:login"))        
 
         else:
             context = {

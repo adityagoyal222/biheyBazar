@@ -29,17 +29,20 @@ class CreateChecklist(LoginRequiredMixin, CreateView):
 class ChecklistDetail(LoginRequiredMixin, DetailView, FormView):
     model = Checklist
     template_name = "checklist/checklist_detail.html"
-    form_class = CreateChecklistCategoryForm
+    form_class = CreateChecklistForm
+    fourth_form_class = CreateChecklistCategoryForm
     second_form_class = CreateNoteForm
     third_form_class = AddCollaborator
     def get_context_data(self, **kwargs):
+        print(self.form_class)
         customers = Customer.objects.filter(user__username=self.request.user.username)
         author_checklist = Checklist.objects.filter(author__in=customers)
         checklists = Checklist.objects.all()
         checklist = Checklist.objects.get(pk=self.kwargs['pk'])
         customer_obj = Customer.objects.get(user__username=self.request.user.username)
         # print(Customer.objects.filter(user__username=self.request.user.username))
-        categories = get_list_or_404(ChecklistCategory, checklist=checklist)
+        # categories = get_list_or_404(ChecklistCategory, checklist=checklist)
+        categories = ChecklistCategory.objects.filter(checklist=checklist)  
         context = super(ChecklistDetail, self).get_context_data(**kwargs)
         context['checklists'] = checklists
         context['checklist'] = checklist
@@ -47,19 +50,21 @@ class ChecklistDetail(LoginRequiredMixin, DetailView, FormView):
         context['checklist_category'] = categories
         context['notes'] = Note.objects.all()
         context['customer_obj'] = customer_obj
-        if 'checklistcategory_form' not in kwargs:
-            kwargs['checklistcategory_form'] = CreateChecklistCategoryForm
+        # if 'form' not in kwargs:
+        #     kwargs['form'] = CreateChecklistForm()
+        if 'checklistcategory_form' not in context:
+            context['checklistcategory_form'] = CreateChecklistCategoryForm()
         if 'note_form' not in context:
             context['note_form'] = CreateNoteForm()
         if 'collaborator_form' not in context:
             context['collaborator_form'] = AddCollaborator()
+            print(context['checklistcategory_form'])
         return context
     
-    # def get_form_kwargs(self, **kwargs):
-    #     kwargs = super().get_form_kwargs()
-    #     kwargs['checklist'] = self.kwargs['pk']
-    #     kwargs['template_category'] = 1
-    #     return kwargs
+    def get_form_kwargs(self, **kwargs):
+        kwargs = super().get_form_kwargs()  
+        kwargs['user'] = self.request.user
+        return kwargs
 
     # def form_valid(self, form):
     #     if 'form' in self.request.POST:
@@ -73,13 +78,20 @@ class ChecklistDetail(LoginRequiredMixin, DetailView, FormView):
         self.object = self.get_object()
         context = {}
 
+        # if 'form' in request.POST:
+        #     checklist_form = CreateChecklistForm(request.POST)
+        #     if checklist_form.is_valid():
+        #         context['form'] = checklist_form
+        #     else:
+        #         context['form'] = checklist_form
+
         if 'checklist_category' in request.POST:
             checklistcategory_form = CreateChecklistCategoryForm(request.POST)
             
             if checklistcategory_form.is_valid():
                 checklistcategory_form.save(Checklist.objects.filter(pk=self.kwargs['pk'])[0])
             else:
-                context['form'] = checklistcategory_form
+                context['checklistcategory_form'] = checklistcategory_form
         
         elif 'note' in request.POST:
             note_form = CreateNoteForm(request.POST)
