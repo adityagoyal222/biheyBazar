@@ -1,95 +1,62 @@
-*{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  
-    list-style: none;
-  }
-  
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  background-color: aquamarine;
+}
+
 head,
 body {
-    float: left;
-  
-    width: 100%;
-    height: 100%;
-    margin: auto;
-  }
-  
-  /* Navigation Bar */
-  
-.brandimg-bb {
-    margin-right: 10px;
-    margin-left: 10px;
-  }
-  
-.brand-bb {
-    font-family: 'Poppins', sans-serif;
-    font-size: 30px;
-    font-weight: bold;
-  
-    margin-right: 0px;
-  
-    color: white !important;
-  }
-  
-.nav-item a {
-    font-family: 'Poppins', sans-serif;
-    font-size: 20px;
-  
-    margin-left: 20px;
-  
-    color: white !important;
-  }
-  
-.btn-login {
-    font-size: 18px;
-  
-    top: 25%;
-    right: 2%;
-    bottom: 25%;
-  
-    /* osition: absolute; */
-  
-    left: 85%;
-  
-    width: 150px;
-    height: 40px;
-    margin-right: 30px;
-  
-    color: white;
-    border-radius: 30px;
-    background: #F7717E;
-  }
-  
-  /* mage Slider */
-  
-.carousel-inner img {
-    width: 100%;
-    height: 100%;
-  }
-  
-  /* est Content */
-  
-.categoriesopt-container {
-    margin-top: 20px;
-  }
-  
-.bd-footer {
-    background-color: #f7f7f7;
-  }
-
-.dropdown-menu{
-  background-color:#F7717E;
-  
-}
-.dropdown-item{
-  color: white;
+  float: left;
+  height: 100%;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+  margin: auto;
 }
 
-.dark-red{
-  color: brown;
+.brand-name {
+  font-size: 1.9em;
+  font-weight: 600;
+
+  height: 50px;
+  margin-right: auto;
+
+  color: white !important;
 }
 
-/* #btn-text{
+.brand-image {
+  height: 40px;
+  margin-right: 10px;
   margin-bottom: 20px;
-} */
+}
+
+.navbar-item {
+  font-size: 1.2em;
+
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 0px;
+  margin-left: 20px;
+
+  color: white !important;
+}
+
+.dropdown-button {
+  font-size: 18px;
+
+  margin-right: 30px;
+
+  color: white !important;
+
+  text-decoration: none;
+}
+
+.profile-image{
+  height: 35px;
+  width: 35px;
+  border: 2px solid #F2F2F2;
+  border-radius: 50%;
+}

@@ -1,0 +1,19 @@
+{% extends 'vendors/base.html'%}
+
+
+
+{% block content %}
+
+
+{% for vendor in venues %}
+    {% if vendor.category.category_name == 'Venues' %}
+    <div class="container">
+    <H3><a href="{% url 'vendors:profile' slug=vendor.user.username %}">{{vendor.vendor_name}}</a></H3> 
+    </div>
+    {% endif %}
+        
+    
+{% endfor %}
+    
+
+{% endblock content %}

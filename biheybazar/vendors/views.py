@@ -129,3 +129,29 @@ class UpdateAbout(UpdateView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['vendor'] = self.kwargs['slug']
+
+
+class VenueListView(ListView):
+    model = Vendor
+    template_name = "vendors/venues.html"
+
+
+
+    # context_object_name = 'vendor_list'
+    def get_context_data(self,**kwargs):
+        # vendor = Vendor.objects.filter(Vendor.category)
+        # print(vendor)
+        # for v in vendor:
+        #     print(v.category)
+        # categories = Category.objects.all()
+        # for v in categories:
+        #     print(v.vendor_name)
+
+        vendor=Vendor.objects.all()
+        print(vendor)
+        for v in vendor:
+            print(v.category)
+        context= super(VenueListView,self).get_context_data(**kwargs)
+        context['venues']=vendor
+        # context['categories']=categories       
+        return context
