@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 from . import myEnvVar
+# import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -57,8 +58,18 @@ INSTALLED_APPS = [
     'vendors',
     'reviews',
     'checklist',
+    # 'ckeditor_uploader',
 ]
-
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': [[ "Bold", "Underline", "Strike"],
+                ['NumberedList', 'BulletedList', "Indent", "Outdent"],
+                [ "Link", "Unlink", "Anchor", "SectionLink", "Subscript", "Superscript"], ['Undo', 'Redo',],
+                ['Smiley'],
+                ]
+    
+    },
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -160,7 +171,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_URL = '/static/'
+# STATIC_ROOT = 'E:/Programming/web_app/biheyBazar/biheybazar/static_file/'
 STATICFILES_DIRS = [
     STATIC_DIR,
 ]
@@ -185,3 +196,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
+
+
+# Activate Django-Heroku.
+# django_heroku.settings(locals()) 

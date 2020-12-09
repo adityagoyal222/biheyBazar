@@ -1,0 +1,14 @@
+.list-star{
+    display: inline;
+    font-size: 30px;
+    color: #ccc;
+    
+}
+
+.hovered-stars{
+    color: #FFCC36;
+}
+
+.clicked-stars{
+    color: sandybrown;
+}

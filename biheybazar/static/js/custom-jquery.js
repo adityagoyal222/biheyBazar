@@ -17,3 +17,18 @@
 //         $("#category-form").toggle();
 //     });
 // });
+
+console.log("hello")
+
+$(document).ready(function(){
+  $('li').mouseover(function(){
+    var current = $(this)
+    $('li').each(function(index){
+        $(this).addClass("hovered-stars");
+        if(index==current.index()){
+          return false;
+        }
+    })
+  })
+
+});

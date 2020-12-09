@@ -25,7 +25,46 @@
         {{form.as_p}}
         
         <button type="submit" class="save btn btn-danger">Post review</button>
+
     </form>
+
+
+    <div class="star-ratings">
+        <ul>
+            <li class="list-star"><i class='fa fa-star fa-fw'></i></li>
+            <li class="list-star"><i class='fa fa-star fa-fw'></i></li>
+            <li class="list-star"><i class='fa fa-star fa-fw'></i></li>
+            <li class="list-star"><i class='fa fa-star fa-fw'></i></li>
+            <li class="list-star"><i class='fa fa-star fa-fw'></i></li>
+        </ul>
+    </div>
+    <div id="message">Please rate</div>
+    <div></div>
+    <style>
+        .hovered-stars{
+            color: #FFCC36;
+        }
+        
+        .clicked-stars{
+            color: sandybrown;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function(){
+            $('list-star').mouseover(function(){
+              var current = $(this);
+              $('list-star').each(function(index){
+                  ($this).addClass("hovered-stars");
+                  if(index == current.index()){
+                    return False;
+                  }
+              })
+            })
+          
+          });
+          
+    </script>
 
 {% endif %}
 
