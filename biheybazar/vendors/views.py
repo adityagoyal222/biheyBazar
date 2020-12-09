@@ -96,14 +96,20 @@ class VendorProfile(FormView,DetailView):
             context['review_form'] = ReviewForm()
         if 'add_checklist_form' not in context:
             context['add_checklist_form'] = AddToChecklistForm(user=self.request.user)
+        if 'update_logo_form' not in context:
+            context['update_logo_form'] = UpdateLogoForm()
+        if 'update_cover_form' not in context:
+            context['update_cover_form'] = UpdateCoverImageForm()
+        if 'update_about_form' not in context:
+            context['update_about_form'] = UpdateAboutForm()
         return context
 
-    def get_form_kwargs(self,**kwargs):
-        kwargs=super().get_form_kwargs()
+    # def get_form_kwargs(self,**kwargs):
+    #     kwargs=super().get_form_kwargs()
         # kwargs['user'] = self.request.user
         # kwargs['customer']=self.request.user.username
         # kwargs['vendor']=self.kwargs['slug']
-        return kwargs
+        # return kwargs
 
     # def get_queryset(self):      
     #     reviews=Review.objects.all()
@@ -131,6 +137,32 @@ class VendorProfile(FormView,DetailView):
                 add_to_checklist_form.save(vendor)
             else:
                 context['add_to_checklist_form'] = add_to_checklist_form
+        
+        elif 'update_logo_form' in request.POST:
+            update_logo_form = UpdateLogoForm(request.POST, request.FILES)
+            if update_logo_form.is_valid():
+                vendor=Vendor.objects.filter(user__username=self.kwargs['slug']).first()
+                update_logo_form.save(vendor)
+            else:
+                context['update_logo_form'] = update_logo_form
+        
+        elif 'update_cover_form' in request.POST:
+            update_cover_form = UpdateCoverImageForm(request.POST, request.FILES)
+            if update_cover_form .is_valid():
+                vendor = Vendor.objects.filter(user__username=self.kwargs['slug']).first()
+                update_cover_form.save(vendor)
+            else:
+                context['update_cover_form'] = update_cover_form
+        
+        elif 'update_about_form' in request.POST:
+            update_about_form = UpdateAboutForm(request.POST)
+            if update_about_form.is_valid():
+                vendor = Vendor.objects.filter(user__username=self.kwargs['slug']).first()
+                update_about_form.save(vendor)
+            else:
+                context['update_about_form'] = update_about_form
+
+
         return render(request, self.template_name, self.get_context_data(**context))
 
     # def form_valid(self,form):
