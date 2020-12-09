@@ -1,7 +1,7 @@
 from django.db.models import fields
 from django.db.models.fields.files import ImageField
 from django.forms import ModelForm
-from .models import Category, Vendor, VendorImage
+from .models import Category, Vendor, VendorImage, VendorTag, Tag
 from checklist.models import VendorChecklistCategory, Checklist, ChecklistCategory
 from customers.models import Customer
 
@@ -57,6 +57,7 @@ class AddImageForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['image'].label = ''
     
     def save(self, vendor):
         vendor_image = VendorImage.objects.create(
@@ -64,6 +65,32 @@ class AddImageForm(ModelForm):
             image = self.cleaned_data['image'],
         )
         return vendor_image
+
+
+class AddTagForm(ModelForm):
+    class Meta:
+        fields=('tag',)
+        model = VendorTag
+
+    def __init__(self, *args, user, **kwargs):
+        super().__init__(*args, **kwargs)
+        field=[]
+        tags=[]
+        vendor = Vendor.objects.filter(user=user).first()
+        tag = Tag.objects.filter(vendors=vendor)
+        for i in tag:
+            field.append(self.fields['tag'].queryset.filter(tag_name=i))
+        for i, j in enumerate(field):
+            for k in j:
+                tags.append(k)
+        self.fields['tag'].queryset = self.fields['tag'].queryset.exclude(tag_name__in=tags)
+
+    def save(self, vendor):
+        vendor_tag = VendorTag.objects.create(
+            tag=self.cleaned_data['tag'],
+            vendor=vendor,
+        )
+        return vendor_tag
 
 class AddToChecklistForm(ModelForm):
     class Meta:

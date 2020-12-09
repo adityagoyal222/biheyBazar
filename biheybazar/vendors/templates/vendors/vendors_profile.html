@@ -73,56 +73,72 @@
   {% endif %}
     
 
-    </div>
-    <div class="main-info">
-
-    </div>
-    <hr>
-    <div class="about">
-        <h4>About:</h4>
-        <span>
-          
-          {% if vendor.about %}
-            {{vendor.about|safe}}
-          {% else %}
-            <i>No Description.</i>
-          {% endif %}
-            
-          
-        </span>
+  <div class="main-info">
+    Category: {{vendor.category}}
+  </div>
+  <hr>
+  <div class="about">
+      <h4>About:</h4>
+      <span>
         
-        {% if user.is_vendor and vendor.user == user %}
-        <button type="button" class="btn btn-primary" id="about-button-show">Edit About</button>
-        <button type="button" class="btn btn-primary" id="about-button-hide">Close</button>
-        <form method="POST" id="about-form" action="{% url 'vendors:profile' slug=vendor.user.username %}">
-          {% csrf_token %}
-          {% bootstrap_form update_about_form %}
-          <input type="submit" class="btn btn-primary" name="update_about" value="Update About">
-        </form>
+        {% if vendor.about %}
+          {{vendor.about|safe}}
+        {% else %}
+          <i>No Description.</i>
         {% endif %}
+          
+        
+      </span>
+      
+      {% if user.is_vendor and vendor.user == user %}
+      <button type="button" class="btn btn-primary" id="about-button-show">Edit About</button>
+      <button type="button" class="btn btn-primary" id="about-button-hide">Close</button>
+      <form method="POST" id="about-form" action="{% url 'vendors:profile' slug=vendor.user.username %}">
+        {% csrf_token %}
+        {% bootstrap_form update_about_form %}
+        <input type="submit" class="btn btn-primary" name="update_about" value="Update About">
+      </form>
+      {% endif %}
+  </div>
+  <div class="tag">
+    Tags:
+    {% for tag in tags %}
+      {{tag}}
+    {% endfor %} 
+    
+    {% if user.is_vendor and vendor.user.username == user.username %}
+      <button type="button" class="btn btn-primary" id="tag-button-show">Add Tags</button>
+      <button type="button" class="btn btn-primary" id="tag-button-hide">Close</button>
+      <form method="POST" id="tag-form" action="{% url 'vendors:profile' slug=vendor.user.username %}">
+        {% csrf_token %}
+        {% bootstrap_form add_tag_form %}
+        <input type="submit" class="btn btn-primary" name="add_tag" value="Add">
+      </form>
+    {% endif %}
+  </div>
+  <div class="images">
+    <h4>Images:</h4>
+    <div>
+    {% for image in vendor_images %}
+      <img src="{{ image.image.url }}" class="vendor_images" width="150" height="150" alt="Vendor Image">
+    {% endfor %}
     </div>
-    <div class="tag">
+    
+    {% if user.is_vendor and vendor.user == user %}
+    <form method="POST" id="image-form" action="{% url 'vendors:profile' slug=vendor.user.username %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% bootstrap_form add_image_form %}
+      <input type="submit" class="btn btn-primary" name="add_image" value="Add">
+    </form>
+    {% endif %}
+    </div>
 
-    </div>
-    <div class="images">
-
-    </div>
-    </div>
 
     
     <!-- reviews given to vendor will be dipayed below -->
     <div class="reviews">
     {% include 'vendors/reviews.html' %}
     </div>
-
-    {% if user.is_vendor and vendor.user.username == user.username %}
-        {% for tag in tags %}
-            {{tag}}
-        {% endfor %}
-
-    {% else %}
-        
-    {% endif %}
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
@@ -140,6 +156,10 @@
           $("#about-form").hide();
           $("#about-button-show").show();
           $("#about-button-hide").hide();
+
+          $("#tag-form").hide();
+          $("#tag-button-show").show();
+          $("#tag-button-hide").hide();
 
           $("#logo-button-show").click(function() {
             $("#logo-form").show();
@@ -175,6 +195,18 @@
             $("#about-form").hide();
             $("#about-button-show").show();
             $("#about-button-hide").hide();
+          });
+
+          $("#tag-button-show").click(function() {
+            $("#tag-form").show();
+            $("#tag-button-hide").show();
+            $("#tag-button-show").hide();
+          });
+
+          $("#tag-button-hide").click(function() {
+            $("#tag-form").hide();
+            $("#tag-button-show").show();
+            $("#tag-button-hide").hide();
           });
 
         })

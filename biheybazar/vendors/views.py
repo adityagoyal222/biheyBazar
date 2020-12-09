@@ -8,49 +8,16 @@ from django.contrib import messages
 from users.forms import VendorSignUpForm
 from reviews.forms import ReviewForm
 from reviews.models import Review
-from vendors.models import Tag, Vendor, VendorTag, Category
+from .models import Tag, Vendor, VendorTag, Category, VendorImage
 from customers.models import Customer
-from .forms import UpdateLogoForm, UpdateAboutForm, UpdateCoverImageForm, AddImageForm, AddToChecklistForm
+from .forms import AddTagForm, UpdateLogoForm, UpdateAboutForm, UpdateCoverImageForm, AddImageForm, AddToChecklistForm
 from django.http import HttpResponseRedirect
 # Create your views here.
 
 # TAGS
 class CreateTag(LoginRequiredMixin, CreateView):
-    fields = ('tag_name', 'description')
+    fields = ('tag_name', 'tag_type')
     model = Tag
-
-class AddTag(LoginRequiredMixin, RedirectView):
-    def get_redirect_url(self, *args, **kwargs):
-        return reverse('vendors:profile', kwargs={'slug':self.request.user.username})
-    
-    def get(self, *args, **kwargs):
-        tag = get_object_or_404(Tag, pk=self.kwargs.get('pk'))
-
-        try:
-            VendorTag.objects.create(vendor=self.request.user, tag=tag)
-        except:
-            messages.warning(self.request, 'You already have this tag')
-        else:
-            messages.success(self.request, "You now have this tag")
-        return super().get(self.request, *args, **kwargs)
-
-class RemoveTag(LoginRequiredMixin, RedirectView):
-    def get_redirect_url(self, *args, **kwargs):
-        return reverse('vendors:profile', kwargs={'slug':self.request.user.username})
-
-    def get(self, *args, **kwargs):
-        
-        try:
-            vendortag = VendorTag.objects.filter(
-                vendor__user = self.request.user,
-                tag__pk = self.kwargs.get('pk')
-            ).get()
-        except VendorTag.DoesNotExist:
-            messages.warning(self.request, "You do not have this tag")
-        else:
-            vendortag.delete()
-            messages.success(self.request, "The tag was removed from your profile")
-        return super().get(self.request, *args, **kwargs)
 
 # CATEGORIES
 class CreateCategory(LoginRequiredMixin, CreateView):
@@ -85,8 +52,10 @@ class VendorProfile(FormView,DetailView):
         tags = Tag.objects.filter(vendors__user__username=self.kwargs['slug'])
         all_tags = Tag.objects.all()
         reviews= Review.objects.filter(vendor__user__username=self.kwargs['slug'])
+        vendor_images = VendorImage.objects.filter(vendor__user__username=self.kwargs['slug'])
         vendor = Vendor.objects.filter(user__username=self.kwargs['slug']).first()
         context = super(VendorProfile, self).get_context_data(**kwargs)
+        context['vendor_images'] = vendor_images
         context['tags'] = tags
         context['all_tags'] = all_tags
         context['reviews'] = reviews
@@ -103,6 +72,8 @@ class VendorProfile(FormView,DetailView):
             context['update_about_form'] = UpdateAboutForm()
         if 'add_image_form' not in context:
             context['add_image_form'] = AddImageForm()
+        if 'add_tag_form' not in context:
+            context['add_tag_form'] = AddTagForm(user=self.request.user)
         return context
 
     # def get_form_kwargs(self,**kwargs):
@@ -170,6 +141,12 @@ class VendorProfile(FormView,DetailView):
                 add_image_form.save(vendor)
             else:
                 context['add_image_form'] = add_image_form
+        
+        elif 'add_tag' in request.POST:
+            add_tag_form = AddTagForm(request.POST, user=request.user)
+            if add_tag_form.is_valid():
+                vendor = Vendor.objects.filter(user__username=self.kwargs['slug']).first()
+                add_tag_form.save(vendor)
         return render(request, self.template_name, self.get_context_data(**context))
 
     # def form_valid(self,form):
