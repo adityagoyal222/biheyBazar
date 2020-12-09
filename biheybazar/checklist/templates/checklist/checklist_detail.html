@@ -88,6 +88,10 @@
     <div>
         Categories: {{checklist_category.text}}
         
+Categories: {{checklist_category.text}}
+
+{% for category in checklist_category %}
+
        {% for category in checklist_category %}
             <h4>{{category.cat_name}}</h4>
             <div>
