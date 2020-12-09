@@ -1,4 +1,3 @@
-from enum import unique
 from django.db import models
 from django.db.models.fields import related
 from django.urls import reverse
@@ -38,8 +37,12 @@ class VendorImage(models.Model):
 
 
 class Tag(models.Model):
+    CHOICES = (
+        ('Location', 'Location'),
+        ('Culture', 'Culture'),
+    )
     tag_name = models.CharField(max_length=150)
-    description = models.TextField(max_length=300)
+    tag_type = models.CharField(max_length=10, choices=CHOICES, default=CHOICES[1][1])
     vendors = models.ManyToManyField(Vendor, through="VendorTag", related_name="vendor_tag")
 
     def __str__(self):

@@ -20,6 +20,7 @@ class Checklist(models.Model):
 class ChecklistCategory(models.Model):
     cat_name = models.CharField(max_length=100)
     checklist = models.ForeignKey(Checklist, on_delete=models.CASCADE, related_name="checklist")
+    vendors = models.ManyToManyField(Vendor, through='VendorChecklistCategory', blank=True)
 
     def __str__(self):
         return self.cat_name
@@ -38,7 +39,10 @@ class Note(models.Model):
 #     def __str__(self):
 #         return self.checklist.checklist_name
 
-class VendorCheckCategory(models.Model):
+class VendorChecklistCategory(models.Model):
     category = models.ForeignKey(ChecklistCategory, on_delete=models.CASCADE)
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
-    comment = models.CharField(max_length=300)
+    comment = models.CharField(max_length=300, blank=True, null=True)
+
+    def __str__(self):
+        return self.comment

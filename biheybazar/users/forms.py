@@ -47,12 +47,12 @@ class UserVendorForm(UserCreationForm):
         #     'about':forms.Textarea(attrs={ 'class':"editable medium-editor-textarea"})
         #     }
     
-    @transaction.atomic()
-    def save(self):
-        user = super().save(commit=False)
-        user.is_vendor = True # determines that the user will registered as vendor
-        user.save()
-        return user.pk
+    # @transaction.atomic()
+    # def save(self):
+    #     user = super().save(commit=False)
+    #     user.is_vendor = True # determines that the user will registered as vendor
+    #     user.save()
+    #     return user.pk
 
 
 # Form for registering vendor instance in the database for vendor signup
