@@ -13,7 +13,7 @@ class CreateChecklistForm(ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
-        self.customer_object = Customer.objects.filter(user=user)[0]
+        self.customer_object = Customer.objects.filter(user=user).first()
 
     def save(self):
         checklist = Checklist.objects.create(
@@ -78,7 +78,7 @@ class AddCollaborator(Form):
     #     self.fields['collaborators'].label = "Username"
 
     def save(self, collaborator, checklist):
-        checklist = Checklist.objects.filter(pk=checklist)[0]
+        checklist = Checklist.objects.filter(pk=checklist).first()
         print('Collaborators', collaborator)
         print('Checklist: ', checklist)
         checklist.collaborators.add(collaborator)

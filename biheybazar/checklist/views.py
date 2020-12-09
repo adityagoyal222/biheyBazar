@@ -90,7 +90,7 @@ class ChecklistDetail(LoginRequiredMixin, DetailView, FormView):
             checklistcategory_form = CreateChecklistCategoryForm(request.POST)
             
             if checklistcategory_form.is_valid():
-                checklistcategory_form.save(Checklist.objects.filter(pk=self.kwargs['pk'])[0])
+                checklistcategory_form.save(Checklist.objects.filter(pk=self.kwargs['pk']).first())
             else:
                 context['checklistcategory_form'] = checklistcategory_form
         
@@ -98,7 +98,7 @@ class ChecklistDetail(LoginRequiredMixin, DetailView, FormView):
             note_form = CreateNoteForm(request.POST)
 
             if note_form.is_valid():
-                category = ChecklistCategory.objects.filter(pk=self.request.POST.get('category_pk'))[0]
+                category = ChecklistCategory.objects.filter(pk=self.request.POST.get('category_pk')).first()
                 note_form.save(category)
             else:
                 context['note_form'] = note_form
@@ -108,7 +108,7 @@ class ChecklistDetail(LoginRequiredMixin, DetailView, FormView):
 
             if collaborator_form.is_valid():
                 try:
-                    collaborator = Customer.objects.filter(user__username=collaborator_form.cleaned_data['collaborators'])[0]
+                    collaborator = Customer.objects.filter(user__username=collaborator_form.cleaned_data['collaborators']).first()
                 except:
                     messages.error(self.request, 'Invalid Username!')
                 else:

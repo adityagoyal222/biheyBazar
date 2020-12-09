@@ -1,6 +1,7 @@
 from django.db.models import fields
+from django.db.models.fields.files import ImageField
 from django.forms import ModelForm
-from .models import Category, Vendor
+from .models import Category, Vendor, VendorImage
 from checklist.models import VendorChecklistCategory, Checklist, ChecklistCategory
 from customers.models import Customer
 
@@ -17,6 +18,7 @@ class UpdateLogoForm(ModelForm):
     
     def save(self, vendor):
         vendor.logo = self.cleaned_data['logo']
+        vendor.save()
         return vendor
 
 class UpdateCoverImageForm(ModelForm):
@@ -31,6 +33,7 @@ class UpdateCoverImageForm(ModelForm):
     
     def save(self, vendor):
         vendor.cover_image = self.cleaned_data['cover_image']
+        vendor.save()
         return vendor
 
 class UpdateAboutForm(ModelForm):
@@ -38,14 +41,29 @@ class UpdateAboutForm(ModelForm):
         fields=('about',)
         model = Vendor
 
-    # def __init__(self, *args, **kwargs):
-    #     vendor_username = kwargs.pop('vendor')
-    #     super().__init__(*args, **kwargs)
-    #     self.vendor_object = Vendor.objects.filter(user__username=vendor_username)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['about'].label = ''
     
     def save(self, vendor):
         vendor.about = self.cleaned_data['about']
+        vendor.save()
         return vendor
+
+class AddImageForm(ModelForm):
+    class Meta:
+        fields=('image',)
+        model = VendorImage
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+    
+    def save(self, vendor):
+        vendor_image = VendorImage.objects.create(
+            vendor = vendor,
+            image = self.cleaned_data['image'],
+        )
+        return vendor_image
 
 class AddToChecklistForm(ModelForm):
     class Meta:
@@ -66,12 +84,6 @@ class AddToChecklistForm(ModelForm):
                 categories.append(k)
         
         self.fields['category'].queryset = self.fields['category'].queryset.filter(cat_name__in=categories)
-        # self.fields['category'].queryset=categories
-        print('categories', categories)
-        
-        print('author', author)
-        print('checklist', checklist)
-        
 
     
 

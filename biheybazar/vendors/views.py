@@ -6,12 +6,11 @@ from django.views.generic import (CreateView, DetailView,
 from django.views.generic.base import RedirectView
 from django.contrib import messages
 from users.forms import VendorSignUpForm
-from .forms import AddToChecklistForm
 from reviews.forms import ReviewForm
 from reviews.models import Review
 from vendors.models import Tag, Vendor, VendorTag, Category
 from customers.models import Customer
-from .forms import UpdateLogoForm, UpdateAboutForm, UpdateCoverImageForm
+from .forms import UpdateLogoForm, UpdateAboutForm, UpdateCoverImageForm, AddImageForm, AddToChecklistForm
 from django.http import HttpResponseRedirect
 # Create your views here.
 
@@ -102,6 +101,8 @@ class VendorProfile(FormView,DetailView):
             context['update_cover_form'] = UpdateCoverImageForm()
         if 'update_about_form' not in context:
             context['update_about_form'] = UpdateAboutForm()
+        if 'add_image_form' not in context:
+            context['add_image_form'] = AddImageForm()
         return context
 
     # def get_form_kwargs(self,**kwargs):
@@ -138,7 +139,7 @@ class VendorProfile(FormView,DetailView):
             else:
                 context['add_to_checklist_form'] = add_to_checklist_form
         
-        elif 'update_logo_form' in request.POST:
+        elif 'update_logo' in request.POST:
             update_logo_form = UpdateLogoForm(request.POST, request.FILES)
             if update_logo_form.is_valid():
                 vendor=Vendor.objects.filter(user__username=self.kwargs['slug']).first()
@@ -146,7 +147,7 @@ class VendorProfile(FormView,DetailView):
             else:
                 context['update_logo_form'] = update_logo_form
         
-        elif 'update_cover_form' in request.POST:
+        elif 'update_cover' in request.POST:
             update_cover_form = UpdateCoverImageForm(request.POST, request.FILES)
             if update_cover_form .is_valid():
                 vendor = Vendor.objects.filter(user__username=self.kwargs['slug']).first()
@@ -154,7 +155,7 @@ class VendorProfile(FormView,DetailView):
             else:
                 context['update_cover_form'] = update_cover_form
         
-        elif 'update_about_form' in request.POST:
+        elif 'update_about' in request.POST:
             update_about_form = UpdateAboutForm(request.POST)
             if update_about_form.is_valid():
                 vendor = Vendor.objects.filter(user__username=self.kwargs['slug']).first()
@@ -162,37 +163,15 @@ class VendorProfile(FormView,DetailView):
             else:
                 context['update_about_form'] = update_about_form
 
-
+        elif 'add_image' in request.POST:
+            add_image_form = AddImageForm(request.POST, request.FILES)
+            if add_image_form.is_valid():
+                vendor = Vendor.objects.filter(user__username=self.kwargs['slug']).first()
+                add_image_form.save(vendor)
+            else:
+                context['add_image_form'] = add_image_form
         return render(request, self.template_name, self.get_context_data(**context))
 
     # def form_valid(self,form):
     #     form.save()
     #     return HttpResponseRedirect(self.request.path_info)
-
-
-class UpdateLogo(UpdateView):
-    model = Vendor
-    template_name = "vendors/vendor_profile.html"
-    form_class = UpdateLogoForm
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['vendor'] = self.kwargs['slug']
-
-class UpdateCoverImage(UpdateView):
-    model = Vendor
-    template_name = "vendors/vendor_profile.html"
-    form_class = UpdateCoverImageForm
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['vendor'] = self.kwargs['slug']
-
-class UpdateAbout(UpdateView):
-    model = Vendor
-    template_name = "vendors/vendor_profile.html"
-    form_class = UpdateAboutForm
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['vendor'] = self.kwargs['slug']
