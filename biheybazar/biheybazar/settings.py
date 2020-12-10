@@ -60,6 +60,16 @@ INSTALLED_APPS = [
     'checklist',
 ]
 
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': [[ "Bold", "Underline", "Strike"],
+                ['NumberedList', 'BulletedList', "Indent", "Outdent"],
+                [ "Link", "Unlink", "Anchor", "SectionLink", "Subscript", "Superscript"], ['Undo', 'Redo',],
+                ['Smiley'],
+                ]
+    
+    },
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -30,7 +30,13 @@ def customerSignUpView(request):
         # Two form needs to be created for signup view
         user_form = UserCustomerForm(request.POST)
         customer_form = CustomerSignUpForm(request.POST, request.FILES)
-
+        errors=str(user_form.errors)
+        print(len(errors))
+        if len(errors)>0:
+            error=user_form.errors
+        else:
+            error=''
+        # user_form.username.error_messages={'required':"Invalid"}
         if user_form.is_valid() and customer_form.is_valid():
             # form validation and updating models
             user = user_form.save(commit=False)
@@ -62,12 +68,14 @@ def customerSignUpView(request):
             context = {
                 'user_form': user_form,
                 'customer_form': customer_form,
+                'errors':error
             }
 
     else:
         context = {
             'user_form': UserCustomerForm(),
             'customer_form': CustomerSignUpForm(),
+            'errors':'user_form.errors'
         }
     
     

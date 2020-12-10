@@ -60,3 +60,7 @@ body {
   border: 2px solid #F2F2F2;
   border-radius: 50%;
 }
+
+.errors{
+  position: absolute;
+}

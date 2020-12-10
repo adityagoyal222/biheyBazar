@@ -1,6 +1,8 @@
 
 {% block review_form %}
 <div class="container">
+{% load static %}
+{% load bootstrap4 %}
    
 
 <h4>Reviews from customers:</h4>
@@ -8,24 +10,113 @@
 <!-- display reviews and ratings -->
 <div class='container'>
     <div class="date"><strong>{{review.customer}}</strong> &nbsp;{{review.published_date|date:"d-m-Y"}}</div>
-    <div>{{review.ratings}} stars
+    {# {{review.ratings}} #}
+    <div>
+        {% ifequal review.ratings  1 %}
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn " ></button>
+        <button  class="fa fa-star my-btn " ></button>
+        <button  class="fa fa-star my-btn " ></button>
+        <button  class="fa fa-star my-btn "></button>
+        {% endifequal %}
+
+        {% ifequal review.ratings  2 %}
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn " ></button>
+        <button  class="fa fa-star my-btn " ></button>
+        <button  class="fa fa-star my-btn "></button>
+        {% endifequal %}
+        
+        {% ifequal review.ratings  3 %}
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn " ></button>
+        <button  class="fa fa-star my-btn "></button>
+        {% endifequal %}
+        
+        {% ifequal review.ratings  4 %}
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn "></button>
+        {% endifequal %}
+        
+        {% ifequal review.ratings  5 %}
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked"></button>
+        {% endifequal %}
+        
+        
     <br>{{review.description|safe}}
 </div>
 </div>
 {% endfor %}
 
+<!-- <div class="col text-center">
+    <form class="rate-form" method="POST">
+        
+        
+        
+    <button type="submit" class="fa fa-star my-btn  fa-3x " id="first"></button>
+    <button type="submit" class="fa fa-star my-btn fa-3x " id="second"></button>
+    <button type="submit" class="fa fa-star my-btn fa-3x " id="third"></button>
+    <button type="submit" class="fa fa-star my-btn fa-3x " id="fourth"></button>
+    <button type="submit" class="fa fa-star my-btn fa-3x " id="fifth"></button>
+</form>
+</div> -->
+
 
 <!-- if user is customer he should be able to give reviews to the vendor  -->
 {% if user.is_customer%}
 <h4>Give review</h4>
-    <form class="post-form" method="POST">
+    <form class="rate-form" method="POST">
         {% csrf_token %}
-        
+             
+    <button  onClick="window.location.href=window.location.href"  name='ratings' class="fa fa-star my-btn  fa-3x " id="first"></button>
+    <button  onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-3x " id="second"></button>
+    <button  onClick="window.location.href=window.location.href" name='ratings'  class="fa fa-star my-btn fa-3x " id="third"></button>
+    <button  onClick="window.location.href=window.location.href" name='ratings'  class="fa fa-star my-btn fa-3x " id="fourth"></button>
+    <button  onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-3x " id="fifth"></button>
+        <!-- {{form.ratings}} -->
         {{form.media}}
-        {{form.as_p}}
-        
-        <button type="submit" class="save btn btn-danger">Post review</button>
+        <div id="inpt">{{form.description}}</div>
+        <!-- <div id="desc"><textarea name="description"></textarea></div> -->
+        <button type="submit" id="rate" class="save btn btn-danger">Post review</button>
+        <!-- <button  id="rate-it" class="save btn btn-danger">Post review</button> -->
     </form>
+
+    <style>
+        .checked {
+            color: orange;
+          }
+
+        .my-btn{
+            background-color: inherit !important;
+            border: 0 !important;
+        }
+    </style>
+0
+    <button class="save btn btn-danger" id="inpt">Hello</button>
+    <script>
+        
+        
+    </script>
+    
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="{% static 'js/master.js' %}"></script>
+
+    <br>
+    <!-- <div id>
+
+    </div> -->
 
 {% endif %}
 
