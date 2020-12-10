@@ -1,6 +1,7 @@
 
 {% block review_form %}
 <div class="container">
+    {% load static %}
    
 
 <h4>Reviews from customers:</h4>
@@ -39,6 +40,7 @@
         </ul>
     </div>
     <div id="message">Please rate</div>
+    <button class="btn btn-danger" id="bton">Hello</button>
     <div></div>
     <style>
         .hovered-stars{
@@ -49,22 +51,10 @@
             color: sandybrown;
         }
     </style>
+    <style src="{% static 'js/master.js' %}"></style>
 
-    <script>
-        $(document).ready(function(){
-            $('list-star').mouseover(function(){
-              var current = $(this);
-              $('list-star').each(function(index){
-                  ($this).addClass("hovered-stars");
-                  if(index == current.index()){
-                    return False;
-                  }
-              })
-            })
-          
-          });
-          
-    </script>
+    <script></script>
+
 
 {% endif %}
 
