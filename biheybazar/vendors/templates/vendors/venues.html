@@ -1,0 +1,22 @@
+{% extends 'vendors/base.html'%}
+
+
+
+{% block content %}
+
+
+{% for vendor in venues %}
+    {% if vendor.category.category_name == 'Venues' %}
+    <div class="container">
+        <img src="{{ vendor.logo.url }}" height=150, width=150 class="profile_pic" alt="profile_pic">
+    <H3><a href="{% url 'vendors:profile' slug=vendor.user.username %}">{{vendor.vendor_name}}
+       
+    </a></H3> 
+    </div>
+    {% endif %}
+        
+    
+{% endfor %}
+    
+
+{% endblock content %}

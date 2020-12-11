@@ -1,8 +1,104 @@
 {% extends 'vendors/base.html' %}
 {% load bootstrap4 %}
+{% load static %}
 
 
 {% block vendor_content %}
+<!-- <style>
+    .vendorPic {
+        height: 200px;
+        width: 200px;
+    }
+</style> -->
+{#{{vendor.slug}}#}
+<!-- contents -->
+<div class="container-lg p-0">
+    <!-- top banner -->
+    <div>
+        <img class="w-100 h-100 img-fluid" src="{{ vendor.cover_image.url }}" alt="a happy picture, wedding">
+    </div>
+    <!-- main content -->
+    <div class="container-fluid py-2 shadow" style="background-color:white;">
+        <!-- vendor header -->
+        <div class="row my-4 mx-3">
+            <!-- vendor profile picture -->
+            <div class="col-lg-2">
+                <img class="vendorPic" src="{{ vendor.logo.url }}">
+            </div>
+            <!-- vendor name and review and add-to-checklist-->
+            <div class="col-lg-8 mt-4 mx-5">
+                <label class="h1"><strong>{{vendor.vendor_name}}</strong></label><br>
+                <div class="">
+                    <h4></h4>
+                    <button class="fa fa-star my-btn checked"></button>
+                    <button class="fa fa-star my-btn checked"></button>
+                    <button class="fa fa-star my-btn checked"></button>
+                    <button class="fa fa-star my-btn checked"></button>
+                    <button class="fa fa-star my-btn"></button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-danger btn-sm mt-3">Add to checklist</button>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <!--EO vendor profile header-->
+
+        <!-- about space-->
+        <div class="mx-3">
+            <h3>About</h3><br>
+            <p class="aboutUs">
+                {{vendor.about|safe}}
+            </p>
+            <p class="mx-3">
+                <label class="font-weight-normal h5">Contact us at:</label><br>
+                <label class="user-select-all" id="vendorMobilePhone">+977 9801234567</label><br>
+                <label class="user-select-all" id="vendorPhone">+01 48123456</label><br>
+                <label class="user-select-all" id="vendorAddress">Ratopul, Kathmandu</label><br>
+            </p>
+        </div>
+        <!-- media space-->
+        <div class="mx-3">
+            <h3>Media</h3><br>
+            <!-- pictures -->
+            <div class="container-fluid row rounded">
+                <div class="col-lg-3">
+                    <img class="card-img-top" src="{% static 'images/filler1.png' %}">
+                </div>
+                <div class="col-lg-3">
+                    <img class="card-img-top" src="{% static 'images/filler1.png' %}">
+                </div>
+                <div class="col-lg-3">
+                    <img class="card-img-top" src="{% static 'images/filler1.png' %}">
+                </div>
+                <div class="col-lg-3">
+                    <img class="card-img-top" src="{% static 'images/filler1.png' %}">
+                </div>
+            </div>
+        </div>
+        <hr>
+        <!--end of media space-->
+
+        <!-- reviews given to vendor will be dipayed below -->
+        <div class="reviews">
+
+            {% include 'vendors/reviews.html' %}
+
+        </div>
+
+        {% if user.is_vendor and vendor.user.username == user.username %}
+        {% for tag in tags %}
+        {{tag}}
+        {% endfor %}
+
+        {% else %}
+
+        {% endif %}
+
+
+
+        {% endblock vendor_content %}
+
     {#{{vendor.slug}}#}
 
     <div class="container">
@@ -212,4 +308,4 @@
         })
     </script>
 {% endblock vendor_content %}
-    
+

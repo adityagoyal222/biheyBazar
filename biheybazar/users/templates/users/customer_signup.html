@@ -19,9 +19,12 @@
 {% block logincontent %}
     <li><a href="{% url 'users:login' %}" class="nav-link"><button type="button" class="btn btn-danger">Log In</button></a></li>
 {% endblock logincontent %}
-
-
-
+<!-- 
+<style>
+    ul{
+        text-decoration: none;
+    }
+</style> -->
 
 {# block content contains the main content of this page i.e form to sign up as customer#}
 {% block content %}
@@ -56,8 +59,12 @@
                         </div>
                         <!-- dual password entry -->
                         <div class="form-group">
+                          
                             <input type="password" name="password1" id="" class="signupHalfInput form-control-lg" placeholder="password" style="margin-right: 5px;" required>
                             <input type="password" name="password2" id="" class="signupHalfInput form-control-lg" placeholder="re-password" required>
+                        <!-- {{user_form.password1}}
+                        {{user_form.password2}} -->
+                        
                         </div>
                         <!-- buttons -->
                         <div class="loginButton form-group mb-4">
@@ -65,7 +72,14 @@
                             <button type="button" class="btn btn-link mb-3">Already have an account? log in here</button>
                             <button class="goToVendor btn btn-lg  btn-danger btn-block" type="button"> <a href="{% url 'users:signup_vendor' %}" class="btn btn-link">Create Vendor Account</a></button>
                         </div>
-                            {{form.errors}}
+                        
+                        <div class="error">
+                          
+                        
+                            {{errors|striptags}}
+
+                            
+                        </div>
                     </form>
                 </div>
             </div>

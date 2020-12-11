@@ -12,10 +12,39 @@ from vendors.models import Vendor
 
 # Form for registering user instance in the database for customer signup
 class UserCustomerForm(UserCreationForm):
+    user = User.objects.all()
+    var1=[]
+    var2=[]
+    # print(user)
+    for i in user:
+        # print(i)
+        var1.append(i.email)
+    print(var1)
+    # for i,j in enumerate(var1):
+    #     var2.append(j)
+
+    # print(var2)
+    
     class Meta:
         model = User
+        
+        
+        # for i in user:
+        #     var1.append()
+
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
     
+
+    def clean_email(self,*args,**kwags):
+        email= self.cleaned_data.get('email')
+        print(email in self.var1)
+        if email in self.var1:
+            raise forms.ValidationError("Invalid Email")
+        else:
+            return email
+            
+
+            
     # @transaction.atomic() # makes the transaction atomic. i.e. all or none
     # def save(self, commit):
     #     user = super().save(commit=False)
