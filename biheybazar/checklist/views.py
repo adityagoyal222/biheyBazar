@@ -59,7 +59,7 @@ class ChecklistDetail(LoginRequiredMixin, DetailView, FormView):
             context['note_form'] = CreateNoteForm()
         if 'collaborator_form' not in context:
             context['collaborator_form'] = AddCollaborator()
-            print(context['checklistcategory_form'])
+            # print(context['checklistcategory_form'])
         return context
     
     def get_form_kwargs(self, **kwargs):
@@ -128,7 +128,7 @@ class ChecklistDetail(LoginRequiredMixin, DetailView, FormView):
 #     def get_form_kwargs(self, **kwargs):
 #         kwargs = super().get_form_kwargs()
 #         kwargs['checklist'] = self.kwargs['pk']
-#         return kwargs
+#         return kwargsn 
 
     # def get_context_data(self, **kwargs):
     #     category_form =  self.form_class

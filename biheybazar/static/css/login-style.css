@@ -66,7 +66,7 @@
 }
 
 /* base */
-.brandimg-bb{
+/* .brandimg-bb{
     margin-left: 10px;
     margin-right: 10px; 
 }
@@ -76,7 +76,7 @@
     font-size: 30px;
     font-weight: bold;
     margin-right: 0px;
-}
+} */
 /* .nav-item a{
     font-family: 'Poppins', sans-serif;
     font-size: 20px;
@@ -122,3 +122,4 @@
     border-radius: 30px;
     background: #b84a62;
 }
+

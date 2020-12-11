@@ -1,32 +1,142 @@
 
-{% block review_form %}
-<div class="container">
+{% load static %}
+{% load bootstrap4 %}
    
 
-<h4>Reviews from customers:</h4>
-{% for review in reviews %}
+<style>
+    .checked {
+        color: orange;
+    }
+
+    .my-btn{
+        background-color: inherit !important;
+        border: 0 !important;
+    }
+    /* vendor picture */
+    .vendorPic{
+        height: 200px;
+        width: 200px;
+    }
+    /* reviewer picture */
+    .reviewerPic{
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+    }
+
+</style>
+
 <!-- display reviews and ratings -->
-<div class='container'>
-    <div class="date"><strong>{{review.customer}}</strong> &nbsp;{{review.published_date|date:"d-m-Y"}}</div>
-    <div>{{review.ratings}} stars
-    <br>{{review.description|safe}}
-</div>
-</div>
-{% endfor %}
+<div class="mx-3">
+    <h3>Reviews</h3>
+    <!-- each review -->
+    {% for review in reviews %}
+    <div class="card m-2 my-4">
+        <!-- review header -->
+        <div class="p-3 mt-4 row">
+            <!-- reviewer profile picture -->
+            <div class="col-lg-1">
+                <img class="reviewerPic float-right" src="{% static 'images/user.png' %}">
+            </div>
+            <!-- reviewer name and date -->
+            <div class="col-lg-8">
+                <label class="h5">{{review.customer}}</label><br>Reviewed on:
+                <label class="">{{review.published_date|date:"d-m-Y"}}</label>
+            </div>
+            <!-- reviewed stars rating -->
+            <div class="col-lg-3">
+                {% ifequal review.ratings  1 %}
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn " ></button>
+        <button  class="fa fa-star my-btn " ></button>
+        <button  class="fa fa-star my-btn " ></button>
+        <button  class="fa fa-star my-btn "></button>
+        {% endifequal %}
 
-
-<!-- if user is customer he should be able to give reviews to the vendor  -->
-{% if user.is_customer%}
-<h4>Give review</h4>
-    <form class="post-form" method="POST">
-        {% csrf_token %}
+        {% ifequal review.ratings  2 %}
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn " ></button>
+        <button  class="fa fa-star my-btn " ></button>
+        <button  class="fa fa-star my-btn "></button>
+        {% endifequal %}
         
-        {{review_form.media}}
-        {{review_form.as_p}}
+        {% ifequal review.ratings  3 %}
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn " ></button>
+        <button  class="fa fa-star my-btn "></button>
+        {% endifequal %}
         
-        <button type="submit" class="save btn btn-danger" name="review">Post review</button>
-    </form>
+        {% ifequal review.ratings  4 %}
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn "></button>
+        {% endifequal %}
 
+        {% ifequal review.ratings  5 %}
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked" ></button>
+        <button  class="fa fa-star my-btn checked"></button>
+        {% endifequal %}
+        
+            </div>
+        </div> <!--EO review header-->
+        <!-- review body -->
+        <div class="px-5 mb-4">
+            <label>{{review.description|safe}} </label>
+        </div> <!--EO review body-->
+    </div> <!--end of each review-->
+   
+    {% endfor %}
+</div>
+<hr><!--end of reviews space-->
+
+
+
+<!-- </div>
+</div> -->
+
+{% if user.is_customer%}`
+<div class="container-fluid py-2 my-3 shadow" style="background-color:white;">
+    <div class="mx-3 my-3 mb-4">
+        <div class="form-group row">
+            <div class="col-lg-2 my-2 mx-5">
+                <label class="" for="desc-text"><strong>Your review</strong></label>
+            </div>
+            <div class="col-lg-11 mx-5"> <!--star rating-->
+                <textarea class="form-control mb-3" id="desc-text" rows="3" placeholder="post your review here"></textarea>
+                <form class="rate-form" method="POST">
+                    {% csrf_token %}     
+                <!-- space for rating -->
+                <button  onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-2x" id="first"></button>
+                <button  onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-2x" id="second"></button>
+                <button  onClick="window.location.href=window.location.href" name='ratings'  class="fa fa-star my-btn fa-2x" id="third"></button>
+                <button  onClick="window.location.href=window.location.href" name='ratings'  class="fa fa-star my-btn fa-2x" id="fourth"></button>
+                <button  onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-2x" id="fifth"></button>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endif %}
 
-{% endblock %}
+
+
+
+    
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="{% static 'js/master.js' %}"></script>
+
+    <br>
+    <!-- <div id>
+
+    </div> -->
+

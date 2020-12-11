@@ -152,3 +152,4 @@ class VendorProfile(FormView,DetailView):
     # def form_valid(self,form):
     #     form.save()
     #     return HttpResponseRedirect(self.request.path_info)
+
