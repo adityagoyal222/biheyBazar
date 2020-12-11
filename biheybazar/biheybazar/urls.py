@@ -23,17 +23,17 @@ from . import views
 from users import views as user_views
 
 # Routing is defined here
-# urlpatterns = [
-#     path('__debug__/', include(debug_toolbar.urls)), # To use django debugger
-#     path('admin/', admin.site.urls),
-#     path('',views.HomePage.as_view(), name='home'),
-#     url(r'^users/', include('users.urls', namespace="users")),
-#     url(r'^customers/', include('customers.urls', namespace="customers")),
-#     url(r'^vendors/', include('vendors.urls', namespace="vendors")),
-#     url(r'^checklist/', include('checklist.urls', namespace="checklist")),
-#     # path('verification/', include('verify_email.urls')),
-#     # url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-#     #     user_views.activate, name='activate'),
-#     path('activate/<uidb64>/<token>', user_views.activate, name="activate")
-# ] + static(settings.MEDIA_URL,
-#                          document_root=settings.MEDIA_ROOT) # To include media urls
+urlpatterns = [
+    path('__debug__/', include(debug_toolbar.urls)), # To use django debugger
+    path('admin/', admin.site.urls),
+    path('',views.HomePage.as_view(), name='home'),
+    url(r'^users/', include('users.urls', namespace="users")),
+    url(r'^customers/', include('customers.urls', namespace="customers")),
+    url(r'^vendors/', include('vendors.urls', namespace="vendors")),
+    url(r'^checklist/', include('checklist.urls', namespace="checklist")),
+    # path('verification/', include('verify_email.urls')),
+    # url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+    #     user_views.activate, name='activate'),
+    path('activate/<uidb64>/<token>', user_views.activate, name="activate")
+] + static(settings.MEDIA_URL,
+                         document_root=settings.MEDIA_ROOT) # To include media urls

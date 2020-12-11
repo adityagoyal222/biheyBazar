@@ -35,13 +35,13 @@ class UserCustomerForm(UserCreationForm):
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
     
 
-    def clean_email(self,*args,**kwags):
-        email= self.cleaned_data.get('email')
-        print(email in self.var1)
-        if email in self.var1:
-            raise forms.ValidationError("Invalid Email")
-        else:
-            return email
+    # def clean_email(self,*args,**kwags):
+    #     email= self.cleaned_data.get('email')
+    #     print(email in self.var1)
+    #     if email in self.var1:
+    #         raise forms.ValidationError("Invalid Email")
+    #     else:
+    #         return email
             
 
             

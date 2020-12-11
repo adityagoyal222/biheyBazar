@@ -11,15 +11,6 @@
       </ul>
 {% endblock altercontent%}
 
-{# this block contains login button #}
-{% block logincontent %}   
-<ul class="navbar-nav ml-auto">
-    <li class="nav-item">
-      <a class="btn login-button" style="margin-left: -80px;" href="{% url 'users:login' %}" role="button">Login</a>
-    </li>
-  </ul>
-{% endblock logincontent %}
-
 
 {# block content contains the main content of this page i.e form to sign up as vendor#}
 {% block content %}

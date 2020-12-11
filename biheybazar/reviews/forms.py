@@ -14,7 +14,7 @@ class ReviewForm(forms.ModelForm):
         fields = ('ratings','description')
 
         widgets={
-            'description':forms.Textarea(attrs={ 'class':"review-text"})
+            'description':forms.Textarea(attrs={'class':"review-text"})
             }
 
     # def __init__(self,*args,**kwargs):
@@ -23,6 +23,7 @@ class ReviewForm(forms.ModelForm):
     #     super().__init__(*args,**kwargs)
 
     def save(self, vendor, customer):
+        print("rated-yay")
         review = Review.objects.create(ratings=self.cleaned_data['ratings'],
         description=self.cleaned_data['description'],
         customer = customer,

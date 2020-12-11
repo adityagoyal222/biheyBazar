@@ -36,9 +36,12 @@
                     <button class="fa fa-star my-btn checked"></button>
                     <button class="fa fa-star my-btn"></button>
                 </div>
-                <div>
+                
+                {% if user.is_customer %}
+                  <div>
                     <button type="button" class="btn btn-danger btn-sm mt-3">Add to checklist</button>
                 </div>
+                {% endif %}
             </div>
         </div>
         <hr>
@@ -96,8 +99,6 @@
         {% endif %}
 
 
-
-        {% endblock vendor_content %}
 
     {#{{vendor.slug}}#}
 
@@ -230,11 +231,6 @@
     </div>
 
 
-    
-    <!-- reviews given to vendor will be dipayed below -->
-    <div class="reviews">
-    {% include 'vendors/reviews.html' %}
-    </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>

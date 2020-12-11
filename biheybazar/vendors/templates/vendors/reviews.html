@@ -111,7 +111,7 @@
             </div>
             <div class="col-lg-11 mx-5"> <!--star rating-->
                 <textarea class="form-control mb-3" id="desc-text" rows="3" placeholder="post your review here"></textarea>
-                <form class="rate-form" method="POST">
+                <form class="rate-form" id="rate-form" method="POST">
                     {% csrf_token %}     
                 <!-- space for rating -->
                 <button  onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-2x" id="first"></button>

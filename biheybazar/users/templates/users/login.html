@@ -29,53 +29,53 @@
     {% else %}
 
     
-        <div class="position-relative overflow-hidden py-1 px-5 px-md-5 m-0 text-center bg-light">
-            <!-- login content -->
-            <div class=" p-lg-5 mx-auto row p-0 justify-content-center">
-                <!-- for shadow -->
-                
-                <!-- input area -->
-                <div class="col-lg-4 p-0 m-0 align-content-center shadow"> <!---->
-                    <div class="card text-center w-100 py-5 h-100 rounded-0 justify-content-center"> <!---->
-                        <!-- form below -->
-                        <form class="loginInputCard form-signin" method="POST">
-                            {% csrf_token %}
+    <div class="position-relative overflow-hidden py-1 px-5 px-md-5 m-0 text-center bg-light">
+        <!-- login content -->
+        <div class=" p-lg-5 mx-auto row p-0 justify-content-center">
+            <!-- for shadow -->
+            
+            <!-- input area -->
+            <div class="col-lg-4 p-0 m-0 align-content-center shadow"> <!---->
+                <div class="card text-center w-100 py-5 h-100 rounded-0 justify-content-center"> <!---->
+                    <!-- form below -->
+                    <form class="loginInputCard form-signin" method="POST">
+                        {% csrf_token %}
+                        
+                        <!---->
+                        <!-- label -->
+                        <h1 class="loginHeader h1 font-weight-bold">Login</h1>
+                        <!-- full email/username entry -->
+                        <div class="form-group mb-4">
+                            <!-- {{form.username}} -->
+                            <input type="input" name="username" id="inputEmail" class="loginTextInput form-control-lg" placeholder="username" required autofocus>
+                            <!-- <span class="loginTextInput form-control-lg" placeholder="username">
+                                {{form.username}}</span> -->
+                        </div>
+                        <!-- full password entry -->
+                        <div class="form-group mb-5">
+                            <input type="password" name="password" id="inputPassword" class="loginTextInput form-control-lg" placeholder="password" required>
+                        <!-- <span class="loginTextInput form-control-lg" placeholder="password">
+                        {{form.password}}</span> -->
+                        </div>
+                        <!-- buttons -->
+                        <div class="loginButton form-group mb-4">
+                            <button class="btn btn-lg  btn-danger btn-block" type="submit">Continue</button>
+                            <a href="{% url 'users:signup_customer' %}" class="btn btn-link">New here? Create an account</a>
                             
-                            <!---->
-                            <!-- label -->
-                            <h1 class="loginHeader h1 font-weight-bold">Login</h1>
-                            <!-- full email/username entry -->
-                            <div class="form-group mb-4">
-                                <!-- {{form.username}} -->
-                                <!-- <input type="input" name="username" id="inputEmail" class="loginTextInput form-control-lg" placeholder="username" required autofocus> -->
-                                <span class="loginTextInput form-control-lg" placeholder="username">
-                                    {{form.username}}</span>
-                            </div>
-                            <!-- full password entry -->
-                            <div class="form-group mb-5">
-                                <!-- <input type="password" name="password" id="inputPassword" class="loginTextInput form-control-lg" placeholder="password" required> -->
-                            <span class="loginTextInput form-control-lg" placeholder="password">
-                            {{form.password}}</span>
-                            </div>
-                            <!-- buttons -->
-                            <div class="loginButton form-group mb-4">
-                                <button class="btn btn-lg  btn-danger btn-block" type="submit">Continue</button>
-                                <a href="{% url 'users:signup_customer' %}" class="btn btn-link">New here? Create an account</a>
-                                
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
-                <!-- picture -->
-                <div class="col-lg-4 p-0 m-0 shadow"> <!---->
-                    <div class="card text-center p-0 m-auto rounded-0">
-                        <img class="w-100 h-100" src="{% static 'images/paimon.jpg' %}" alt="a happy picture">
-                    </div>
-                </div>
-                
             </div>
-        
-        <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3"></div>
+            <!-- picture -->
+            <div class="col-lg-4 p-0 m-0 shadow"> <!---->
+                <div class="card text-center p-0 m-auto rounded-0">
+                    <img class="w-100 h-100" src="{% static 'images/paimon.jpg' %}" alt="a happy picture">
+                </div>
+            </div>
+            
+        </div>
+    
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3"></div>
         
         {# login form where user can input username and password#}
     
