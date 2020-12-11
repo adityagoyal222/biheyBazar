@@ -4,15 +4,29 @@
 {% load bootstrap4 %}
 
 {# this block contains login button #}
-{% block logincontent %} 
-<li class="list-item">
-  <button class="btn my-2 my-sm-0 btn-login" type="submit"><a href="{% url 'users:login' %}" class="nav-link"><span id="btn-text">Login</span></a></button>
-</li>
-  {% endblock logincontent %}
+
+
 
 
 {# block content contains the main content of this page#}
 {% block content %}
+<div class="slider-container">
+    <div id="slides" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#slides" data-slide-to="0" class="active"></li>
+        <li data-target="#slides" data-slide-to="1"></li>
+        <li data-target="#slides" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{% static 'images/background.jpg'  %}" class="d-block w-100" alt="Sliding_Image">
+        </div>
+          <div class="carousel-item">
+            <img src="{% static 'images/background.jpg'  %}" class="d-block w-100" alt="Sliding_Image">
+          </div>
+          <div class="carousel-item">
+            <img src="{% static 'images/background.jpg'  %}" class="d-block w-100" alt="Sliding_Image">
+          </div>
 <!-- Image Slider -->
 <div id="slides" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">

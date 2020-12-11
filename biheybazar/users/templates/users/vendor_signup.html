@@ -4,12 +4,20 @@
 
 {# this block contains signup as customer button #}
 {% block altercontent%}          
-    <li><a href="{% url 'users:signup_customer' %}" class="nav-link"><button type="button" class="btn btn-warning">Sign Up as customer</button></a></li>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="btn login-button" style="width: 230px;" href="{% url 'users:signup_customer' %}" role="button">Signup as Customer</a>
+        </li>
+      </ul>
 {% endblock altercontent%}
 
 {# this block contains login button #}
 {% block logincontent %}   
-    <li><a href="{% url 'users:login' %}" class="nav-link"><button type="button" class="btn btn-danger">Log In</button></a></li>
+<ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+      <a class="btn login-button" style="margin-left: -80px;" href="{% url 'users:login' %}" role="button">Login</a>
+    </li>
+  </ul>
 {% endblock logincontent %}
 
 

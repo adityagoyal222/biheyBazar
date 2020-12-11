@@ -66,3 +66,60 @@
 }
 
 /* base */
+/* .brandimg-bb{
+    margin-left: 10px;
+    margin-right: 10px; 
+}
+.brand-bb{
+    font-family: 'Poppins', sans-serif;
+    color: white !important;
+    font-size: 30px;
+    font-weight: bold;
+    margin-right: 0px;
+} */
+/* .nav-item a{
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    color: white !important;
+    margin-left: 20px;
+    
+}
+.nav-item a:hover {
+    font-weight: bold;
+} */
+
+.btn-login{
+    height: 40px;
+    width: 150px;
+    left: 85%;
+    right: 2%;
+    top: 25%;
+    bottom: 25%;
+    background: #F7717E;
+    border-radius: 30px;
+    color: white;
+    /* margin-right: 30px; */
+    font-size: 18px;
+}
+
+.bd-footer{
+    background-color: #f7f7f7;
+}
+
+.login-button {
+    font-size: 18px;
+    margin-top: 5px;
+    top: 25%;
+    right: 2%;
+    bottom: 25%;
+    left: 85%;
+
+    width: 150px;
+    height: 40px;
+    margin-right: 30px;
+
+    color: white !important;
+    border-radius: 30px;
+    background: #b84a62;
+}
+

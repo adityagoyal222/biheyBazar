@@ -1,7 +1,9 @@
 {% extends 'users/base.html' %}
+{% load static %}
 {% load bootstrap4 %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/checklist.css' %}">
 
 <div class="container-fluid">
     <div class="col-lg-3 col-sm-12 m-auto">
@@ -11,164 +13,220 @@
     </div>
 </div>
 
-
-    <div>
-    My Checklists
-    </div>
-    <div>
-        {% for list in author_checklist %}
-            <a href="{% url 'checklist:checklist_detail' pk=list.pk %}">{{list.checklist_name}}</a>
-        {% endfor %}
-    </div>
-    <div>
-    Shared with me
-    </div>
-    <div>
-        {% for list in checklists %}
-            {% if customer_obj in list.collaborators.all %}
-            <a href="{% url 'checklist:checklist_detail' pk=list.pk %}">{{list.checklist_name}}</a>
+    <!-- Main Code -->
+    <input type="checkbox" id="check" checked>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="mychecklist">
+            <h4><i class="fas fa-clipboard-list"></i> My Checklist
+                <label for="check">
+                    <span><i class="fas fa-bars" id="sidebar-toggle"></i></span>
+                </label>
+            </h4>
+            <ul>
+                {% for list in author_checklist %}
+                <li><a href="{% url 'checklist:checklist_detail' pk=list.pk %}">{{list.checklist_name}}</a></li>
+                {% endfor %}
+            </ul>
+            {% if user.is_customer %}
+            <center>
+                <a href="{% url 'checklist:checklist_create' %}"><i class="fas fa-plus" id="add-checklist"></i></a>
+            </center>
             {% endif %}
-        {% endfor %}
+        </div>
+        <div>
+            <hr class="my-4">
+        </div>
+        <div class="sharedchecklist">
+            <h4> <span><i class="fas fa-share-alt-square"></i></span> Shared Checklist</h4>
+            <ul>
+                {% for list in checklists %}
+                    {% if customer_obj in list.collaborators.all %}
+                        <li><a href="{% url 'checklist:checklist_detail' pk=list.pk %}">{{list.checklist_name}}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
     </div>
-    
-    {% if user.is_customer %}
-        <a href="{% url 'checklist:checklist_create' %}" class="btn btn-primary">Add Checklist</a>
-    {% endif %}
-
-        
+    <!-- Checklist -->
     {% if checklist.author == customer_obj or customer_obj in checklist.collaborators.all %}
-    <div>
-        
-            
-        {{ checklist.checklist_name }}
-        {{ checklist.description }}
-        {{ checklist.author }}
-        Collaborators:
-        {% for i in checklist.collaborators.all %}
-            {{i}} 
-        {% endfor %}
-        {% if checklist.author == customer_obj %}
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
-                Invite collaborators
-            </button>
-            <!-- Modal -->
-            <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Invite Collaborators</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+    <div class="checklist">
+        <div class="checklist-header">
+            <div class="checklist-details">
+                <h3>{{ checklist.checklist_name }}</h3><br>
+                <p class="lead">{{ checklist.description }}
+                    {% if checklist.author == customer_obj %}
+                        <a class="icon"  data-toggle="modal" data-target="#staticBackdrop">
+                            <span class="material-icons checklist-share">share</span>
+                        </a><span class="popup">Share Checklist</span></h6>
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Invite Collaborators</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
+                                            {% csrf_token %}    
+                                            {% bootstrap_form collaborator_form %}
+                                            <input type="submit" class="btn btn-primary" 
+                                            value="Add To Checklist" name="collaborator">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="modal-body">
-                            <form method="POST" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
-                                {% csrf_token %}    
-                                {% bootstrap_form collaborator_form %}
-                                <input type="submit" class="btn btn-primary" 
-                                value="Add To Checklist" name="collaborator">
-                            </form>
+                    {% endif %}
+            </div>
+        </div>
+        <div>
+            <hr class="my-4">
+        </div>
+        <div class="container categories">
+            <h2>Categories
+                <a class="icon" id="category-button-show">
+                    <span class="material-icons category-add">add_box</span>
+                </a><span class="popup">Add Category</span>
+            </h2>
+            <div class="card-form mb-4" id="category-form">
+                <form method="POST" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
+                    {% csrf_token %}
+                    {% bootstrap_form checklistcategory_form %}
+                    <input type="submit" class="btn btn-primary" name="checklist_category" value="Create Category">
+                    <a class="icon" id="category-button-hide">
+                        <span class="material-icons delete">clear</span>
+                    </a><span class="popup">Close Form</span>
+                </form>
+                    
+            </div>
+            <div>
+                <hr class="my-2 mb-4 mt-3">
+            </div>
+            <!-- Vendor Categories -->
+            {% for category in checklist_category %}
+            <div class="vendor-category">
+                <div class="container category-info">
+                    <h4 class="category-name">{{category.cat_name}}
+                        <div>
+                            <a class="icon"><span class="material-icons category-delete">delete</span></a><span
+                                class="popup">Delete Category</span>
+                            <a class="icon1 note-button-show" id="note-button-show-{{category.pk}}" value="{{category.pk}}"><span class="material-icons note-add">post_add</span></a><span
+                                class="popup1">Add Note</span>
                         </div>
+                    </h4>
+                    <div class="card-form mb-4 note-form" id="note-form-{{category.pk}}">
+                        <form method="POST" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
+                            {% csrf_token %}
+                            {% bootstrap_form note_form %}
+                            <input type="hidden" name="category_pk" value='{{category.pk}}'>
+                            <input type="submit" class="btn btn-primary" name="note" value="Add Note">
+                            <a class="icon note-button-hide" id="category-button-hide-{{category.pk}}" value="{{category.pk}}">
+                                <span class="material-icons delete">clear</span>
+                            </a><span class="popup">Close Form</span>
+                        </form>
+                        
+                    </div>
+                    {% for note in notes %}
+                    {% if note.category == category %}
+                    <div class="category-note mb-4">
+                        <p>{{note.text}}
+                            <a class="icon">
+                                <span class="material-icons delete">remove_circle_outline</span>
+                            </a><span class="popup">Delete Note</span>
+                        </p>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% for vendor in category_vendors %}
+                {% if vendor.category == category %}
+                <div class="vendor-card mb-4">
+                    <div class="vendor-image">
+                        <img src="{{vendor.vendor.logo.url}}" alt="">
+                    </div>
+                    <div class="vendor-info">
+                        <h5 class="vendor-name">{{vendor.vendor.vendor_name}}
+                            <a class="icon">
+                                <span class="material-icons delete">clear</span>
+                            </a><span class="popup">Remove Vendor</span>
+                        </h5>
+                        <p class="vendor-comment">{{vendor.comment}}</p>
                     </div>
                 </div>
+                {% endif %}
+                {% endfor %}
             </div>
-        {% endif %}
-            
-        
-    </div>
-    <div>
-        <button type="button" class="btn btn-primary" id="category-button-show">Add Category</button>
-        <button type="button" class="btn btn-primary" id="category-button-hide">Close</button>
-        <form method="POST" id="category-form" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
-            {% csrf_token %}
-            {% bootstrap_form checklistcategory_form %}
-            <input type="submit" class="btn btn-primary" name="checklist_category" value="Create Category">
-        </form>
-    </div>
-    <div>
-        Categories: {{checklist_category.text}}
-        
-Categories: {{checklist_category.text}}
-       {% for category in checklist_category %}
-            <h4>{{category.cat_name}}</h4>
             <div>
-                <button type="button" class="btn btn-primary note-button-show" id="note-button-show-{{category.pk}}" value="{{category.pk}}">Add</button>
-                <button type="button" class="btn btn-primary note-button-hide" id="note-button-hide-{{category.pk}}" value="{{category.pk}}">close</button>
-                <form method="POST" class="note-form" id="note-form-{{category.pk}}" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
-                    {% csrf_token %}
-                    {% bootstrap_form note_form %}
-                    <input type="hidden" name="category_pk" value='{{category.pk}}'>
-                    <input type="submit" class="btn btn-primary" name="note" value="Add Note">
-                </form>
+            <hr class="my-2 mb-4">
+            
             </div>
-            
-            {% for note in notes %}
-                
-                {% if note.category == category %}
-                    <h6>{{note.text}}</h6>
-                {% endif %}
-                    
             {% endfor %}
-            
-            
-            {% for vendor in category_vendors %}
-                
-                {% if vendor.category == category %}
-                    {{vendor.vendor.vendor_name}}
-                {% endif %}
-                    
-            {% endfor %}
-                
-                
-        {% endfor %}
+        </div>
+        <div>
+            <hr class="my-2">
+        </div>
+        <div>
+            <div class="checklist-footer">
+                <div class="checklist-footer-details">
+                    <p>Checklist Owner : <i>{{ checklist.author }}</i></p><br>
+                    <p>Checklist Holders :                       
+                            
+                        {% for i in checklist.collaborators.all %}                              
+                            <i>{{i}}</i>
+                        {% empty %}
+                            <i>No collaborators yet</i> 
+                        {% endfor %}
+                            
+                        <a class="icon">
+                            <span class="material-icons checklist-delete">delete</span>
+                        </a>
+                        <span class="popup">Delete Checklist</span>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
     {% endif %}
+</main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
         $("#category-form").hide();
-        $("#category-button-show").show();
-        $("#category-button-hide").hide();
 
         $("#collab-form").hide();
-        $("#collab-button-show").show();
-        $("#collab-button-hide").hide();
 
         $(".note-form").hide();
-        $(".note-button-show").show();
-        $(".note-button-hide").hide();
 
         $("#category-button-show").click(function() {
             $("#category-form").show();
-            $("#category-button-hide").show();
-            $("#category-button-show").hide();
         });
         $("#category-button-hide").click(function() {
             $("#category-form").hide();
-            $("#category-button-show").show();
-            $("#category-button-hide").hide();
         });
         $("#collab-button-show").click(function() {
             $("#collab-form").show();
-            $("#collab-button-hide").show();
-            $("#collab-button-show").hide();
         });
         $("#collab-button-hide").click(function() {
             $("#collab-form").hide();
-            $("#collab-button-show").show();
-            $("#collab-button-hide").hide();
         });
         $(".note-button-show").click(function() {
             var value = $(this).attr("value");
             $("#note-form-" + value).show();
-            $("#note-button-show-" + value).hide();
-            $("#note-button-hide-" + value).show();
         })
         $(".note-button-hide").click(function() {
             var value = $(this).attr("value");
             $("#note-form-" + value).hide();
-            $("#note-button-hide-" + value).hide();
-            $("#note-button-show-" + value).show();
             
         })
     });
