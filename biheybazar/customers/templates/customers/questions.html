@@ -1,15 +1,117 @@
 {# questions.html extends from customers(app) base.html #}
 {% extends 'customers/base.html' %}
 {% load bootstrap4 %}
+{% load static %}
 {% block content %}
-    <div class="container">
-        <form method="POST">
-            {% csrf_token %}
-        We want to ask you few questions!
-        {# recommendation form #}
-        {{form.as_p}}
-        <input type="submit" value="submit">
-    </form>
-    </div>
+
+
+    <!-- content -->
+    <div class="position-relative overflow-hidden py-1 px-5 px-md-5 m-0 text-center bg-light">
+        <div class="my-3 mx-auto row p-0 justify-content-center">
+            <div class="col-lg-10 p-0 m-0 align-content-center shadow"> <!---->
+                <div class="card text-center w-100 py-5 h-100 rounded-0 justify-content-center"> <!---->
+                    <!-- form below -->
+                    <form class="form-signin" method="POST"> <!---->
+                        {% csrf_token %}
+                        <!-- label -->
+                        <div class="container p-4 ">
+                            <h1 class="quesHeader mt-2">
+                                <strong>A few questions before we continue</strong>
+                            </h1>
+                            <!-- container for the two input -->
+                            <div class="container justify-content-center">
+                                <!-- asking Wedding location -->
+                                <div class="container row mb-4">
+                                    <h2 class="col-8" >Where is the wedding to be held?</h2>
+                                    <div class="col-4">
+                                        <select name="location" class="form-control">
+                                            <option value="" selected disabled>city here</option>
+                                            <option value="1">Kathmandu</option>
+                                            <option value="2">Pokhara</option>
+                                            <option value="3">Chitwan</option>
+                                            <option value="4">Janakpur</option>
+                                            <option value="5">Dang</option>
+                                        </select>
+                                        
+                                    </div>
+                                </div>
+                                <!-- asking Wedding type -->
+                                <div class="container row mt-4">
+                                    <h2 class="col-8">What is the wedding type?</h2>
+                                    <div class="col-4">
+                                        <select  name="culture" class="form-control" required>
+                                            <option value="" selected disabled>culture/tradition here</option>
+                                            <option value="1">Brahmin</option>
+                                            <option value="2">Newar</option>
+                                            <option value="3">Tharu</option>
+                                            <option value="4">Terai</option>
+                                        </select>
+                                      
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- buttons -->
+                        <div class="signupContButtonGroup form-group mb-2">
+                            <button class="quesContButton btn btn-lg  btn-danger btn-block" type="submit">Continue</button>
+                            <a href="{% url 'home' %}" type="button" class="quesSkipButton btn btn-link"> Skip for now >></a>
+                        </div>
+                    </form>
+                </div>
+            </div> 
+        </div>
+
+         <!-- footer -->
+         <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3"></div>
+         <footer class="container pt-5">
+             <div class="row pb-5">
+                 <div class="col-6 col-md">
+                     <h5>Features</h5>
+                     <ul class="list-unstyled text-small">
+                         <li><a class="text-muted" href="#">Cool stuff</a></li>
+                         <li><a class="text-muted" href="#">Random feature</a></li>
+                         <li><a class="text-muted" href="#">Team feature</a></li>
+                         <li><a class="text-muted" href="#">Stuff for developers</a></li>
+                         <li><a class="text-muted" href="#">Another one</a></li>
+                         <li><a class="text-muted" href="#">Last time</a></li>
+                     </ul>
+                 </div>
+                 <div class="col-6 col-md">
+                     <h5>Resources</h5>
+                     <ul class="list-unstyled text-small">
+                         <li><a class="text-muted" href="#">Resource</a></li>
+                         <li><a class="text-muted" href="#">Resource name</a></li>
+                         <li><a class="text-muted" href="#">Another resource</a></li>
+                         <li><a class="text-muted" href="#">Final resource</a></li>
+                     </ul>
+                 </div>
+                 <div class="col-6 col-md">
+                     <h5>Resources</h5>
+                     <ul class="list-unstyled text-small">
+                         <li><a class="text-muted" href="#">Business</a></li>
+                         <li><a class="text-muted" href="#">Education</a></li>
+                         <li><a class="text-muted" href="#">Government</a></li>
+                         <li><a class="text-muted" href="#">Gaming</a></li>
+                     </ul>
+                 </div>
+                 <div class="col-6 col-md">
+                     <h5>About us</h5>
+                     <ul class="list-unstyled text-small">
+                         <li><a class="text-muted" href="#">Team</a></li>
+                         <li><a class="text-muted" href="#">Locations</a></li>
+                         <li><a class="text-muted" href="#">Privacy</a></li>
+                         <li><a class="text-muted" href="#">Terms</a></li>
+                     </ul>
+                 </div>
+             </div>
+             <div class="row">
+                 <div class="col-12 col-md">
+                     <small class="d-block mt-3 text-muted">BiheyBazar, &copy;2020</small>
+                 </div>
+             </div>
+         </footer>
+    
+
+    
 {% endblock content %}
     

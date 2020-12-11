@@ -1,24 +1,92 @@
 {% extends 'vendors/base.html' %}
-
+{% load bootstrap4 %}
+{% load static %}
 {# in progress,(don't touch) lots of changes to be mades #}
 {% block vendor_content %}
 
-<div class="container">
 
+<!-- contents -->
+<div class="position-relative overflow-hidden py-1 px-5 px-md-5 m-0 text-center bg-light">
+    <!-- white main div -->
+    <div class="vendorListHeaderContainer container-fluid row my-2 p-2 rounded shadow "
+        style="background-color: #EB5757;">
+        <p class="vendorListHeader text-left m-1">
+            You are currently viewing all available vendors. To see vendors according to your wedding location and
+            culture,
+            <a class="gotoRecommendations" href="testRecommendations.html" style="color: white;"><b>go to
+                    recommendations</b></a>.
+        </p>
+    </div>
+    <!-- items row 1 -->
     {% for category in categories %}
-    <h2>{{category.category_name}}:</h2>
-    {% for vendor in vendor_list %}
-    
-    {% if vendor.category == category %}
-    
-        <div class="categories">
-            <!-- by clicking in vendor name user will be reirected to that particular vendor's profile -->
-            <H3><a href="{% url 'vendors:profile' slug=vendor.user.username %}">{{vendor.vendor_name}}</a></H3> 
+    <div class="container-fluid row my-3 p-2 rounded " >
+       
+        <div class="col-lg-2">
+            <div class="card mb-4 shadow">
+                <img class="card-img-top" src="{% static 'images/filler1.png' %}">
+                <div class="card-body">
+                    <!-- category -->
+                    <h5 class="card-title">{{category.category_name}}</h5>
+                    <a href="" class="seeMoreButton btn btn-danger stretched-link">See more</a>
+                </div>
+            </div>
         </div>
-        <br>
-    {% endif %}
-    {% endfor %}
-  
-    {% endfor %}
+        {% for vendor in vendor_list %}
+        {% if vendor.category == category %}
+       
+        <div class="col-lg-2">
+            <div class="card mb-4 shadow">
+                <img class="card-img-top" src="{{ vendor.logo.url }}" width="200" height="200">
+                <div class="card-body">
+                    <a href="{% url 'vendors:profile' slug=vendor.user.username %}"
+                        class="card-title btn btn-link text-decoration-none stretched-link">
+                        <h5>{{vendor.vendor_name}}</h5>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {% endif %}
+        {% endfor %}
+    </div>
+    <div>
+        <hr class="my-2">
+    </div>
+        {% endfor %}
+    
 </div>
+<!-- <div class="col-lg-2">
+                    <div class="card mb-4 shadow">
+                        <img class="card-img-top" src="images/filler1.png">
+                        <div class="card-body">
+                            <a href="" class="card-title btn btn-link text-decoration-none stretched-link"><h5>Vendor Name</h5></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="card mb-4 shadow">
+                        <img class="card-img-top" src="images/filler1.png">
+                        <div class="card-body">
+                            <a href="" class="card-title btn btn-link text-decoration-none stretched-link"><h5>Vendor Name</h5></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="card mb-4 shadow">
+                        <img class="card-img-top" src="images/filler1.png">
+                        <div class="card-body">
+                            <a href="" class="card-title btn btn-link text-decoration-none stretched-link"><h5>Vendor Name</h5></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="card mb-4 shadow">
+                        <img class="card-img-top" src="images/filler1.png">
+                        <div class="card-body">
+                            <a href="" class="card-title btn btn-link text-decoration-none stretched-link"><h5>Vendor Name</h5></a>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
 {% endblock %}

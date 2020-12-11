@@ -15,10 +15,9 @@ const four=document.getElementById("fourth")
 const five=document.getElementById("fifth")
 
 const form= document.querySelector('form')
-const confirmbox = document.getElementById('rate-it')
+// const confirmbox = document.getElementById('rate-it')
 const csrf = document.getElementsByName('csrfmiddlewaretoken')
-console.log(csrf)
-const d = document.getElementById('desc')
+
 // console.log(d.val())
 
 // console.log(form)
@@ -112,7 +111,6 @@ arr.forEach(item=> item.addEventListener('mouseover',(event)=>{
     arr.forEach(item=> item.addEventListener('click',(event)=>{
         const val= event.target.id
         const val_num = getNumericValue(val)
-        // console.log(val)
         console.log(val_num)
 
         form.addEventListener('submit',e=>{
@@ -121,16 +119,8 @@ arr.forEach(item=> item.addEventListener('mouseover',(event)=>{
             console.log('in')
 
             const val_num = getNumericValue(val)
-            const data = document.getElementById('inpt')
-            // console.log(data)
-
-            // $(function () {
-            //     $('textarea').ckeditor();
-            //     $('#inpt').on('click', function(e) {
-            //         console.log('no')
-            //       console.log('ckeditor content: ' + $('textarea').val());
-            //     })
-            //   });
+            const review = document.getElementById('desc-text')
+            
 
             
             
@@ -140,7 +130,7 @@ arr.forEach(item=> item.addEventListener('mouseover',(event)=>{
                 data:{
                     'csrfmiddlewaretoken': csrf[0].value,
                     'ratings':val_num,
-                    'description':text
+                    'description':review.value,
                 },
                 success:function (response){
                     console.log(response)
@@ -159,53 +149,4 @@ arr.forEach(item=> item.addEventListener('mouseover',(event)=>{
 
         }))
         }
-        // $(document).on('submit', '#rate-form',function(e){
-        //     const val_num = getNumericValue(val)
-        //     $.ajax({
-        //         type:'POST',
-        //         url:'',
-        //         data:{
-        //             'csrfmiddlewaretoken': csrf[0].value,
-        //             'ratings':val_num,
-        //             'description':$('#desc').val()
-        //             // action: 'post'
-        //         },
-        //         success:function(json){
-        //             document.getElementById("post-form").reset();
-        //             // $(".posts").prepend('<div class="col-md-6">'+
-        //             //     '<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">' +
-        //             //         '<div class="col p-4 d-flex flex-column position-static">' +
-        //             //             '<h3 class="mb-0">' + json.title + '</h3>' +
-        //             //             '<p class="mb-auto">' + json.description + '</p>' +
-        //             //         '</div>' +
-        //             //     '</div>' +
-        //             // '</div>' 
-        //             // )
-        //         },
-        //         error : function(xhr,errmsg,err) {
-        //         console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-        //     }
-        //     });
-        // });
-
-        // $.ajax({
-        //     type:"POST",
-        //     url:'',
-        //     data:{
-        //         'csrfmiddlewaretoken': csrf[0].value,
-        //         'ratings':val_num,
-        //         'description':$('#desc').val()
-        //     },
-        //     success:function (response){
-        //         console.log(response)
-        //         confirmbox.innerHTML='rated'
-                
-        //     },
-        //     error:function(error){
-        //         console.log(error)
-        //         confirmbox.innerHTML='error'
-        //     }
-           
-        // }
         
-        // )
