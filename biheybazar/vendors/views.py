@@ -21,7 +21,7 @@ class CreateTag(LoginRequiredMixin, CreateView):
 
 # CATEGORIES
 class CreateCategory(LoginRequiredMixin, CreateView):
-    fields = ('category_name', 'description')
+    fields = ('category_name', 'description', 'category_pic')
     model = Category
 
 # VendorProfile
