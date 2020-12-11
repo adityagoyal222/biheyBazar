@@ -8,7 +8,7 @@ from django.views.generic import (CreateView, DetailView, DeleteView, View,
 from django.contrib import messages
 
 from .forms import CreateChecklistForm, CreateChecklistCategoryForm, CreateNoteForm, AddCollaborator
-from .models import Checklist, ChecklistCategory, Note, VendorCheckCategory
+from .models import Checklist, ChecklistCategory, Note, VendorChecklistCategory
 from customers.models import Customer
 
 # Create your views here.
@@ -34,16 +34,17 @@ class ChecklistDetail(LoginRequiredMixin, DetailView, FormView):
     second_form_class = CreateNoteForm
     third_form_class = AddCollaborator
     def get_context_data(self, **kwargs):
-        # print(self.form_class)
         customers = Customer.objects.filter(user__username=self.request.user.username)
         author_checklist = Checklist.objects.filter(author__in=customers)
         checklists = Checklist.objects.all()
         checklist = Checklist.objects.get(pk=self.kwargs['pk'])
         customer_obj = Customer.objects.get(user__username=self.request.user.username)
+        category_vendors = VendorChecklistCategory.objects.filter(category__checklist=checklist)
         # print(Customer.objects.filter(user__username=self.request.user.username))
         # categories = get_list_or_404(ChecklistCategory, checklist=checklist)
         categories = ChecklistCategory.objects.filter(checklist=checklist)  
         context = super(ChecklistDetail, self).get_context_data(**kwargs)
+        context['category_vendors'] = category_vendors
         context['checklists'] = checklists
         context['checklist'] = checklist
         context['author_checklist'] = author_checklist
@@ -89,7 +90,7 @@ class ChecklistDetail(LoginRequiredMixin, DetailView, FormView):
             checklistcategory_form = CreateChecklistCategoryForm(request.POST)
             
             if checklistcategory_form.is_valid():
-                checklistcategory_form.save(Checklist.objects.filter(pk=self.kwargs['pk'])[0])
+                checklistcategory_form.save(Checklist.objects.filter(pk=self.kwargs['pk']).first())
             else:
                 context['checklistcategory_form'] = checklistcategory_form
         
@@ -97,7 +98,7 @@ class ChecklistDetail(LoginRequiredMixin, DetailView, FormView):
             note_form = CreateNoteForm(request.POST)
 
             if note_form.is_valid():
-                category = ChecklistCategory.objects.filter(pk=self.request.POST.get('category_pk'))[0]
+                category = ChecklistCategory.objects.filter(pk=self.request.POST.get('category_pk')).first()
                 note_form.save(category)
             else:
                 context['note_form'] = note_form
@@ -107,7 +108,7 @@ class ChecklistDetail(LoginRequiredMixin, DetailView, FormView):
 
             if collaborator_form.is_valid():
                 try:
-                    collaborator = Customer.objects.filter(user__username=collaborator_form.cleaned_data['collaborators'])[0]
+                    collaborator = Customer.objects.filter(user__username=collaborator_form.cleaned_data['collaborators']).first()
                 except:
                     messages.error(self.request, 'Invalid Username!')
                 else:

@@ -98,3 +98,214 @@
 
 
         {% endblock vendor_content %}
+
+    {#{{vendor.slug}}#}
+
+    <div class="container">
+
+    <div class="cover-image">
+
+
+    </div>
+
+    <!-- this div tag contains vendor's profile picture and cover pictures inside it  -->
+    <div class="pictures">
+        <img src="{{ vendor.cover_image.url }}" class="cover_pic" alt="Cover Image">
+        <img src="{{ vendor.logo.url }}" class="profile_pic" alt="Logo">
+        <span class="vendor_name">{{vendor.vendor_name}}</span>
+    </div>
+
+    <div class="update-logo">
+        <button type="button" class="btn btn-primary" id="logo-button-show">Edit Logo</button>
+        <button type="button" class="btn btn-primary" id="logo-button-hide">Close</button>
+        <form method="POST" id="logo-form" action="{% url 'vendors:profile' slug=vendor.user.username %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% bootstrap_form update_logo_form %}
+          <input type="submit" class="btn btn-primary" name="update_logo" value="Update Logo">
+      </form>
+    </div>
+
+    <div class="update-cover-image">
+      <button type="button" class="btn btn-primary" id="cover-button-show">Edit Cover Image</button>
+      <button type="button" class="btn btn-primary" id="cover-button-hide">Close</button>
+      <form method="POST" id="cover-form" action="{% url 'vendors:profile' slug=vendor.user.username %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form update_cover_form %}
+        <input type="submit" class="btn btn-primary" name="update_cover" value="Update Cover Image">
+    </form>
+  </div>
+
+
+
+  
+  
+  {% if user.is_customer %}
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+        Add Vendor to Checklist
+      </button>
+      <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Add Vendor to Checklist</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'vendors:profile' slug=vendor.user.username %}">
+                    {% csrf_token %}    
+                    {% bootstrap_form add_checklist_form %}
+                    <input type="submit" class="btn btn-primary" 
+                    value="Add To Checklist" name="add_to_checklist">
+                </form>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>   
+      <!-- Modal -->
+  {% endif %}
+    
+
+  <div class="main-info">
+    Category: {{vendor.category}}
+  </div>
+  <hr>
+  <div class="about">
+      <h4>About:</h4>
+      <span>
+        
+        {% if vendor.about %}
+          {{vendor.about|safe}}
+        {% else %}
+          <i>No Description.</i>
+        {% endif %}
+          
+        
+      </span>
+      
+      {% if user.is_vendor and vendor.user == user %}
+      <button type="button" class="btn btn-primary" id="about-button-show">Edit About</button>
+      <button type="button" class="btn btn-primary" id="about-button-hide">Close</button>
+      <form method="POST" id="about-form" action="{% url 'vendors:profile' slug=vendor.user.username %}">
+        {% csrf_token %}
+        {% bootstrap_form update_about_form %}
+        <input type="submit" class="btn btn-primary" name="update_about" value="Update About">
+      </form>
+      {% endif %}
+  </div>
+  <div class="tag">
+    Tags:
+    {% for tag in tags %}
+      {{tag}}
+    {% endfor %} 
+    
+    {% if user.is_vendor and vendor.user.username == user.username %}
+      <button type="button" class="btn btn-primary" id="tag-button-show">Add Tags</button>
+      <button type="button" class="btn btn-primary" id="tag-button-hide">Close</button>
+      <form method="POST" id="tag-form" action="{% url 'vendors:profile' slug=vendor.user.username %}">
+        {% csrf_token %}
+        {% bootstrap_form add_tag_form %}
+        <input type="submit" class="btn btn-primary" name="add_tag" value="Add">
+      </form>
+    {% endif %}
+  </div>
+  <div class="images">
+    <h4>Images:</h4>
+    <div>
+    {% for image in vendor_images %}
+      <img src="{{ image.image.url }}" class="vendor_images" width="150" height="150" alt="Vendor Image">
+    {% endfor %}
+    </div>
+    
+    {% if user.is_vendor and vendor.user == user %}
+    <form method="POST" id="image-form" action="{% url 'vendors:profile' slug=vendor.user.username %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% bootstrap_form add_image_form %}
+      <input type="submit" class="btn btn-primary" name="add_image" value="Add">
+    </form>
+    {% endif %}
+    </div>
+
+
+    
+    <!-- reviews given to vendor will be dipayed below -->
+    <div class="reviews">
+    {% include 'vendors/reviews.html' %}
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+          $("#logo-form").hide();
+          $("#logo-button-show").show();
+          $("#logo-button-hide").hide();
+
+          $("#cover-form").hide();
+          $("#cover-button-show").show();
+          $("#cover-button-hide").hide();
+
+          $("#about-form").hide();
+          $("#about-button-show").show();
+          $("#about-button-hide").hide();
+
+          $("#tag-form").hide();
+          $("#tag-button-show").show();
+          $("#tag-button-hide").hide();
+
+          $("#logo-button-show").click(function() {
+            $("#logo-form").show();
+            $("#logo-button-hide").show();
+            $("#logo-button-show").hide();
+          });
+
+          $("#logo-button-hide").click(function() {
+            $("#logo-form").hide();
+            $("#logo-button-show").show();
+            $("#logo-button-hide").hide();
+          });
+
+          $("#cover-button-show").click(function() {
+            $("#cover-form").show();
+            $("#cover-button-hide").show();
+            $("#cover-button-show").hide();
+          });
+
+          $("#cover-button-hide").click(function() {
+            $("#cover-form").hide();
+            $("#cover-button-show").show();
+            $("#cover-button-hide").hide();
+          });
+
+          $("#about-button-show").click(function() {
+            $("#about-form").show();
+            $("#about-button-hide").show();
+            $("#about-button-show").hide();
+          });
+
+          $("#about-button-hide").click(function() {
+            $("#about-form").hide();
+            $("#about-button-show").show();
+            $("#about-button-hide").hide();
+          });
+
+          $("#tag-button-show").click(function() {
+            $("#tag-form").show();
+            $("#tag-button-hide").show();
+            $("#tag-button-show").hide();
+          });
+
+          $("#tag-button-hide").click(function() {
+            $("#tag-form").hide();
+            $("#tag-button-show").show();
+            $("#tag-button-hide").hide();
+          });
+
+        })
+    </script>
+{% endblock vendor_content %}
+

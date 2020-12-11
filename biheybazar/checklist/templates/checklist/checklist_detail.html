@@ -47,17 +47,30 @@
         {% for i in checklist.collaborators.all %}
             {{i}} 
         {% endfor %}
-        
         {% if checklist.author == customer_obj %}
-            <div>
-                <h6>Invite Collaborator</h6>
-                <button type="button" class="btn btn-primary" id="collab-button-show">Invite Collaborator</button>
-                <button type="button" class="btn btn-primary" id="collab-button-hide">close</button>
-                <form method="POST" id="collab-form" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
-                    {% csrf_token %}
-                    {% bootstrap_form collaborator_form %}
-                    <input type="submit" class="btn btn-primary" name="collaborator" value="Invite">
-                </form>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+                Invite collaborators
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Invite Collaborators</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
+                                {% csrf_token %}    
+                                {% bootstrap_form collaborator_form %}
+                                <input type="submit" class="btn btn-primary" 
+                                value="Add To Checklist" name="collaborator">
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         {% endif %}
             
@@ -75,6 +88,7 @@
     <div>
         Categories: {{checklist_category.text}}
         
+Categories: {{checklist_category.text}}
        {% for category in checklist_category %}
             <h4>{{category.cat_name}}</h4>
             <div>
@@ -95,6 +109,16 @@
                 {% endif %}
                     
             {% endfor %}
+            
+            
+            {% for vendor in category_vendors %}
+                
+                {% if vendor.category == category %}
+                    {{vendor.vendor.vendor_name}}
+                {% endif %}
+                    
+            {% endfor %}
+                
                 
         {% endfor %}
     </div>

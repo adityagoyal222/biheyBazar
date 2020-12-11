@@ -15,6 +15,8 @@ from django.core.mail import EmailMessage
 
 from .forms import CustomerSignUpForm, VendorSignUpForm, UserVendorForm, UserCustomerForm
 from .models import User
+from customers.models import Customer
+from checklist.models import Checklist
 
 from .tokens import account_activation_token
 
@@ -92,10 +94,28 @@ def vendorSignUpView(request):
 
         if user_form.is_valid() and vendor_form.is_valid():
             # form validation and updating models
-            id = user_form.save()
-            user = User.objects.get(id=id)
-            vendor_form.save(user)
-            return HttpResponseRedirect(reverse_lazy("vendors:profile", kwargs={'slug':user.username}))        
+            user = user_form.save(commit=False)
+            user.is_vendor=True
+            user.save()
+            user_obj = User.objects.get(username=user_form.cleaned_data['username'])
+            vendor_form.save(user_obj)
+            user.is_active = False
+            user.save()
+            current_site = get_current_site(request)
+            mail_subject = 'Activate your BiheyBazar account'
+            message = render_to_string('users/acc_active_email.html', {
+                'user':user,
+                'domain':current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+            })
+            to_email = user_form.cleaned_data.get('email')
+            email = EmailMessage(
+                mail_subject, message, to=[to_email]
+            )
+            email.content_subtype = "html"
+            email.send()
+            return HttpResponseRedirect(reverse_lazy("users:login"))        
 
         else:
             context = {
@@ -146,3 +166,16 @@ def userCheckView(request):
     else:
         return HttpResponseRedirect(reverse_lazy("home"))
 
+
+def checklist_url(request):
+    author_checklists = Checklist.objects.filter(author__user=request.user)
+    shared_checklists = Checklist.objects.filter(collaborators__user=request.user)
+    if author_checklists:
+        pk = author_checklists.first().pk
+        return redirect("checklist:checklist_detail", pk=pk)
+    else:
+        if shared_checklists:
+            pk = shared_checklists.first().pk
+            return redirect("checklist:checklist_detail", pk=pk)
+        else:
+            return redirect("checklist:checklist_create")
