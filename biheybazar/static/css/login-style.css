@@ -77,7 +77,7 @@
     font-weight: bold;
     margin-right: 0px;
 }
-.nav-item a{
+/* .nav-item a{
     font-family: 'Poppins', sans-serif;
     font-size: 20px;
     color: white !important;
@@ -86,12 +86,11 @@
 }
 .nav-item a:hover {
     font-weight: bold;
-}
+} */
 
 .btn-login{
     height: 40px;
     width: 150px;
-    /*position: absolute;*/
     left: 85%;
     right: 2%;
     top: 25%;
@@ -99,10 +98,27 @@
     background: #F7717E;
     border-radius: 30px;
     color: white;
-    margin-right: 30px;
+    /* margin-right: 30px; */
     font-size: 18px;
 }
 
 .bd-footer{
     background-color: #f7f7f7;
+}
+
+.login-button {
+    font-size: 18px;
+    margin-top: 5px;
+    top: 25%;
+    right: 2%;
+    bottom: 25%;
+    left: 85%;
+
+    width: 150px;
+    height: 40px;
+    margin-right: 30px;
+
+    color: white !important;
+    border-radius: 30px;
+    background: #b84a62;
 }
