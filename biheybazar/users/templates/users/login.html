@@ -2,8 +2,8 @@
 {% extends 'users/base.html' %}
 {% load bootstrap4 %}
 {% load static %}
-   
-{% block altercontent%}          
+
+{% block altercontent%}
 
 {% endblock altercontent%}
 
@@ -16,118 +16,85 @@
 
 
 
-    
-    {# login form shouldn't be displayed if the user is already logged in #}
 
-    {% if user.is_authenticated %}
-        <div class="container">
-            <div class="jumbotron">
-                <h2>You are already logged in. Please logout to sign in as a different user.</h2>
+{# login form shouldn't be displayed if the user is already logged in #}
+
+{% if user.is_authenticated %}
+<div class="container">
+    <div class="jumbotron">
+        <h2>You are already logged in. Please logout to sign in as a different user.</h2>
+    </div>
+</div>
+
+{% else %}
+
+{# login form where user can input username and password#}
+<!-- Login page -->
+<section>
+    <div class="login-container">
+        <div class="user signinbox">
+            <div class="login-image"><img src="{% static 'images/paimon.jpg' %}" alt=""></div>
+            <div class="login-box">
+                <form method="POST">
+                    {% csrf_token %}
+                    <h2>Log In</h2>
+                    <input type="text" name="username" id="" placeholder="Username" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <input type="submit" name="" value="Login">
+                    <p class="signup">New Here? <a href="{% url 'users:signup_customer' %}">Sign Up</a></p>
+                </form>
             </div>
         </div>
-    
-    {% else %}
-
-    
-    <div class="position-relative overflow-hidden py-1 px-5 px-md-5 m-0 text-center bg-light">
-        <!-- login content -->
-        <div class=" p-lg-5 mx-auto row p-0 justify-content-center">
-            <!-- for shadow -->
-            
-            <!-- input area -->
-            <div class="col-lg-4 p-0 m-0 align-content-center shadow"> <!---->
-                <div class="card text-center w-100 py-5 h-100 rounded-0 justify-content-center"> <!---->
-                    <!-- form below -->
-                    <form class="loginInputCard form-signin" method="POST">
-                        {% csrf_token %}
-                        
-                        <!---->
-                        <!-- label -->
-                        <h1 class="loginHeader h1 font-weight-bold">Login</h1>
-                        <!-- full email/username entry -->
-                        <div class="form-group mb-4">
-                            <!-- {{form.username}} -->
-                            <input type="input" name="username" id="inputEmail" class="loginTextInput form-control-lg" placeholder="username" required autofocus>
-                            <!-- <span class="loginTextInput form-control-lg" placeholder="username">
-                                {{form.username}}</span> -->
-                        </div>
-                        <!-- full password entry -->
-                        <div class="form-group mb-5">
-                            <input type="password" name="password" id="inputPassword" class="loginTextInput form-control-lg" placeholder="password" required>
-                        <!-- <span class="loginTextInput form-control-lg" placeholder="password">
-                        {{form.password}}</span> -->
-                        </div>
-                        <!-- buttons -->
-                        <div class="loginButton form-group mb-4">
-                            <button class="btn btn-lg  btn-danger btn-block" type="submit">Continue</button>
-                            <a href="{% url 'users:signup_customer' %}" class="btn btn-link">New here? Create an account</a>
-                            
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <!-- picture -->
-            <div class="col-lg-4 p-0 m-0 shadow"> <!---->
-                <div class="card text-center p-0 m-auto rounded-0">
-                    <img class="w-100 h-100 login-image" src="{% static 'images/paimon.jpg' %}" alt="a happy picture">
-                </div>
-            </div>
-            
+    </div>
+</section>
+<footer class="container pt-5">
+    <div class="row pb-5">
+        <div class="col-6 col-md">
+            <h5>Features</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Cool stuff</a></li>
+                <li><a class="text-muted" href="#">Random feature</a></li>
+                <li><a class="text-muted" href="#">Team feature</a></li>
+                <li><a class="text-muted" href="#">Stuff for developers</a></li>
+                <li><a class="text-muted" href="#">Another one</a></li>
+                <li><a class="text-muted" href="#">Last time</a></li>
+            </ul>
         </div>
-    
-    <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3"></div>
-        
-        {# login form where user can input username and password#}
-    
-        <footer class="container pt-5">
-            <div class="row pb-5">
-                <div class="col-6 col-md">
-                    <h5>Features</h5>
-                    <ul class="list-unstyled text-small">
-                        <li><a class="text-muted" href="#">Cool stuff</a></li>
-                        <li><a class="text-muted" href="#">Random feature</a></li>
-                        <li><a class="text-muted" href="#">Team feature</a></li>
-                        <li><a class="text-muted" href="#">Stuff for developers</a></li>
-                        <li><a class="text-muted" href="#">Another one</a></li>
-                        <li><a class="text-muted" href="#">Last time</a></li>
-                    </ul>
-                </div>
-                <div class="col-6 col-md">
-                    <h5>Resources</h5>
-                    <ul class="list-unstyled text-small">
-                        <li><a class="text-muted" href="#">Resource</a></li>
-                        <li><a class="text-muted" href="#">Resource name</a></li>
-                        <li><a class="text-muted" href="#">Another resource</a></li>
-                        <li><a class="text-muted" href="#">Final resource</a></li>
-                    </ul>
-                </div>
-                <div class="col-6 col-md">
-                    <h5>Resources</h5>
-                    <ul class="list-unstyled text-small">
-                        <li><a class="text-muted" href="#">Business</a></li>
-                        <li><a class="text-muted" href="#">Education</a></li>
-                        <li><a class="text-muted" href="#">Government</a></li>
-                        <li><a class="text-muted" href="#">Gaming</a></li>
-                    </ul>
-                </div>
-                <div class="col-6 col-md">
-                    <h5>About us</h5>
-                    <ul class="list-unstyled text-small">
-                        <li><a class="text-muted" href="#">Team</a></li>
-                        <li><a class="text-muted" href="#">Locations</a></li>
-                        <li><a class="text-muted" href="#">Privacy</a></li>
-                        <li><a class="text-muted" href="#">Terms</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md">
-                    <small class="d-block mt-3 text-muted">BiheyBazar, &copy;2020</small>
-                </div>
-            </div>
-        </footer>
+        <div class="col-6 col-md">
+            <h5>Resources</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Resource</a></li>
+                <li><a class="text-muted" href="#">Resource name</a></li>
+                <li><a class="text-muted" href="#">Another resource</a></li>
+                <li><a class="text-muted" href="#">Final resource</a></li>
+            </ul>
+        </div>
+        <div class="col-6 col-md">
+            <h5>Resources</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Business</a></li>
+                <li><a class="text-muted" href="#">Education</a></li>
+                <li><a class="text-muted" href="#">Government</a></li>
+                <li><a class="text-muted" href="#">Gaming</a></li>
+            </ul>
+        </div>
+        <div class="col-6 col-md">
+            <h5>About us</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Team</a></li>
+                <li><a class="text-muted" href="#">Locations</a></li>
+                <li><a class="text-muted" href="#">Privacy</a></li>
+                <li><a class="text-muted" href="#">Terms</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md">
+            <small class="d-block mt-3 text-muted">BiheyBazar, &copy;2020</small>
+        </div>
+    </div>
+</footer>
 
-    {% endif %}
+{% endif %}
 
 {% endblock content %}
-    

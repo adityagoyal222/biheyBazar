@@ -15,57 +15,6 @@ body {
     margin: auto;
 }
 
-/* *Navbar
-
-.brand-name {
-    font-size: 1.9em;
-    font-weight: 600;
-
-    height: 50px;
-    margin-right: auto;
-
-    color: white !important;
-}
-
-.brand-image {
-    height: 40px;
-    margin-right: 10px;
-    margin-bottom: 20px;
-}
-
-.navbar-item {
-    font-size: 1.2em;
-
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: 20px;
-    padding-bottom: 0px;
-
-    color: white !important;
-}
-
-.navbar-item:hover {
-    color: black;
-}
-
-.dropdown-button {
-    font-size: 18px;
-
-    margin-right: 30px;
-
-    text-decoration: none;
-
-    color: white !important;
-}
-
-.profile-image {
-    width: 35px;
-    height: 35px;
-
-    border: 2px solid #F2F2F2;
-    border-radius: 50%;
-} */
-
 /* *Sidebar */
 
 #check {
@@ -74,7 +23,11 @@ body {
 
 .sidebar {
     position: fixed;
+    /* top: 45px;
+    bottom: 0; */
     left: 0;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
 
     width: 300px;
     height: 100vh;
@@ -131,7 +84,19 @@ body {
 }
 
 #sidebar-toggle {
-    margin-left: 88px;
+    margin-left: -50px;
+    margin-bottom: 10px;
+    /* margin-right: 20px; */
+
+    transition: 0.5s;
+    transition-property: color;
+
+    color: #000;
+}
+
+#sidebar-toggle-1{
+    margin-left: 70px;
+    /* margin-right: 20px; */
 
     transition: 0.5s;
     transition-property: color;
@@ -143,7 +108,7 @@ body {
     color: #424242;
 }
 
-label #sidebar-toggle {
+label #sidebar-toggle, label #sidebar-toggle-1{
     font-size: 20px;
 
     z-index: 1;
@@ -152,7 +117,7 @@ label #sidebar-toggle {
 }
 
 #check:checked ~ .sidebar {
-    left: -250px;
+    left: -300px;
 }
 
 /* *Checklist */
@@ -162,7 +127,7 @@ label #sidebar-toggle {
 }
 
 .checklist {
-    margin-left: 50px;
+    margin-left: 30px;
 
     /* background-color: antiquewhite; */
     background-position: center;
@@ -175,6 +140,7 @@ label #sidebar-toggle {
 
 .checklist-details {
     padding: 20px;
+    margin-left: 20px;
 
     /* background-color: rgb(72, 255, 0); */
 }
@@ -189,6 +155,7 @@ label #sidebar-toggle {
 
 .checklist-share:hover {
     color:rgb(0, 17, 255);
+    cursor: pointer;
 }
 
 .categories {
@@ -207,6 +174,7 @@ label #sidebar-toggle {
 
 .category-add:hover{
     color:rgba(0, 0, 0, 0.3);
+    cursor: pointer;
 }
 
 .delete{
@@ -216,6 +184,7 @@ label #sidebar-toggle {
 
 .delete:hover{
     color:rgb(255, 0, 0);
+    cursor: pointer;
 }
 
 .card-form {
@@ -244,6 +213,7 @@ label #sidebar-toggle {
 
 .category-delete:hover{
     color: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
 }
 
 .category-name {
@@ -261,6 +231,7 @@ label #sidebar-toggle {
 
 .note-add:hover{
     color: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
 }
 
 .category-note p {
@@ -292,7 +263,12 @@ label #sidebar-toggle {
     margin: 5px;
 }
 
+.vendor-name{
+    width: 100%;
+}
+
 .vendor-info{
+    width: 80%;
     margin: 20px;
 }
 
@@ -324,6 +300,7 @@ label #sidebar-toggle {
 
 .checklist-delete:hover{
     color:rgb(255, 0, 0);
+    cursor: pointer;
 }
 
 .popup{
