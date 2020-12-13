@@ -1,90 +1,39 @@
-{#  customer_signup.html extends from users(app) base.html #}
+{# customer_signup.html extends from users(app) base.html #}
 {% extends 'users/base.html' %}
 {% load bootstrap4 %}
 {% load static %}
 
 
 {% block title %}
-    BiheyBazar - Signup | Customer
+BiheyBazar - Signup | Customer
 {% endblock title %}
-
-{# this block contains signup as vendor button #}
-{%block precontent%}
-<ul class="navbar-nav ml-auto">
-    <li class="nav-item">
-      <a class="btn login-button" style="width: 230px;" href="{% url 'users:signup_vendor' %}" role="button">Signup as Vendor</a>
-    </li>
-  </ul>
-{% endblock precontent %}
-
-
 
 {# this block contains login button #}
 
 {# block content contains the main content of this page i.e form to sign up as customer#}
 {% block content %}
-      <!-- content -->
-      <div class="position-relative overflow-hidden py-0 px-5 px-md-5 m-0 text-center bg-light">
-        <!-- login content -->
-        <div class=" p-lg-5 mx-auto row p-0 justify-content-center">
-            <!-- for shadow -->
-            <!-- input area -->
-            <div class="col-lg-5 p-0 m-0 align-content-center shadow"> <!---->
-                <div class="card text-center w-100 py-1 h-100 rounded-0 justify-content-center"> <!---->
-                    <!-- form below -->
-                    <form class="loginInputCard form-signin" method="POST">
-                        {% csrf_token %}
-                        <!-- label -->
-                        <h1 class="signupHeader h1 font-weight-bold">Sign up</h1>
-                        <!-- div for username and picture -->
-                        <div class="form-group" >
-                            <!-- username entry -->
-
-                            <input type="text" name="username" id="inputEmail" class="signupSemiInput form-control-lg mb-0" placeholder="username" required>
-                        
-                        </div>
-                        <!-- dual name entry -->
-                        <div class="form-group mt-2">
-                            <input type="text" name="first_name" id="" class="signupHalfInput form-control-lg" placeholder="first name" style="margin-right: 5px;" required>
-                            <input type="text" name="last_name" id="" class="signupHalfInput form-control-lg" placeholder="last name" required>
-                        </div>
-                        <!-- full email/username entry -->
-                        <div class="form-group mb-3">
-                            <input type="email" name="email" id="inputEmail" class="signupFullInput form-control-lg" placeholder="email" required>
-                        </div>
-                        <!-- dual password entry -->
-                        <div class="form-group">
-                          
-                            <input type="password" name="password1" id="" class="signupHalfInput form-control-lg" placeholder="password" style="margin-right: 5px;" required>
-                            <input type="password" name="password2" id="" class="signupHalfInput form-control-lg" placeholder="re-password" required>
-                        <!-- {{user_form.password1}}
-                        {{user_form.password2}} -->
-                        
-                        </div>
-                        <!-- buttons -->
-                        <div class="loginButton form-group mb-4">
-                            <button class="signupContinue btn btn-lg  btn-danger btn-block" type="submit">Continue</button>
-                            <button type="button" class="btn btn-link mb-3">Already have an account? log in here</button>
-                            <button class="goToVendor btn btn-lg  btn-danger btn-block" type="button"> <a href="{% url 'users:signup_vendor' %}" class="btn btn-link">Create Vendor Account</a></button>
-                        </div>
-                        
-                        <div class="error">
-                          
-                        
-                            {{errors|striptags}}
-
-                            
-                        </div>
-                    </form>
-                </div>
+<section>
+    <div class="signup-container">
+        <div class="user signinbox">
+            <div class="signup-box">
+                <form method="POST">
+                    {% csrf_token %}
+                    <h2>Sign Up</h2>
+                    <input type="text" name="username" id="" placeholder="Username *" required>
+                    <input type="text" name="firstname" id="" placeholder="First Name *" required>
+                    <input type="text" name="lastname" id="" placeholder="Last Name *" required>
+                    <input type="email" name="email" id="" placeholder="E-mail *" required>
+                    <input type="password" name="password1" placeholder="Password *" required>
+                    <input type="password" name="password2" placeholder="Confirm Password *" required>
+                    <button class="signup-customer" type="submit">Sign Up</button>
+                    <p class="signup">Already have an account? <a href="{% url 'users:login' %}">Log In</a></p>
+                    <button class="signup-vendor" type="button">
+                        <a href="{% url 'users:signup_vendor' %}">Sign Up as Vendor</a>
+                    </button>
+                </form>
             </div>
-            <!-- picture -->
-            <div class="col-lg-5 p-0 m-0 shadow"> <!---->
-                <div class="card text-center p-0 m-auto rounded-0">
-                    <img class="w-100 h-100" src="{% static 'images/redTemple.jpg' %}" alt="a happy picture">
-                </div>
-            </div>
+            <div class="signup-image"><img src="{% static 'images/redTemple.jpg' %}" alt=""></div>
         </div>
-    
+    </div>
+</section>
 {% endblock content %}
-    

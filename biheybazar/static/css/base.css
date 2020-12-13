@@ -62,3 +62,19 @@ body {
   border-radius: 50%;
 }
 
+.login-button {
+  font-size: 18px;
+
+  top: 25%;
+  right: 2%;
+  bottom: 25%;
+  left: 85%;
+
+  width: 150px;
+  height: 40px;
+  margin-right: 30px;
+
+  color: white !important;
+  border-radius: 30px;
+  background: #b84a62;
+}

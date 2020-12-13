@@ -33,7 +33,7 @@ def customerSignUpView(request):
         user_form = UserCustomerForm(request.POST)
         customer_form = CustomerSignUpForm(request.POST, request.FILES)
         errors=str(user_form.errors)
-        print(len(errors))
+        print(errors)
         if len(errors)>0:
             error=user_form.errors
         else:
