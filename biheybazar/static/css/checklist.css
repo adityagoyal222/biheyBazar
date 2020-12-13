@@ -101,7 +101,7 @@ body {
 .sharedchecklist ul a {
     line-height: 50px;
 
-    /* color: ; */
+    color: black;
 
     display: block;
 
@@ -114,7 +114,7 @@ body {
 
 .sharedchecklist ul a:hover,
 .mychecklist ul a:hover {
-    background-color: #9f1829;
+    background-color: rgb(136, 136, 136);
 }
 
 #add-checklist {
@@ -140,7 +140,7 @@ body {
 }
 
 #sidebar-toggle:hover {
-    color: #9f1829;
+    color: #424242;
 }
 
 label #sidebar-toggle {
