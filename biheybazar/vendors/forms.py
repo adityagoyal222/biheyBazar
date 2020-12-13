@@ -106,11 +106,12 @@ class AddToChecklistForm(ModelForm):
         checklist = Checklist.objects.filter(author=author)
         for i in checklist:
             field.append(self.fields['category'].queryset.filter(checklist=i))
+            print(field)
         for i, j in enumerate(field):
             for k in j:
                 categories.append(k)
         
-        self.fields['category'].queryset = self.fields['category'].queryset.filter(cat_name__in=categories)
+        self.fields['category'].queryset = self.fields['category'].queryset.filter(cat_name__in=checklist)
 
     
 

@@ -294,6 +294,11 @@ label #sidebar-toggle {
 
 .vendor-info{
     margin: 20px;
+    width: 80%;
+}
+
+.vendor-name{
+    width: 100%;
 }
 
 @media (min-width: 600px) {

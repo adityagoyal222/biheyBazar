@@ -112,7 +112,7 @@
                 <div class="container category-info">
                     <h4 class="category-name">{{category.cat_name}}
                         <div>
-                            <a class="icon"><span class="material-icons category-delete">delete</span></a><span
+                            <a href="{% url 'checklist:checklistcategory_delete' pk=category.pk %}" class="icon"><span class="material-icons category-delete">delete</span></a><span
                                 class="popup">Delete Category</span>
                             <a class="icon1 note-button-show" id="note-button-show-{{category.pk}}" value="{{category.pk}}"><span class="material-icons note-add">post_add</span></a><span
                                 class="popup1">Add Note</span>
@@ -134,7 +134,7 @@
                     {% if note.category == category %}
                     <div class="category-note mb-4">
                         <p>{{note.text}}
-                            <a class="icon">
+                            <a href="{% url 'checklist:note_delete' pk=note.pk %}" class="icon">
                                 <span class="material-icons delete">remove_circle_outline</span>
                             </a><span class="popup">Delete Note</span>
                         </p>
@@ -150,7 +150,7 @@
                     </div>
                     <div class="vendor-info">
                         <h5 class="vendor-name">{{vendor.vendor.vendor_name}}
-                            <a class="icon">
+                            <a href="{% url 'checklist:vendor_remove' pk=vendor.pk %}" class="icon">
                                 <span class="material-icons delete">clear</span>
                             </a><span class="popup">Remove Vendor</span>
                         </h5>
@@ -180,11 +180,20 @@
                         {% empty %}
                             <i>No collaborators yet</i> 
                         {% endfor %}
-                            
-                        <a class="icon">
-                            <span class="material-icons checklist-delete">delete</span>
-                        </a>
-                        <span class="popup">Delete Checklist</span>
+                        
+                        {% if checklist.author == customer_obj %}
+                            <a href="{% url 'checklist:checklist_delete' pk=checklist.pk %}" class="icon">
+                                <span class="material-icons checklist-delete">delete</span>
+                            </a>
+                            <span class="popup">Delete Checklist</span>
+                        {% endif %}
+                        
+                        {% if customer_obj in checklist.collaborators.all %}
+                            <a href="{% url 'checklist:collaborator_remove' pk=checklist.pk %}" class="icon">
+                                <span class="material-icons checklist-delete">delete</span>
+                            </a>
+                            <span class="popup">Remove Checklist</span>
+                        {% endif %}
                     </p>
                 </div>
             </div>

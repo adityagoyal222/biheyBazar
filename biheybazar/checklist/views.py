@@ -1,7 +1,10 @@
+from django.contrib.auth import login
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponseRedirect, request, response
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.urls.base import reverse_lazy
 from django.views.generic.edit import FormMixin
 from django.views.generic import (CreateView, DetailView, DeleteView, View,
                                     UpdateView, ListView, RedirectView, FormView)
@@ -24,16 +27,57 @@ class CreateChecklist(LoginRequiredMixin, CreateView):
         return kwargs
     
 
+class DeleteNote(LoginRequiredMixin, DeleteView):
+    model = Note
 
+    def get_success_url(self):
+        return reverse_lazy('checklist:checklist_detail', kwargs={'pk':self.request.session.get('checklist_pk')})
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
+class DeleteChecklistCategory(LoginRequiredMixin, DeleteView):
+    model = ChecklistCategory
+
+    def get_success_url(self):
+        return reverse_lazy('checklist:checklist_detail', kwargs={'pk':self.request.session.get('checklist_pk')})
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
+class RemoveChecklistVendor(LoginRequiredMixin, DeleteView):
+    model = VendorChecklistCategory
+
+    def get_success_url(self):
+        return reverse_lazy('checklist:checklist_detail', kwargs={'pk':self.request.session.get('checklist_pk')})
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
+
+class DeleteChecklist(LoginRequiredMixin, DeleteView):
+    model = Checklist
+    template_name = 'checklist/checklist_confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse_lazy('checklist:all')
+
+@login_required
+def removeCollaborator(request, pk):
+    checklist = Checklist.objects.filter(pk=pk).first()
+    customer = Customer.objects.filter(user=request.user).first()
+    checklist.collaborators.remove(customer)
+    return HttpResponseRedirect(reverse_lazy("checklist:all"))
 
 class ChecklistDetail(LoginRequiredMixin, DetailView, FormView):
     model = Checklist
     template_name = "checklist/checklist_detail.html"
     form_class = CreateChecklistForm
-    fourth_form_class = CreateChecklistCategoryForm
-    second_form_class = CreateNoteForm
-    third_form_class = AddCollaborator
+    # fourth_form_class = CreateChecklistCategoryForm
+    # second_form_class = CreateNoteForm
+    # third_form_class = AddCollaborator
     def get_context_data(self, **kwargs):
+        self.request.session['checklist_pk'] = self.kwargs['pk']
         customers = Customer.objects.filter(user__username=self.request.user.username)
         author_checklist = Checklist.objects.filter(author__in=customers)
         checklists = Checklist.objects.all()
