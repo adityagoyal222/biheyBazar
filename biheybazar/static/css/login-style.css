@@ -27,6 +27,18 @@
     margin-top: 70px;
 }
 
+.login-image{
+    float: right;
+    width: 90%;
+    height: 100%;
+}
+
+@media (max-width:1050px){
+    .login-image{
+        display: none;
+    }
+}
+
 /* signup page */
 .goToVendor{
     background-color: #F6717E;
