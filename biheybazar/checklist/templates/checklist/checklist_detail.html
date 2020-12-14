@@ -110,26 +110,7 @@
         <div>
             <hr class="my-2 mb-4 mt-3">
         </div>
-        <div class="container categories">
-            <h2>Categories
-                <a class="icon" id="category-button-show">
-                    <span class="material-icons category-add">add_box</span>
-                </a><span class="popup">Add Category</span>
-            </h2>
-            <div class="card-form mb-4" id="category-form">
-                <form method="POST" action="{% url 'checklist:checklist_detail' pk=checklist.pk %}">
-                    {% csrf_token %}
-                    {% bootstrap_form checklistcategory_form %}
-                    <input type="submit" class="btn btn-primary" name="checklist_category" value="Create Category">
-                    <a class="icon" id="category-button-hide">
-                        <span class="material-icons delete">clear</span>
-                    </a><span class="popup">Close Form</span>
-                </form>
-                    
-            </div>
-            <div>
-                <hr class="my-2 mb-4 mt-3">
-            </div>
+        
             <!-- Vendor Categories -->
             {% for category in checklist_category %}
             <div class="vendor-category">
@@ -175,7 +156,8 @@
                             <span class="material-icons delete">clear</span>
                         </a><span class="popup">Close Form</span>
                     </form>
-
+                    {% endif %}
+                    {% endfor %}
                 </div>
                 {% for vendor in category_vendors %}
                 {% if vendor.category == category %}
@@ -195,22 +177,7 @@
                 {% endif %}
                 {% endfor %}
             </div>
-            {% for vendor in category_vendors %}
-            {% if vendor.category == category %}
-            <div class="vendor-card mb-4">
-                <div class="vendor-image">
-                    <img src="{{vendor.vendor.logo.url}}" alt="">
-                </div>
-                <div class="vendor-info">
-                    <h5 class="vendor-name">{{vendor.vendor.vendor_name}}
-                        <a class="icon">
-                            <span class="material-icons delete">clear</span>
-                        </a><span class="popup">Remove Vendor</span>
-                    </h5>
-                    <p class="vendor-comment">{{vendor.comment}}</p>
-                </div>
-            </div>
-            {% endif %}
+            
             {% endfor %}
         </div>
         <div>
@@ -248,6 +215,7 @@
         </div>
     </div>
 </div>
+
 {% endif %}
 </main>
 
