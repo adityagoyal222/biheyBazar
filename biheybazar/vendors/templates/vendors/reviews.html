@@ -29,6 +29,31 @@
 <!-- display reviews and ratings -->
 <div class="mx-3">
     <h3>Reviews</h3>
+    {% if user.is_customer%}
+<div class="container-fluid py-2 my-3 shadow" style="background-color:white;">
+    <div class="mx-3 my-3 mb-4">
+        <div class="form-group row">
+            <div class="col-lg-2 my-2 mx-5">
+                <label class="" for="desc-text"><strong>Your review</strong></label>
+            </div>
+            <div class="col-lg-11 mx-5"> <!--star rating-->
+                <textarea class="form-control mb-3" id="desc-text" rows="3" placeholder="post your review here"></textarea>
+                <form class="rate-form" id="rate-form" method="POST">
+                    {% csrf_token %}     
+                <!-- space for rating -->
+                <button  type="submit" onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-2x" id="first"></button>
+                <button  type="sybmit" onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-2x" id="second"></button>
+                <button  type="sybmit" onClick="window.location.href=window.location.href" name='ratings'  class="fa fa-star my-btn fa-2x" id="third"></button>
+                <button  type="sybmit" onClick="window.location.href=window.location.href" name='ratings'  class="fa fa-star my-btn fa-2x" id="fourth"></button>
+                <button  type="sybmit" onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-2x" id="fifth"></button>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+    
     <!-- each review -->
     {% for review in reviews %}
     <div class="card m-2 my-4">
@@ -101,30 +126,6 @@
 
 <!-- </div>
 </div> -->
-
-{% if user.is_customer%}`
-<div class="container-fluid py-2 my-3 shadow" style="background-color:white;">
-    <div class="mx-3 my-3 mb-4">
-        <div class="form-group row">
-            <div class="col-lg-2 my-2 mx-5">
-                <label class="" for="desc-text"><strong>Your review</strong></label>
-            </div>
-            <div class="col-lg-11 mx-5"> <!--star rating-->
-                <textarea class="form-control mb-3" id="desc-text" rows="3" placeholder="post your review here"></textarea>
-                <form class="rate-form" id="rate-form" method="POST">
-                    {% csrf_token %}     
-                <!-- space for rating -->
-                <button  onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-2x" id="first"></button>
-                <button  onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-2x" id="second"></button>
-                <button  onClick="window.location.href=window.location.href" name='ratings'  class="fa fa-star my-btn fa-2x" id="third"></button>
-                <button  onClick="window.location.href=window.location.href" name='ratings'  class="fa fa-star my-btn fa-2x" id="fourth"></button>
-                <button  onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-2x" id="fifth"></button>
-            </form>
-            </div>
-        </div>
-    </div>
-</div>
-{% endif %}
 
 
 

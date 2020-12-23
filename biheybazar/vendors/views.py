@@ -85,8 +85,8 @@ class VendorProfile(FormView,DetailView):
         context['all_tags'] = all_tags
         context['reviews'] = reviews
         context['vendor'] = vendor
-        if 'review_form' not in context:
-            context['review_form'] = ReviewForm()
+        if 'rate-form' not in context:
+            context['rate-form'] = ReviewForm()
         if 'add_checklist_form' not in context:
             context['add_checklist_form'] = AddToChecklistForm(user=self.request.user)
         if 'update_logo_form' not in context:
@@ -118,7 +118,7 @@ class VendorProfile(FormView,DetailView):
         self.object = self.get_object()
         context={}
 
-        if 'review' in request.POST:
+        if 'ratings' in request.POST:
             review_form = ReviewForm(request.POST)
             print(review_form)
             if review_form.is_valid():
@@ -127,7 +127,7 @@ class VendorProfile(FormView,DetailView):
                 customer=Customer.objects.filter(user=self.request.user).first()
                 review_form.save(vendor, customer)
             else:
-                context['review_form'] = review_form
+                context['rate-form'] = review_form
         
         elif 'add_to_checklist' in request.POST:
             add_to_checklist_form = AddToChecklistForm(request.POST, user=self.request.user)
