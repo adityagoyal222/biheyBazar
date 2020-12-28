@@ -4,6 +4,7 @@ from django.forms import ModelForm
 from .models import Category, Vendor, VendorImage, VendorTag, Tag
 from checklist.models import VendorChecklistCategory, Checklist, ChecklistCategory
 from customers.models import Customer
+from django.db.models import Q
 
 
 class UpdateLogoForm(ModelForm):
@@ -102,16 +103,15 @@ class AddToChecklistForm(ModelForm):
         super().__init__(*args, **kwargs)
         field = []
         categories = []
-        author = Customer.objects.filter(user=user).first()
-        checklist = Checklist.objects.filter(author=author)
+        customer = Customer.objects.filter(user=user).first()
+        checklist = Checklist.objects.filter(Q(author=customer) | Q(collaborators=customer))
         for i in checklist:
             field.append(self.fields['category'].queryset.filter(checklist=i))
-            print(field)
         for i, j in enumerate(field):
             for k in j:
                 categories.append(k)
-        
-        self.fields['category'].queryset = self.fields['category'].queryset.filter(cat_name__in=checklist)
+        print(categories)
+        self.fields['category'].queryset = self.fields['category'].queryset.filter(cat_name__in=categories).filter(Q(checklist__author=customer) | Q(checklist__collaborators=customer))
 
     
 
