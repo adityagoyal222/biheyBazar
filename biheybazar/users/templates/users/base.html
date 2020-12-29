@@ -122,7 +122,12 @@
                             <img class="profile-image" src="{% static 'images/profilePic.png' %}"> &nbsp;
                             {{user.username}}</a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">My Profile</a>
+                            
+                            {% if user.is_customer %}
+                                <a class="dropdown-item" href="{% url 'customers:profile' pk=user.customer.pk %}">My Profile</a>
+                            {% elif user.is_vendor %}
+                                <a class="dropdown-item" href="{% url 'vendors:profile' slug=user.username %}">My Profile</a>
+                            {% endif %}
                             <a class="dropdown-item" href="#">Feature</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'users:logout' %}">Logout</a>

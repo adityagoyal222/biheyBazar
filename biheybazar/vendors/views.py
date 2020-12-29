@@ -120,9 +120,7 @@ class VendorProfile(FormView,DetailView):
 
         if 'review' in request.POST:
             review_form = ReviewForm(request.POST)
-            print(review_form)
             if review_form.is_valid():
-                print("nicceeeee")
                 vendor=Vendor.objects.filter(user__username=self.kwargs['slug']).first()
                 customer=Customer.objects.filter(user=self.request.user).first()
                 review_form.save(vendor, customer)
