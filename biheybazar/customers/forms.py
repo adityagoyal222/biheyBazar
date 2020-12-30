@@ -47,15 +47,11 @@ class ChangePasswordForm(Form):
         cleaned_data = super(ChangePasswordForm, self).clean()
         confirm_password = cleaned_data.get('confirm_password')
         new_password = cleaned_data.get('new_password')
-        old_password = cleaned_data.get('old_password')
     
         if new_password != confirm_password:
             self.add_error('confirm_password', 'Password does not match.')
 
     def save(self, user):
-        new_password = self.cleaned_data['new_password']
-        old_password = self.cleaned_data['old_password']
-        confirm_password = self.cleaned_data['confirm_password']
         if user.check_password(self.cleaned_data['old_password']):
             user.set_password(self.cleaned_data['new_password'])
             user.save()

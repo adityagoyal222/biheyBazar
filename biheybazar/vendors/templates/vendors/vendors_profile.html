@@ -115,29 +115,28 @@
         <img src="{{ vendor.logo.url }}" class="profile_pic" alt="Logo">
         <span class="vendor_name">{{vendor.vendor_name}}</span>
     </div>
-
-    <div class="update-logo">
+    
+    {% if user.is_vendor and vendor.user == user %}
+      <div class="update-logo">
         <button type="button" class="btn btn-primary" id="logo-button-show">Edit Logo</button>
         <button type="button" class="btn btn-primary" id="logo-button-hide">Close</button>
         <form method="POST" id="logo-form" action="{% url 'vendors:profile' slug=vendor.user.username %}" enctype="multipart/form-data">
           {% csrf_token %}
           {% bootstrap_form update_logo_form %}
           <input type="submit" class="btn btn-primary" name="update_logo" value="Update Logo">
-      </form>
-    </div>
+        </form>
+      </div>
 
-    <div class="update-cover-image">
-      <button type="button" class="btn btn-primary" id="cover-button-show">Edit Cover Image</button>
-      <button type="button" class="btn btn-primary" id="cover-button-hide">Close</button>
-      <form method="POST" id="cover-form" action="{% url 'vendors:profile' slug=vendor.user.username %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% bootstrap_form update_cover_form %}
-        <input type="submit" class="btn btn-primary" name="update_cover" value="Update Cover Image">
-    </form>
-  </div>
-
-
-
+      <div class="update-cover-image">
+        <button type="button" class="btn btn-primary" id="cover-button-show">Edit Cover Image</button>
+        <button type="button" class="btn btn-primary" id="cover-button-hide">Close</button>
+        <form method="POST" id="cover-form" action="{% url 'vendors:profile' slug=vendor.user.username %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% bootstrap_form update_cover_form %}
+          <input type="submit" class="btn btn-primary" name="update_cover" value="Update Cover Image">
+        </form>
+      </div>
+    {% endif %}
   
   
   {% if user.is_customer %}
@@ -174,6 +173,56 @@
     Category: {{vendor.category}}
   </div>
   <hr>
+  <div class="address">
+    
+    <p>Address:</p>
+    <span>
+      {% if vendor.address %}
+        {{vendor.address}}
+      {% else %}
+        <i>No address provided.</i>
+      {% endif %}
+    </span> 
+
+    {% if user.is_vendor and vendor.user == user %}
+      <button type="button" class="btn btn-primary" id="address-button-show">Edit Address</button>
+      <button type="button" class="btn btn-primary" id="address-button-hide">Close</button>
+      <form method="POST" id="address-form" action="{% url 'vendors:profile' slug=vendor.user.username %}">
+        {% csrf_token %}
+        {% bootstrap_form update_address_form %}
+        <input type="submit" class="btn btn-primary" name="update_address" value="Update Address">
+      </form>
+    {% endif %}
+
+  </div>
+  <br>
+
+
+  <div class="contact">
+    
+    <p>Contact:</p>
+    <span>
+      {% if vendor.contact %}
+        {{vendor.contact}}
+      {% else %}
+        <i>No contact info provided.</i>
+      {% endif %}
+    </span> 
+
+    {% if user.is_vendor and vendor.user == user %}
+      <button type="button" class="btn btn-primary" id="contact-button-show">Edit Contact</button>
+      <button type="button" class="btn btn-primary" id="contact-button-hide">Close</button>
+      <form method="POST" id="contact-form" action="{% url 'vendors:profile' slug=vendor.user.username %}">
+        {% csrf_token %}
+        {% bootstrap_form update_contact_form %}
+        <input type="submit" class="btn btn-primary" name="update_contact" value="Update Contact">
+      </form>
+    {% endif %}
+
+  </div>
+  <br>
+
+
   <div class="about">
       <h4>About:</h4>
       <span>
@@ -218,9 +267,15 @@
     <div>
     {% for image in vendor_images %}
       <img src="{{ image.image.url }}" class="vendor_images" width="150" height="150" alt="Vendor Image">
+      {% if user.is_vendor and vendor.user == user %}
+        <a href="{% url 'vendors:image_delete' pk=image.pk %}" class="icon">
+          <span class="material-icons delete">clear</span>
+        </a>
+      {% endif %}
+        
     {% endfor %}
     </div>
-    
+
     {% if user.is_vendor and vendor.user == user %}
     <form method="POST" id="image-form" action="{% url 'vendors:profile' slug=vendor.user.username %}" enctype="multipart/form-data">
       {% csrf_token %}
@@ -228,7 +283,32 @@
       <input type="submit" class="btn btn-primary" name="add_image" value="Add">
     </form>
     {% endif %}
-    </div>
+  </div>
+  <div class="pricing">
+    <h4>Pricing:</h4>
+    <div>
+      {% for pricing in vendor_pricing %}
+        <p>
+          {{pricing.description}} &nbsp;&nbsp;&nbsp; Rs. {{pricing.price}}
+          {% if user.is_vendor and vendor.user == user %}
+            <a href="{% url 'vendors:pricing_delete' pk=pricing.pk %}" class="icon">
+              <span class="material-icons delete">clear</span>
+            </a>
+          {% endif %}
+        </p>
+      {% endfor %}
+      
+      {% if user.is_vendor and vendor.user == user %}
+      <button type="button" class="btn btn-primary" id="pricing-button-show">Add Pricing</button>
+      <button type="button" class="btn btn-primary" id="pricing-button-hide">Close</button>
+      <form method="POST" id="pricing-form" action="{% url 'vendors:profile' slug=vendor.user.username %}">
+        {% csrf_token %}
+        {{add_pricing_form}}
+        <input type="submit" class="btn btn-primary" name="add_pricing" value="Add">
+      </form>
+      {% endif %}
+    </div>    
+  </div>
 
 
 
@@ -248,6 +328,18 @@
           $("#about-form").hide();
           $("#about-button-show").show();
           $("#about-button-hide").hide();
+
+          $("#address-form").hide();
+          $("#address-button-show").show();
+          $("#address-button-hide").hide();
+
+          $("#contact-form").hide();
+          $("#contact-button-show").show();
+          $("#contact-button-hide").hide();
+
+          $("#pricing-form").hide();
+          $("#pricing-button-show").show();
+          $("#pricing-button-hide").hide();
 
           $("#tag-form").hide();
           $("#tag-button-show").show();
@@ -287,6 +379,42 @@
             $("#about-form").hide();
             $("#about-button-show").show();
             $("#about-button-hide").hide();
+          });
+
+          $("#address-button-show").click(function() {
+            $("#address-form").show();
+            $("#address-button-hide").show();
+            $("#address-button-show").hide();
+          });
+
+          $("#address-button-hide").click(function() {
+            $("#address-form").hide();
+            $("#address-button-show").show();
+            $("#address-button-hide").hide();
+          });
+
+          $("#contact-button-show").click(function() {
+            $("#contact-form").show();
+            $("#contact-button-hide").show();
+            $("#contact-button-show").hide();
+          });
+
+          $("#contact-button-hide").click(function() {
+            $("#contact-form").hide();
+            $("#contact-button-show").show();
+            $("#contact-button-hide").hide();
+          });
+
+          $("#pricing-button-show").click(function() {
+            $("#pricing-form").show();
+            $("#pricing-button-hide").show();
+            $("#pricing-button-show").hide();
+          });
+
+          $("#pricing-button-hide").click(function() {
+            $("#pricing-form").hide();
+            $("#pricing-button-show").show();
+            $("#pricing-button-hide").hide();
           });
 
           $("#tag-button-show").click(function() {
