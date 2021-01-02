@@ -1,5 +1,5 @@
 from django.db import models
-from vendors.models import Vendor
+
 from customers.models import Customer
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -8,6 +8,7 @@ from ckeditor.fields import RichTextField
 
 
 class Review(models.Model):
+    from vendors.models import Vendor
 
     customer = models.ForeignKey(Customer,related_name="customer_review",on_delete=models.CASCADE)
     vendor = models.ForeignKey(Vendor,related_name="vendor_review",on_delete=models.CASCADE)

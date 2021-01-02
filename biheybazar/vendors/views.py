@@ -15,6 +15,11 @@ from django.http import HttpResponseRedirect
 # Create your views here.
 
 # TAGS
+
+
+
+
+
 class CreateTag(LoginRequiredMixin, CreateView):
     fields = ('tag_name', 'tag_type')
     model = Tag
@@ -27,13 +32,14 @@ class CreateCategory(LoginRequiredMixin, CreateView):
 # VendorProfile
 class VendorListView(ListView):
     model = Vendor
+    # template_name = 'users/index.html'
     # context_object_name = 'vendor_list'
     def get_context_data(self,**kwargs):
         vendor = Vendor.objects.all()
         categories = Category.objects.all()
         context= super(VendorListView,self).get_context_data(**kwargs)
         context['vendor_list']=vendor
-        context['categories']=categories       
+        context['categories']=categories  
         return context
     
 
@@ -79,12 +85,17 @@ class VendorProfile(FormView,DetailView):
         reviews= Review.objects.filter(vendor__user__username=self.kwargs['slug'])
         vendor_images = VendorImage.objects.filter(vendor__user__username=self.kwargs['slug'])
         vendor = Vendor.objects.filter(user__username=self.kwargs['slug']).first()
+        vendor.avg_ratings()
+        # vendor.order_vendor()
+        # vendor.avg_ratings()
+        # print(rt)
         context = super(VendorProfile, self).get_context_data(**kwargs)
         context['vendor_images'] = vendor_images
         context['tags'] = tags
         context['all_tags'] = all_tags
         context['reviews'] = reviews
         context['vendor'] = vendor
+        # context['avg_ratings']= vendor.avg_ratings()
         if 'rate-form' not in context:
             context['rate-form'] = ReviewForm()
         if 'add_checklist_form' not in context:
