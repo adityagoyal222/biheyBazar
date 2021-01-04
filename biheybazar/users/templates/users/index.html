@@ -54,6 +54,40 @@
     <a class="btn btn-primary btn-lg" href="#" role="button">Explore</a>
   </div>
   <!-- Featured Vendors -->
+
+  <!-- Categories -->
+  <div class="container-fluid padding">
+    <div class="row welcome text-left">
+      <div class="col-12">
+        <h3>Featured</h3>
+      </div>
+    </div>
+    <div class="row welcome text-right">
+      <div class="col-12">
+        <a href="#" style="text-decoration: none;">Show more ></a>
+      </div>
+    </div>
+  </div>
+  <!-- Cards -->
+  <div class="container-fluid padding">
+    
+  <div class="row">
+    {% for category in categories %}
+    <div class="col-sm-3">
+      <div class="card mb-4 shadow">
+        <img class="card-img-top" src="{% static 'images/vase.jpg'  %}">
+        <div class="card-body">
+          <h5 class="card-title">{{category.category_name}}</h5>
+          <a href="#" class="stretched-link"></a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  
+  </div>
+
+
   <!-- Heading -->
   <div class="container-fluid padding">
     <div class="row welcome text-left">
@@ -108,45 +142,7 @@
         </div>
       </div>
     </div>
-    <!-- Row 2 -->
-    <div class="row mt-4">
-      <div class="col-sm-3">
-        <div class="card mb-4 shadow">
-          <img class="card-img-top" src="{% static 'images/vase.jpg'  %}">
-          <div class="card-body">
-            <h5 class="card-title">Vendors Name</h5>
-            <a href="#" class="stretched-link"></a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="card mb-4 shadow">
-          <img class="card-img-top" src="{% static 'images/vase.jpg'  %}">
-          <div class="card-body">
-            <h5 class="card-title">Vendors Name</h5>
-            <a href="#" class="stretched-link"></a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="card mb-4 shadow">
-          <img class="card-img-top" src="{% static 'images/vase.jpg'  %}">
-          <div class="card-body">
-            <h5 class="card-title">Vendors Name</h5>
-            <a href="#" class="stretched-link"></a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="card mb-4 shadow">
-          <img class="card-img-top" src="{% static 'images/vase.jpg'  %}">
-          <div class="card-body">
-            <h5 class="card-title">Vendors Name</h5>
-            <a href="#" class="stretched-link"></a>
-          </div>
-        </div>
-      </div>
-    </div>
+    
   </div>
   <!-- Vendor Categories -->
   <!-- Heading -->

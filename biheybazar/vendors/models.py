@@ -56,7 +56,6 @@ class Vendor(models.Model):
 
         if len(rt)>0:
             average=sum//len(rt)
-            # print(average)
             self.review_int = average
             self.save()
 
