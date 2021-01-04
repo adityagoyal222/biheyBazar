@@ -1,0 +1,71 @@
+{% extends 'customers/base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block customercontent %}
+{% if user.is_customer and customer.user.pk == user.pk %}
+    <div>
+        <div class="col-lg-2">
+            <img class="customerPic" height="300px" width="300px" src="{{ customer.profile_pic.url }}">
+        </div>
+        <label class="h1"><strong>{{customer.user.first_name}} {{customer.user.last_name}}</strong></label><br>
+        <p>{{customer.user.email}}</p>
+        <button class="btn btn-warning" data-toggle="modal" data-target="#staticBackdrop">Change Profile Pic</button>
+        <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">Change Profile Pic</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'customers:profile' pk=customer.pk %}" enctype="multipart/form-data">
+                        {% csrf_token %}    
+                        {% bootstrap_form change_profile_pic_form %}
+                        <input type="submit" class="btn btn-primary" 
+                        value="Change" name="change_profile_pic">
+                    </form>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>   
+        <button class="btn btn-danger" id="password-button-show">Change Password</button>
+        <button type="button" class="btn btn-primary" id="password-button-hide">Close</button>
+        <form method="POST" id="password-form" action="{% url 'customers:profile' pk=customer.pk %}">
+            {% csrf_token %}
+            {% bootstrap_form change_password_form %}
+            <input type="submit" class="btn btn-primary" name="change_password" value="Change Password">
+        </form>
+        
+    </div> 
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $("#password-form").hide();
+            $("#password-button-show").show();
+            $("#password-button-hide").hide();
+
+            $("#password-button-show").click(function() {
+                $("#password-form").show();
+                $("#password-button-hide").show();
+                $("#password-button-show").hide();
+            });
+
+            $("#password-button-hide").click(function() {
+                $("#password-form").hide();
+                $("#password-button-show").show();
+                $("#password-button-hide").hide();
+            });
+
+        });
+    </script>
+{% endif %}
+    
+
+{% endblock customercontent %}
+    

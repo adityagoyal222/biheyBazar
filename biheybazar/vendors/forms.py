@@ -1,9 +1,10 @@
 from django.db.models import fields
 from django.db.models.fields.files import ImageField
 from django.forms import ModelForm
-from .models import Category, Vendor, VendorImage, VendorTag, Tag
+from .models import Category, Vendor, VendorImage, VendorPricing, VendorTag, Tag
 from checklist.models import VendorChecklistCategory, Checklist, ChecklistCategory
 from customers.models import Customer
+from django.db.models import Q
 
 
 class UpdateLogoForm(ModelForm):
@@ -50,6 +51,34 @@ class UpdateAboutForm(ModelForm):
         vendor.save()
         return vendor
 
+class UpdateAddressForm(ModelForm):
+    class Meta:
+        fields=('address',)
+        model = Vendor
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['address'].label = ''
+    
+    def save(self, vendor):
+        vendor.address = self.cleaned_data['address']
+        vendor.save()
+        return vendor
+
+class UpdateContactForm(ModelForm):
+    class Meta:
+        fields=('contact',)
+        model = Vendor
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['contact'].label = ''
+    
+    def save(self, vendor):
+        vendor.contact = self.cleaned_data['contact']
+        vendor.save()
+        return vendor
+
 class AddImageForm(ModelForm):
     class Meta:
         fields=('image',)
@@ -65,6 +94,24 @@ class AddImageForm(ModelForm):
             image = self.cleaned_data['image'],
         )
         return vendor_image
+
+class AddPricingForm(ModelForm):
+    class Meta:
+        fields=('description', 'price',)
+        model = VendorPricing
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['description'].label = ''
+        self.fields['price'].label = ''
+    
+    def save(self, vendor):
+        vendor_pricing = VendorPricing.objects.create(
+            vendor = vendor,
+            description = self.cleaned_data['description'],
+            price = self.cleaned_data['price']
+        )
+        return vendor_pricing
 
 
 class AddTagForm(ModelForm):
@@ -102,16 +149,15 @@ class AddToChecklistForm(ModelForm):
         super().__init__(*args, **kwargs)
         field = []
         categories = []
-        author = Customer.objects.filter(user=user).first()
-        checklist = Checklist.objects.filter(author=author)
+        customer = Customer.objects.filter(user=user).first()
+        checklist = Checklist.objects.filter(Q(author=customer) | Q(collaborators=customer))
         for i in checklist:
             field.append(self.fields['category'].queryset.filter(checklist=i))
-            print(field)
         for i, j in enumerate(field):
             for k in j:
                 categories.append(k)
-        
-        self.fields['category'].queryset = self.fields['category'].queryset.filter(cat_name__in=checklist)
+        print(categories)
+        self.fields['category'].queryset = self.fields['category'].queryset.filter(cat_name__in=categories).filter(Q(checklist__author=customer) | Q(checklist__collaborators=customer))
 
     
 
