@@ -4,100 +4,144 @@
 
 
 {% block vendor_content %}
-<!-- <style>
-    .vendorPic {
-        height: 200px;
-        width: 200px;
-    }
-</style> -->
-{#{{vendor.slug}}#}
-<!-- contents -->
-<div class="container-lg p-0">
-    <!-- top banner -->
-    <div>
-        <img class="w-100 h-100 img-fluid" src="{{ vendor.cover_image.url }}" alt="a happy picture, wedding">
-    </div>
-    <!-- main content -->
-    <div class="container-fluid py-2 shadow" style="background-color:white;">
-        <!-- vendor header -->
-        <div class="row my-4 mx-3">
-            <!-- vendor profile picture -->
-            <div class="col-lg-2">
-                <img class="vendorPic" src="{{ vendor.logo.url }}">
-            </div>
-            <!-- vendor name and review and add-to-checklist-->
-            <div class="col-lg-8 mt-4 mx-5">
-                <label class="h1"><strong>{{vendor.vendor_name}}</strong></label><br>
-                <div class="">
-                    <h4></h4>
-                    <button class="fa fa-star my-btn checked"></button>
-                    <button class="fa fa-star my-btn checked"></button>
-                    <button class="fa fa-star my-btn checked"></button>
-                    <button class="fa fa-star my-btn checked"></button>
-                    <button class="fa fa-star my-btn"></button>
-                </div>
-                
-                {% if user.is_customer %}
-                  <div>
-                    <button type="button" class="btn btn-danger btn-sm mt-3" data-toggle="modal" data-target="#staticBackdrop">Add to checklist</button>
-                </div>
-                {% endif %}
-            </div>
-        </div>
-        <hr>
-        <!--EO vendor profile header-->
+<link rel="stylesheet" href="{%static 'css/lightbox.css' %}">
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<div class="page-container">
+  <div class="profile-head">
+      <div class="vendor-cover-img card">
+          <img src="{% static 'images/background.jpg' %}" alt="">
+          <div class="card-img-overlay">
+              <i class="fas fa-camera profile-edit"></i>
+          </div>
+      </div>
+      <div class="vendor-data">
 
-        <!-- about space-->
-        <div class="mx-3">
-            <h3>About</h3><br>
-            <p class="aboutUs">
-                {{vendor.about|safe}}
-            </p>
-            <p class="mx-3">
-                <label class="font-weight-normal h5">Contact us at:</label><br>
-                <label class="user-select-all" id="vendorMobilePhone">+977 9801234567</label><br>
-                <label class="user-select-all" id="vendorPhone">+01 48123456</label><br>
-                <label class="user-select-all" id="vendorAddress">Ratopul, Kathmandu</label><br>
-            </p>
-        </div>
-        <!-- media space-->
-        <div class="mx-3">
-            <h3>Media</h3><br>
-            <!-- pictures -->
-            <div class="container-fluid row rounded">
-                <div class="col-lg-3">
-                    <img class="card-img-top" src="{% static 'images/filler1.png' %}">
-                </div>
-                <div class="col-lg-3">
-                    <img class="card-img-top" src="{% static 'images/filler1.png' %}">
-                </div>
-                <div class="col-lg-3">
-                    <img class="card-img-top" src="{% static 'images/filler1.png' %}">
-                </div>
-                <div class="col-lg-3">
-                    <img class="card-img-top" src="{% static 'images/filler1.png' %}">
-                </div>
-            </div>
-        </div>
-        <hr>
-        <!--end of media space-->
+          <img class="vendor-image" src="{{ vendor.logo.url }}" alt="">
 
-        <!-- reviews given to vendor will be dipayed below -->
-        <div class="reviews">
-
-            {% include 'vendors/reviews.html' %}
-
-        </div>
-
-        {% if user.is_vendor and vendor.user.username == user.username %}
-        {% for tag in tags %}
-        {{tag}}
-        {% endfor %}
-
-        {% else %}
-
-        {% endif %}
-
+          <h3 class="vendor-name">{{ vendor.vendor_name }}</h3>
+          <div class="vendor-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+          </div>
+      </div>
+  </div>
+  <div class="vendor-info container-fluid">
+      <div class="basic-info">
+          <div class="vendor-location">
+              <h4><span><i class="fas fa-map-marker-alt"></i></span> Vendor Address,&nbsp;<span>Detail</span>
+              </h4>
+          </div>
+          <div>
+              <hr class="my-2">
+          </div>
+          <h4>Contact</h4>
+          <div class="contact-no"><span><i class="fas fa-mobile"></i></span> Vendor Phone</div>
+          <div class="contact-no"><span><i class="fas fa-phone-square-alt"></i></span> Vendor Office</div>
+          <div class="vendor-email"><span><i class="fas fa-envelope"></i></span> Vendor Email</div>
+          <div>
+              <hr class="my-2">
+          </div>
+          <h4>About</h4>
+          <div class="vendor-description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed maxime
+              rerum necessitatibus ducimus eveniet neque, doloremque amet nulla veritatis suscipit soluta esse
+              repellat tempora pariatur sunt quia laborum labore obcaecati!
+              <span><i class="fas fa-pen" style="float: right;"></i></span>
+          </div>
+          <button class="add-to-checklist">Add to Checklist</button>
+      </div>
+      <div class="detailed-info">
+          <div class="info-tabs">
+              <ul>
+                  <li onclick="tabs(0)" class="portfolio active">Portfolio</li>
+                  <li onclick="tabs(1)" class="pricing">Pricing</li>
+                  <li onclick="tabs(2)" class="reviews">Reviews</li>
+              </ul>
+          </div>
+          <div class="detailed-tabs">
+              <div class="detailed-portfolio tab">
+                  <div class="container-fluid">
+                      <div class="portfolio-row">
+                          <div class="portfolio-column">
+                              <a href="images/background.jpg" data-lightbox="mygallery"><img
+                                      src="images/background.jpg" alt=""></a>
+                              <a href="images/paimon.jpg" data-lightbox="mygallery"><img
+                                      src="images/paimon.jpg" alt=""></a>
+                              <a href="images/filler1.jpg" data-lightbox="mygallery"><img
+                                      src="images/filler1.jpg" alt=""></a>
+                              <a href="images/profimg.png" data-lightbox="mygallery"><img
+                                      src="images/profimg.png" alt=""></a>
+                          </div>
+                          <div class="portfolio-column">
+                              <a href="images/profimg.png" data-lightbox="mygallery"><img
+                                      src="images/profimg.png" alt=""></a>
+                              <a href="images/background.jpg" data-lightbox="mygallery"><img
+                                      src="images/background.jpg" alt=""></a>
+                              <a href="images/paimon.jpg" data-lightbox="mygallery"><img
+                                      src="images/paimon.jpg" alt=""></a>
+                              <a href="images/filler1.jpg" data-lightbox="mygallery"><img
+                                      src="images/filler1.jpg" alt=""></a>
+                          </div>
+                          <div class="portfolio-column">
+                              <a href="images/filler1.jpg" data-lightbox="mygallery"><img
+                                      src="images/filler1.jpg" alt=""></a>
+                              <a href="images/profimg.png" data-lightbox="mygallery"><img
+                                      src="images/profimg.png" alt=""></a>
+                              <a href="images/background.jpg" data-lightbox="mygallery"><img
+                                      src="images/background.jpg" alt=""></a>
+                              <a href="images/paimon.jpg" data-lightbox="mygallery"><img
+                                      src="images/paimon.jpg" alt=""></a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="detailed-pricing tab">Pricing</div>
+              <div class="detailed-rewiews tab">
+                  <div class="card mb-3">
+                      <div class="review-input">
+                          <h3 class="">Your Review</h3>
+                          <textarea class="form-control mb-3" id="" rows="3"
+                              placeholder="Post your review here"></textarea>
+                          <div class="rating-post">
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="card">
+                      <div class="customer-details">
+                          <div class="customer-pic">
+                              <img src="images/profimg.png" alt="">
+                          </div>
+                          <div class="customer-name">
+                              <h5>Username</h5>
+                              <p>11/10/2012</p>
+                          </div>
+                          <div class="rating">
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                          </div>
+                      </div>
+                      <div class="customer-review">
+                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim facere nesciunt
+                              libero et tempora consequatur, repellendus nemo, accusamus sequi obcaecati earum
+                              fugiat! Sit sunt culpa dignissimos similique sed animi tempora.
+                          </p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
 
 
     {#{{vendor.slug}}#}
@@ -313,6 +357,8 @@
 
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="{% static 'js/lightbox.js' %}"></script>
+    <script src="{% static 'js/vendors.js' %}"></script>
     <script>
 
         $(document).ready(function () {
