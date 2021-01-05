@@ -19,49 +19,48 @@
         <h3 class="vendor-name">Vendor Name</h3>
         <div class="vendor-rating">
             {% ifequal vendor.review_int 1 %}
-            <span class="fas fa-star my-btn checked"></span>
-            <span class="fas fa-star my-btn "></span>
-            <span class="fas fa-star my-btn "></span>
-            <span class="fas fa-star my-btn "></span>
-            <span class="fas fa-star my-btn"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn "></span>
+            <span class="fa fa-star my-btn "></span>
+            <span class="fa fa-star my-btn "></span>
+            <span class="fa fa-star my-btn"></span>
             {% endifequal %}
 
             {% ifequal vendor.review_int 2 %}
-            <span class="fas fa-star my-btn checked"></span>
-            <span class="fas fa-star my-btn checked"></span>
-            <span class="fas fa-star my-btn "></span>
-            <span class="fas fa-star my-btn "></span>
-            <span class="fas fa-star my-btn"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn "></span>
+            <span class="fa fa-star my-btn "></span>
+            <span class="fa fa-star my-btn"></span>
             {% endifequal %}
 
             {% ifequal vendor.review_int 3 %}
-            <span class="fas fa-star my-btn checked"></span>
-            <span class="fas fa-star my-btn checked"></span>
-            <span class="fas fa-star my-btn checked"></span>
-            <span class="fas fa-star my-btn "></span>
-            <span class="fas fa-star my-btn"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn "></span>
+            <span class="fa fa-star my-btn"></span>
             {% endifequal %}
 
             {% ifequal vendor.review_int 4 %}
-            <span class="fas fa-star my-btn checked"></span>
-            <span class="fas fa-star my-btn checked"></span>
-            <span class="fas fa-star my-btn checked"></span>
-            <span class="fas fa-star my-btn checked"></span>
-            <span class="fas fa-star my-btn"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn"></span>
             {% endifequal %}
 
             {% ifequal vendor.review_int 5 %}
-            <span class="fas fa-star my-btn checked"></span>
-            <span class="fas fa-star my-btn checked"></span>
-            <span class="fas fa-star my-btn checked"></span>
-            <span class="fas fa-star my-btn checked"></span>
-            <span class="fas fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
             {% endifequal %}
           </div>
         </div>
     </div>
 </div>
-
   </div>
   <div class="vendor-info container-fluid">
       <div class="basic-info">
@@ -137,7 +136,6 @@
                 {% include 'vendors/reviews.html' %}
 
                   <!-- <div class="card mb-3">
-
                       <div class="review-input">
                           <h3 class="">Your Review</h3>
                           <textarea class="form-control mb-3" id="" rows="3"
@@ -174,7 +172,6 @@
                               fugiat! Sit sunt culpa dignissimos similique sed animi tempora.
                           </p>
                       </div>
-
                   </div> -->
               </div>
           </div>
@@ -517,4 +514,3 @@
         })
     </script>
 {% endblock vendor_content %}
-
