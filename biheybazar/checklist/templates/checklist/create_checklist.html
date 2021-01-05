@@ -9,6 +9,8 @@
     
 
 {% block content %}
+    
+    {% if user.is_customer %}
     <div class="container">
         <form method="POST">
             {% csrf_token %}
@@ -16,5 +18,7 @@
             <input type="submit" class="btn btn-primary" value="Create Checklist">
         </form>
     </div>
+    {% endif %}
+    
 {% endblock content %}
     

@@ -88,7 +88,7 @@ class UserVendorForm(UserCreationForm):
 class VendorSignUpForm(forms.ModelForm):
     user = UserVendorForm()
     class Meta:
-        exclude=('user', 'slug','about')
+        exclude=('user', 'slug','about', 'address', 'contact')
         model = Vendor
 
 

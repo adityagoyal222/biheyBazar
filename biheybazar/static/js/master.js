@@ -103,16 +103,18 @@ if (one) {
       const val_num = getNumericValue(val);
       console.log(val_num);
 
-      form.addEventListener("submit", (e) => {
+      form.addEventListener("submit", e => {
         e.preventDefault();
-        // const id = e.target.id
-        console.log("in");
+        const id = e.target.id
+        console.log(id)
+        console.log("in")
 
         const val_num = getNumericValue(val);
-        const review = document.getElementById("desc-text");
+        const review = document.getElementById("desc-text")
 
-        console.log("yaya");
+        console.log("yaya")
         $.ajax({
+          
           type: "POST",
           url: "",
           data: {
@@ -121,15 +123,18 @@ if (one) {
             description: review.value,
           },
           success: function (response) {
-            console.log(response);
+            console.log("good")
+            // console.log(response);
             // confirmbox.innerHTML = "rated";
           },
           error: function (error) {
-            console.log(error);
+            console.log("bad")
+            // console.log(error);
             // confirmbox.innerHTML = "error";
           },
         });
         console.log("nana");
+        
       });
     })
   );

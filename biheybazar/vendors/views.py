@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import (CreateView, DetailView,
                                  DeleteView, UpdateView, ListView, FormView)
@@ -8,13 +8,22 @@ from django.contrib import messages
 from users.forms import VendorSignUpForm
 from reviews.forms import ReviewForm
 from reviews.models import Review
-from .models import Tag, Vendor, VendorTag, Category, VendorImage
+from .models import Tag, Vendor, VendorPricing, VendorTag, Category, VendorImage
 from customers.models import Customer
-from .forms import AddTagForm, UpdateLogoForm, UpdateAboutForm, UpdateCoverImageForm, AddImageForm, AddToChecklistForm
+from .forms import (AddTagForm, UpdateLogoForm,
+                 UpdateAboutForm, UpdateCoverImageForm,
+                  AddImageForm, AddToChecklistForm,
+                  UpdateAddressForm, UpdateContactForm, 
+                  AddPricingForm)
 from django.http import HttpResponseRedirect
 # Create your views here.
 
 # TAGS
+
+
+
+
+
 class CreateTag(LoginRequiredMixin, CreateView):
     fields = ('tag_name', 'tag_type')
     model = Tag
@@ -27,13 +36,14 @@ class CreateCategory(LoginRequiredMixin, CreateView):
 # VendorProfile
 class VendorListView(ListView):
     model = Vendor
+    # template_name = 'users/index.html'
     # context_object_name = 'vendor_list'
     def get_context_data(self,**kwargs):
-        vendor = Vendor.objects.all()
+        vendor = Vendor.objects.all().order_by('-review_int')[:6]
         categories = Category.objects.all()
         context= super(VendorListView,self).get_context_data(**kwargs)
         context['vendor_list']=vendor
-        context['categories']=categories       
+        context['categories']=categories  
         return context
     
 
@@ -67,6 +77,25 @@ class VenueListView(ListView):
         # context['categories']=categories
         return context
 
+
+class DeleteVendorImage(LoginRequiredMixin, DeleteView):
+    model = VendorImage
+
+    def get_success_url(self):
+        return reverse_lazy('vendors:profile', kwargs={'slug':self.request.session.get('vendor_slug')})
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
+class DeleteVendorPricing(LoginRequiredMixin, DeleteView):
+    model = VendorPricing
+
+    def get_success_url(self):
+        return reverse_lazy('vendors:profile', kwargs={'slug':self.request.session.get('vendor_slug')})
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
 class VendorProfile(FormView,DetailView):
     model = Vendor
     form_class = VendorSignUpForm
@@ -74,19 +103,27 @@ class VendorProfile(FormView,DetailView):
     # third_form_class = AddToChecklistForm
     template_name = "vendors/vendors_profile.html"
     def get_context_data(self,**kwargs):
+        self.request.session['vendor_slug'] = self.kwargs['slug']
         tags = Tag.objects.filter(vendors__user__username=self.kwargs['slug'])
         all_tags = Tag.objects.all()
         reviews= Review.objects.filter(vendor__user__username=self.kwargs['slug'])
         vendor_images = VendorImage.objects.filter(vendor__user__username=self.kwargs['slug'])
+        vendor_pricing = VendorPricing.objects.filter(vendor__user__username=self.kwargs['slug'])
         vendor = Vendor.objects.filter(user__username=self.kwargs['slug']).first()
+        vendor.avg_ratings()
+        # vendor.order_vendor()
+        # vendor.avg_ratings()
+        # print(rt)
         context = super(VendorProfile, self).get_context_data(**kwargs)
         context['vendor_images'] = vendor_images
+        context['vendor_pricing'] = vendor_pricing
         context['tags'] = tags
         context['all_tags'] = all_tags
         context['reviews'] = reviews
         context['vendor'] = vendor
-        if 'review_form' not in context:
-            context['review_form'] = ReviewForm()
+        # context['avg_ratings']= vendor.avg_ratings()
+        if 'rate-form' not in context:
+            context['rate-form'] = ReviewForm()
         if 'add_checklist_form' not in context:
             context['add_checklist_form'] = AddToChecklistForm(user=self.request.user)
         if 'update_logo_form' not in context:
@@ -95,8 +132,14 @@ class VendorProfile(FormView,DetailView):
             context['update_cover_form'] = UpdateCoverImageForm()
         if 'update_about_form' not in context:
             context['update_about_form'] = UpdateAboutForm()
+        if 'update_address_form' not in context:
+            context['update_address_form'] = UpdateAddressForm()
+        if 'update_contact_form' not in context:
+            context['update_contact_form'] = UpdateContactForm()
         if 'add_image_form' not in context:
             context['add_image_form'] = AddImageForm()
+        if 'add_pricing_form' not in context:
+            context['add_pricing_form'] = AddPricingForm()
         if 'add_tag_form' not in context:
             context['add_tag_form'] = AddTagForm(user=self.request.user)
         return context
@@ -118,16 +161,14 @@ class VendorProfile(FormView,DetailView):
         self.object = self.get_object()
         context={}
 
-        if 'review' in request.POST:
+        if 'ratings' in request.POST:
             review_form = ReviewForm(request.POST)
-            print(review_form)
             if review_form.is_valid():
-                print("nicceeeee")
                 vendor=Vendor.objects.filter(user__username=self.kwargs['slug']).first()
                 customer=Customer.objects.filter(user=self.request.user).first()
                 review_form.save(vendor, customer)
             else:
-                context['review_form'] = review_form
+                context['rate-form'] = review_form
         
         elif 'add_to_checklist' in request.POST:
             add_to_checklist_form = AddToChecklistForm(request.POST, user=self.request.user)
@@ -161,6 +202,22 @@ class VendorProfile(FormView,DetailView):
             else:
                 context['update_about_form'] = update_about_form
 
+        elif 'update_address' in request.POST:
+            update_address_form = UpdateAddressForm(request.POST)
+            if update_address_form.is_valid():
+                vendor = Vendor.objects.filter(user__username=self.kwargs['slug']).first()
+                update_address_form.save(vendor)
+            else:
+                context['update_address_form'] = update_address_form
+
+        elif 'update_contact' in request.POST:
+            update_contact_form = UpdateContactForm(request.POST)
+            if update_contact_form.is_valid():
+                vendor = Vendor.objects.filter(user__username=self.kwargs['slug']).first()
+                update_contact_form.save(vendor)
+            else:
+                context['update_contact_form'] = update_contact_form
+
         elif 'add_image' in request.POST:
             add_image_form = AddImageForm(request.POST, request.FILES)
             if add_image_form.is_valid():
@@ -168,6 +225,14 @@ class VendorProfile(FormView,DetailView):
                 add_image_form.save(vendor)
             else:
                 context['add_image_form'] = add_image_form
+
+        elif 'add_pricing' in request.POST:
+            add_pricing_form = AddPricingForm(request.POST, request.FILES)
+            if add_pricing_form.is_valid():
+                vendor = Vendor.objects.filter(user__username=self.kwargs['slug']).first()
+                add_pricing_form.save(vendor)
+            else:
+                context['add_pricing_form'] = add_pricing_form
         
         elif 'add_tag' in request.POST:
             add_tag_form = AddTagForm(request.POST, user=request.user)

@@ -4,7 +4,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib.auth import login
 from django.urls.base import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import (CreateView, ListView)
 from verify_email.email_handler import send_verification_email
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
@@ -19,6 +19,7 @@ from customers.models import Customer
 from checklist.models import Checklist
 
 from .tokens import account_activation_token
+from vendors.models import Vendor
 
 
 from customers.models import Customer
@@ -179,3 +180,5 @@ def checklist_url(request):
             return redirect("checklist:checklist_detail", pk=pk)
         else:
             return redirect("checklist:checklist_create")
+
+

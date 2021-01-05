@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.views.generic import (UpdateView, FormView)
-from customers.models import Customer
-from customers.forms import RecommendationForm
+from django.views.generic import (UpdateView, FormView, DetailView)
+from .models import Customer
+from .forms import RecommendationForm, ChangeProfilePicForm, ChangePasswordForm
+from users.forms import CustomerSignUpForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -56,9 +57,36 @@ class Questions(LoginRequiredMixin,FormView):
     #     return kwargs
 
 
+class CustomerProfile(FormView, DetailView):
+    model = Customer
+    form_class = CustomerSignUpForm
+    template_name = "customers/customers_profile.html"
+    def get_context_data(self, **kwargs):
+        customer = Customer.objects.filter(user__pk=self.kwargs['pk']).first()
+        context = super(CustomerProfile, self).get_context_data(**kwargs)
+        context['customer'] = customer
+        if 'change_profile_pic_form' not in context:
+            context['change_profile_pic_form'] = ChangeProfilePicForm()
+        if 'change_password_form' not in context:
+            context['change_password_form'] = ChangePasswordForm()
+        return context
 
+    def post(self, request, *args, **kwargs):
 
+        self.object = self.get_object()
+        context = {}
+        customer = Customer.objects.filter(user__pk=self.kwargs['pk']).first()
 
-
-   
-
+        if 'change_profile_pic' in request.POST:
+            profile_pic_form = ChangeProfilePicForm(request.POST, request.FILES)
+            if profile_pic_form.is_valid():
+                profile_pic_form.save(customer=customer)
+            else:
+                context['change_profile_pic_form'] = profile_pic_form
+        elif 'change_password' in request.POST:
+            password_form = ChangePasswordForm(request.POST)
+            if password_form.is_valid():
+                password_form.save(user=customer.user)
+            else:
+                context['change_password_form'] = password_form
+        return render(request, self.template_name, self.get_context_data(**context))
