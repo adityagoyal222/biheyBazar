@@ -27,50 +27,37 @@
 </style>
 
 <!-- display reviews and ratings -->
-<div class="mx-3">
-    <h3>Reviews</h3>
-    {% if user.is_customer%}
-<div class="container-fluid py-2 my-3 shadow" style="background-color:white;">
-    <div class="mx-3 my-3 mb-4">
-        <div class="form-group row">
-            <div class="col-lg-2 my-2 mx-5">
-                <label class="" for="desc-text"><strong>Your review</strong></label>
-            </div>
-            <div class="col-lg-11 mx-5"> <!--star rating-->
-                <textarea class="form-control mb-3" id="desc-text" rows="3" placeholder="post your review here"></textarea>
-                <form class="rate-form" id="rate-form" method="POST">
-                    {% csrf_token %}     
-                <!-- space for rating -->
-                <button  type="submit" onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-2x" id="first"></button>
-                <button  type="sybmit" onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-2x" id="second"></button>
-                <button  type="sybmit" onClick="window.location.href=window.location.href" name='ratings'  class="fa fa-star my-btn fa-2x" id="third"></button>
-                <button  type="sybmit" onClick="window.location.href=window.location.href" name='ratings'  class="fa fa-star my-btn fa-2x" id="fourth"></button>
-                <button  type="sybmit" onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-2x" id="fifth"></button>
-            </form>
-            </div>
-        </div>
+{% if user.is_customer%}
+<div class="card mb-3">
+    <div class="review-input">
+        <h3 class="">Your Review</h3>
+        <textarea class="form-control mb-3" id="desc-text" rows="3"
+            placeholder="Post your review here"></textarea>
+            <form class="rate-form" id="rate-form" method="POST">
+                {% csrf_token %}     
+            <!-- space for rating -->
+            <button  type="submit" onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-2x" id="first"></button>
+            <button  type="submit" onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-2x" id="second"></button>
+            <button  type="submit" onClick="window.location.href=window.location.href" name='ratings'  class="fa fa-star my-btn fa-2x" id="third"></button>
+            <button  type="submit" onClick="window.location.href=window.location.href" name='ratings'  class="fa fa-star my-btn fa-2x" id="fourth"></button>
+            <button  type="submit" onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-2x" id="fifth"></button>
+        </form>
     </div>
 </div>
 {% endif %}
 
-    
-    <!-- each review -->
-    {% for review in reviews %}
-    <div class="card m-2 my-4">
-        <!-- review header -->
-        <div class="p-3 mt-4 row">
-            <!-- reviewer profile picture -->
-            <div class="col-lg-1">
-                <img class="reviewerPic float-right" src="{% static 'images/user.png' %}">
-            </div>
-            <!-- reviewer name and date -->
-            <div class="col-lg-8">
-                <label class="h5">{{review.customer}}</label><br>Reviewed on:
-                <label class="">{{review.published_date|date:"d-m-Y"}}</label>
-            </div>
-            <!-- reviewed stars rating -->
-            <div class="col-lg-3">
-                {% ifequal review.ratings  1 %}
+{% for review in reviews %}
+<div class="card">
+    <div class="customer-details">
+        <div class="customer-pic">
+            <img src="{% static 'images/user.png' %}" alt="">
+        </div>
+        <div class="customer-name">
+            <h5>{{review.customer}}</h5>
+            <p>{{review.published_date|date:"d-m-Y"}}</p>
+        </div>
+        <div class="rating">
+        {% ifequal review.ratings  1 %}
         <button  class="fa fa-star my-btn checked" ></button>
         <button  class="fa fa-star my-btn " ></button>
         <button  class="fa fa-star my-btn " ></button>
@@ -109,24 +96,14 @@
         <button  class="fa fa-star my-btn checked" ></button>
         <button  class="fa fa-star my-btn checked"></button>
         {% endifequal %}
-        
-            </div>
-        </div> <!--EO review header-->
-        <!-- review body -->
-        <div class="px-5 mb-4">
-            <label>{{review.description|safe}} </label>
-        </div> <!--EO review body-->
-    </div> <!--end of each review-->
-   
-    {% endfor %}
+        </div>
+    </div>
+    <div class="customer-review">
+        <p>{{review.description|safe}}
+        </p>
+    </div>
 </div>
-<hr><!--end of reviews space-->
-
-
-
-<!-- </div>
-</div> -->
-
+{% endfor %}
 
 
 
