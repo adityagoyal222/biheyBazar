@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,6 +10,7 @@
   width: 300px;
   height: 400px;
 }
+>>>>>>> 2ec265f2f9fe0296a911fee88c4085c971acf6e0
 body {
   font-family: "Montserrat", sans-serif;
 
@@ -15,6 +18,10 @@ body {
 
   background: #f2f2f2;
 }
+<<<<<<< HEAD
+
+=======
+>>>>>>> 2ec265f2f9fe0296a911fee88c4085c971acf6e0
 /* Page */
 
 .page-container {
@@ -34,14 +41,25 @@ body {
 }
 
 .background-img {
+<<<<<<< HEAD
+  position: relative;
+  margin: auto;
+  width: 80%;
+  height: auto;
+=======
   margin: auto;
   width: 80%;
   height: 25%;
+>>>>>>> 2ec265f2f9fe0296a911fee88c4085c971acf6e0
 }
 
 .background-img img {
   width: 100%;
+<<<<<<< HEAD
+  height: 100%;
+=======
   height: auto;
+>>>>>>> 2ec265f2f9fe0296a911fee88c4085c971acf6e0
 
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
@@ -63,9 +81,15 @@ body {
 }
 
 .profile-edit {
+<<<<<<< HEAD
+  position: absolute;
+  bottom: 15;
+  right: 15;
+=======
   position: relative;
   float: right;
   margin-top: 33%;
+>>>>>>> 2ec265f2f9fe0296a911fee88c4085c971acf6e0
   background-color: rgba(255, 255, 255, 0.5);
   color: rgba(0, 0, 0, 0.5);
   font-size: 20px;
@@ -227,13 +251,33 @@ body {
   height: 100%;
 }
 
+<<<<<<< HEAD
+.portfolio-column a img {
+=======
 .portfolio-column img {
+>>>>>>> 2ec265f2f9fe0296a911fee88c4085c971acf6e0
   margin-top: 3%;
   width: 100%;
   height: 100%;
   cursor: pointer;
 }
 
+<<<<<<< HEAD
+.add-image {
+  float: right;
+  margin: 20px 0;
+  font-size: 30px;
+  cursor: pointer;
+  color: #e9354798;
+  transition: 0.3s;
+}
+
+.add-image:hover {
+  color: #e93547;
+}
+
+=======
+>>>>>>> 2ec265f2f9fe0296a911fee88c4085c971acf6e0
 /* Review */
 
 .customer-details {
