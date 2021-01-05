@@ -1,21 +1,47 @@
-{#  vendors_signup.html extends from users(app) base.html #}
+{# vendors_signup.html extends from users(app) base.html #}
 {% extends 'users/base.html' %}
 {% load bootstrap4 %}
+{% load static %}
 
 {# block content contains the main content of this page i.e form to sign up as vendor#}
 {% block content %}
-    <div class="container">
-        <h1>Sign Up - Vendor</h1>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            
-            {% bootstrap_form user_form %}
-            {% bootstrap_form vendor_form %}
-            <div class="about-text">
-            {{vendor_form.media}}
+<section>
+    <div class="signup-container">
+        <div class="user signinbox">
+            <div class="signup-box">
+                <form method="POST">
+                    {% csrf_token %}
+                    <h2>Sign Up</h2>
+                    <input type="text" name="" id="" placeholder="Username" required>
+                    <input type="email" name="" id="" placeholder="Email">
+                    <input type="password" name="" id="" placeholder="Password">
+                    <input type="password" name="" id="" placeholder="Confirm Password">
+                    <input type="text" name="" id="" placeholder="Vendor Name">
+                    <input id="imageUpload" type="file" class="vendor-profile-insert" name="profile_photo"
+                        placeholder="Profile Photo" required="" capture>
+                    <input id="imageUpload" type="file" class="vendor-cover-insert" name="cover_photo"
+                        placeholder="Cover Photo" required="" capture>
+                    <select name="" id="">
+                        <option>Field of service</option>
+                        <option>Venue</option>
+                        <option>Photographer</option>
+                        <option>Makeup</option>
+                        <option>Tailor</option>
+                        <option>Decorator</option>
+                        <option>Catering</option>
+                        <option>Entertainment</option>
+                        <option>Jewellery</option>
+                        <option>Pandits</option>
+                    </select>
+                    <button class="signup-customer" type="submit">Sign Up</button>
+                    <p class="signup">Already have an account? <a href="{% url 'users:login' %}">Log In</a></p>
+                    <button class="signup-vendor" type="button">
+                        <a href="{% url 'users:signup_customer' %}">Sign Up as Customer</a>
+                    </button>
+                </form>
+            </div>
+            <div class="signup-image"><img src="{% static 'images/v-signin.jpg' %}" alt=""></div>
         </div>
-            <input type="submit" class="btn btn-success" value="Sign Up">
-        </form>
     </div>
+</section>
 {% endblock content %}
-    

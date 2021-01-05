@@ -4,6 +4,128 @@
 
 
 {% block vendor_content %}
+<link rel="stylesheet" href="{% static 'css/vendor.css'%}">
+<link rel="stylesheet" href="{% static 'css/lightbox.css' %}">
+
+<div class="page-container">
+  <div class="profile-head">
+    <div class="background-img card">
+      <img src="{% static 'images/background.jpg'%}" alt="">
+      <div class="card-img-overlay">
+        <i class="fas fa-camera profile-edit"></i>
+      </div>
+    </div>
+    <div class="vendor-data">
+      <img class="vendor-image" src="{% static 'images/profilePic.png'%}" alt="">
+      <h3 class="vendor-name">{{vendor.vendor_name}}</h3>
+      <div class="vendor-rating">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+      </div>
+    </div>
+  </div>
+  <div class="vendor-info container-fluid">
+    <div class="basic-info">
+      <div class="vendor-location">
+        <h4><span><i class="fas fa-map-marker-alt"></i></span> Vendor Address,&nbsp;<span>Detail</span>
+        </h4>
+      </div>
+      <div>
+        <hr class="my-2">
+      </div>
+      <h4>Contact</h4>
+      <div class="contact-no"><span><i class="fas fa-mobile"></i></span> Vendor Phone</div>
+      <div class="contact-no"><span><i class="fas fa-phone-square-alt"></i></span> Vendor Office</div>
+      <div class="vendor-email"><span><i class="fas fa-envelope"></i></span> Vendor Email</div>
+      <div>
+        <hr class="my-2">
+      </div>
+      <h4>About</h4>
+      <div class="vendor-description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed maxime
+        rerum necessitatibus ducimus eveniet neque, doloremque amet nulla veritatis suscipit soluta esse
+        repellat tempora pariatur sunt quia laborum labore obcaecati!
+        <span><i class="fas fa-pen" style="float: right;"></i></span>
+      </div>
+      <button class="add-to-checklist">Add to Checklist</button>
+    </div>
+    <div class="detailed-info">
+      <div class="info-tabs">
+        <ul>
+          <li onclick="tabs(0)" class="portfolio active">Portfolio</li>
+          <li onclick="tabs(1)" class="pricing">Pricing</li>
+          <li onclick="tabs(2)" class="reviews">Reviews</li>
+        </ul>
+      </div>
+      <div class="detailed-tabs">
+        <div class="detailed-portfolio tab">
+          <div class="container-fluid">
+            <div class="portfolio-row">
+              <div class="portfolio-column">
+                <a href="{% static 'images/profilePic.png'%}" data-lightbox="mygallery"><img
+                    src="{% static 'images/profilePic.png'%}" alt=""></a>
+                <a href="images/paimon.jpg" data-lightbox="mygallery"><img src="images/paimon.jpg" alt=""></a>
+                <a href="images/filler1.jpg" data-lightbox="mygallery"><img src="images/filler1.jpg" alt=""></a>
+                <a href="images/profimg.png" data-lightbox="mygallery"><img src="images/profimg.png" alt=""></a>
+              </div>
+            </div>
+            <div>
+              <a href=""><i class="fas fa-plus-circle add-image"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="detailed-pricing tab">Pricing</div>
+        <div class="detailed-rewiews tab">
+          <div class="card mb-3">
+            <div class="review-input">
+              <h3 class="">Your Review</h3>
+              <textarea class="form-control mb-3" id="" rows="3" placeholder="Post your review here"></textarea>
+              <div class="rating-post">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="customer-details">
+              <div class="customer-pic">
+                <img src="images/profimg.png" alt="">
+              </div>
+              <div class="customer-name">
+                <h5>Username</h5>
+                <p>11/10/2012</p>
+              </div>
+              <div class="rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+            <div class="customer-review">
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim facere nesciunt
+                libero et tempora consequatur, repellendus nemo, accusamus sequi obcaecati earum
+                fugiat! Sit sunt culpa dignissimos similique sed animi tempora.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 <!-- <style>
     .vendorPic {
         height: 200px;
@@ -13,90 +135,91 @@
 {#{{vendor.slug}}#}
 <!-- contents -->
 <div class="container-lg p-0">
-    <!-- top banner -->
-    <div>
-        <img class="w-100 h-100 img-fluid" src="{{ vendor.cover_image.url }}" alt="a happy picture, wedding">
-    </div>
-    <!-- main content -->
-    <div class="container-fluid py-2 shadow" style="background-color:white;">
-        <!-- vendor header -->
-        <div class="row my-4 mx-3">
-            <!-- vendor profile picture -->
-            <div class="col-lg-2">
-                <img class="vendorPic" src="{{ vendor.logo.url }}">
-            </div>
-            <!-- vendor name and review and add-to-checklist-->
-            <div class="col-lg-8 mt-4 mx-5">
-                <label class="h1"><strong>{{vendor.vendor_name}}</strong></label><br>
-                <div class="">
-                    <h4></h4>
-                    <button class="fa fa-star my-btn checked"></button>
-                    <button class="fa fa-star my-btn checked"></button>
-                    <button class="fa fa-star my-btn checked"></button>
-                    <button class="fa fa-star my-btn checked"></button>
-                    <button class="fa fa-star my-btn"></button>
-                </div>
-                
-                {% if user.is_customer %}
-                  <div>
-                    <button type="button" class="btn btn-danger btn-sm mt-3" data-toggle="modal" data-target="#staticBackdrop">Add to checklist</button>
-                </div>
-                {% endif %}
-            </div>
-        </div>
-        <hr>
-        <!--EO vendor profile header-->
-
-        <!-- about space-->
-        <div class="mx-3">
-            <h3>About</h3><br>
-            <p class="aboutUs">
-                {{vendor.about|safe}}
-            </p>
-            <p class="mx-3">
-                <label class="font-weight-normal h5">Contact us at:</label><br>
-                <label class="user-select-all" id="vendorMobilePhone">+977 9801234567</label><br>
-                <label class="user-select-all" id="vendorPhone">+01 48123456</label><br>
-                <label class="user-select-all" id="vendorAddress">Ratopul, Kathmandu</label><br>
-            </p>
-        </div>
-        <!-- media space-->
-        <div class="mx-3">
-            <h3>Media</h3><br>
-            <!-- pictures -->
-            <div class="container-fluid row rounded">
-                <div class="col-lg-3">
-                    <img class="card-img-top" src="{% static 'images/filler1.png' %}">
-                </div>
-                <div class="col-lg-3">
-                    <img class="card-img-top" src="{% static 'images/filler1.png' %}">
-                </div>
-                <div class="col-lg-3">
-                    <img class="card-img-top" src="{% static 'images/filler1.png' %}">
-                </div>
-                <div class="col-lg-3">
-                    <img class="card-img-top" src="{% static 'images/filler1.png' %}">
-                </div>
-            </div>
-        </div>
-        <hr>
-        <!--end of media space-->
-
-        <!-- reviews given to vendor will be dipayed below -->
-        <div class="reviews">
-
-            {% include 'vendors/reviews.html' %}
-
+  <!-- top banner -->
+  <div>
+    <img class="w-100 h-100 img-fluid" src="{{ vendor.cover_image.url }}" alt="a happy picture, wedding">
+  </div>
+  <!-- main content -->
+  <div class="container-fluid py-2 shadow" style="background-color:white;">
+    <!-- vendor header -->
+    <div class="row my-4 mx-3">
+      <!-- vendor profile picture -->
+      <div class="col-lg-2">
+        <img class="vendorPic" src="{{ vendor.logo.url }}">
+      </div>
+      <!-- vendor name and review and add-to-checklist-->
+      <div class="col-lg-8 mt-4 mx-5">
+        <label class="h1"><strong>{{vendor.vendor_name}}</strong></label><br>
+        <div class="">
+          <h4></h4>
+          <button class="fa fa-star my-btn checked"></button>
+          <button class="fa fa-star my-btn checked"></button>
+          <button class="fa fa-star my-btn checked"></button>
+          <button class="fa fa-star my-btn checked"></button>
+          <button class="fa fa-star my-btn"></button>
         </div>
 
-        {% if user.is_vendor and vendor.user.username == user.username %}
-        {% for tag in tags %}
-        {{tag}}
-        {% endfor %}
-
-        {% else %}
-
+        {% if user.is_customer %}
+        <div>
+          <button type="button" class="btn btn-danger btn-sm mt-3" data-toggle="modal" data-target="#staticBackdrop">Add
+            to checklist</button>
+        </div>
         {% endif %}
+      </div>
+    </div>
+    <hr>
+    <!--EO vendor profile header-->
+
+    <!-- about space-->
+    <div class="mx-3">
+      <h3>About</h3><br>
+      <p class="aboutUs">
+        {{vendor.about|safe}}
+      </p>
+      <p class="mx-3">
+        <label class="font-weight-normal h5">Contact us at:</label><br>
+        <label class="user-select-all" id="vendorMobilePhone">+977 9801234567</label><br>
+        <label class="user-select-all" id="vendorPhone">+01 48123456</label><br>
+        <label class="user-select-all" id="vendorAddress">Ratopul, Kathmandu</label><br>
+      </p>
+    </div>
+    <!-- media space-->
+    <div class="mx-3">
+      <h3>Media</h3><br>
+      <!-- pictures -->
+      <div class="container-fluid row rounded">
+        <div class="col-lg-3">
+          <img class="card-img-top" src="{% static 'images/filler1.png' %}">
+        </div>
+        <div class="col-lg-3">
+          <img class="card-img-top" src="{% static 'images/filler1.png' %}">
+        </div>
+        <div class="col-lg-3">
+          <img class="card-img-top" src="{% static 'images/filler1.png' %}">
+        </div>
+        <div class="col-lg-3">
+          <img class="card-img-top" src="{% static 'images/filler1.png' %}">
+        </div>
+      </div>
+    </div>
+    <hr>
+    <!--end of media space-->
+
+    <!-- reviews given to vendor will be dipayed below -->
+    <div class="reviews">
+
+      {% include 'vendors/reviews.html' %}
+
+    </div>
+
+    {% if user.is_vendor and vendor.user.username == user.username %}
+    {% for tag in tags %}
+    {{tag}}
+    {% endfor %}
+
+    {% else %}
+
+    {% endif %}
 
 
 
@@ -104,48 +227,51 @@
 
     <div class="container">
 
-    <div class="cover-image">
+      <div class="cover-image">
 
 
-    </div>
+      </div>
 
-    <!-- this div tag contains vendor's profile picture and cover pictures inside it  -->
-    <div class="pictures">
+      <!-- this div tag contains vendor's profile picture and cover pictures inside it  -->
+      <div class="pictures">
         <img src="{{ vendor.cover_image.url }}" class="cover_pic" alt="Cover Image">
         <img src="{{ vendor.logo.url }}" class="profile_pic" alt="Logo">
         <span class="vendor_name">{{vendor.vendor_name}}</span>
-    </div>
+      </div>
 
-    <div class="update-logo">
+      <div class="update-logo">
         <button type="button" class="btn btn-primary" id="logo-button-show">Edit Logo</button>
         <button type="button" class="btn btn-primary" id="logo-button-hide">Close</button>
-        <form method="POST" id="logo-form" action="{% url 'vendors:profile' slug=vendor.user.username %}" enctype="multipart/form-data">
+        <form method="POST" id="logo-form" action="{% url 'vendors:profile' slug=vendor.user.username %}"
+          enctype="multipart/form-data">
           {% csrf_token %}
           {% bootstrap_form update_logo_form %}
           <input type="submit" class="btn btn-primary" name="update_logo" value="Update Logo">
-      </form>
-    </div>
+        </form>
+      </div>
 
-    <div class="update-cover-image">
-      <button type="button" class="btn btn-primary" id="cover-button-show">Edit Cover Image</button>
-      <button type="button" class="btn btn-primary" id="cover-button-hide">Close</button>
-      <form method="POST" id="cover-form" action="{% url 'vendors:profile' slug=vendor.user.username %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% bootstrap_form update_cover_form %}
-        <input type="submit" class="btn btn-primary" name="update_cover" value="Update Cover Image">
-    </form>
-  </div>
+      <div class="update-cover-image">
+        <button type="button" class="btn btn-primary" id="cover-button-show">Edit Cover Image</button>
+        <button type="button" class="btn btn-primary" id="cover-button-hide">Close</button>
+        <form method="POST" id="cover-form" action="{% url 'vendors:profile' slug=vendor.user.username %}"
+          enctype="multipart/form-data">
+          {% csrf_token %}
+          {% bootstrap_form update_cover_form %}
+          <input type="submit" class="btn btn-primary" name="update_cover" value="Update Cover Image">
+        </form>
+      </div>
 
 
 
-  
-  
-  {% if user.is_customer %}
+
+
+      {% if user.is_customer %}
       <!-- Button trigger modal -->
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
         Add Vendor to Checklist
       </button>
-      <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -155,38 +281,37 @@
               </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{% url 'vendors:profile' slug=vendor.user.username %}">
-                    {% csrf_token %}    
-                    {% bootstrap_form add_checklist_form %}
-                    <input type="submit" class="btn btn-primary" 
-                    value="Add To Checklist" name="add_to_checklist">
-                </form>
-            </div>
+              <form method="POST" action="{% url 'vendors:profile' slug=vendor.user.username %}">
+                {% csrf_token %}
+                {% bootstrap_form add_checklist_form %}
+                <input type="submit" class="btn btn-primary" value="Add To Checklist" name="add_to_checklist">
+              </form>
             </div>
           </div>
         </div>
-      </div>   
-      <!-- Modal -->
-  {% endif %}
-    
+      </div>
+    </div>
+    <!-- Modal -->
+    {% endif %}
 
-  <div class="main-info">
-    Category: {{vendor.category}}
-  </div>
-  <hr>
-  <div class="about">
+
+    <div class="main-info">
+      Category: {{vendor.category}}
+    </div>
+    <hr>
+    <div class="about">
       <h4>About:</h4>
       <span>
-        
+
         {% if vendor.about %}
-          {{vendor.about|safe}}
+        {{vendor.about|safe}}
         {% else %}
-          <i>No Description.</i>
+        <i>No Description.</i>
         {% endif %}
-          
-        
+
+
       </span>
-      
+
       {% if user.is_vendor and vendor.user == user %}
       <button type="button" class="btn btn-primary" id="about-button-show">Edit About</button>
       <button type="button" class="btn btn-primary" id="about-button-hide">Close</button>
@@ -196,14 +321,14 @@
         <input type="submit" class="btn btn-primary" name="update_about" value="Update About">
       </form>
       {% endif %}
-  </div>
-  <div class="tag">
-    Tags:
-    {% for tag in tags %}
+    </div>
+    <div class="tag">
+      Tags:
+      {% for tag in tags %}
       {{tag}}
-    {% endfor %} 
-    
-    {% if user.is_vendor and vendor.user.username == user.username %}
+      {% endfor %}
+
+      {% if user.is_vendor and vendor.user.username == user.username %}
       <button type="button" class="btn btn-primary" id="tag-button-show">Add Tags</button>
       <button type="button" class="btn btn-primary" id="tag-button-hide">Close</button>
       <form method="POST" id="tag-form" action="{% url 'vendors:profile' slug=vendor.user.username %}">
@@ -211,23 +336,24 @@
         {% bootstrap_form add_tag_form %}
         <input type="submit" class="btn btn-primary" name="add_tag" value="Add">
       </form>
-    {% endif %}
-  </div>
-  <div class="images">
-    <h4>Images:</h4>
-    <div>
-    {% for image in vendor_images %}
-      <img src="{{ image.image.url }}" class="vendor_images" width="150" height="150" alt="Vendor Image">
-    {% endfor %}
+      {% endif %}
     </div>
-    
-    {% if user.is_vendor and vendor.user == user %}
-    <form method="POST" id="image-form" action="{% url 'vendors:profile' slug=vendor.user.username %}" enctype="multipart/form-data">
-      {% csrf_token %}
-      {% bootstrap_form add_image_form %}
-      <input type="submit" class="btn btn-primary" name="add_image" value="Add">
-    </form>
-    {% endif %}
+    <div class="images">
+      <h4>Images:</h4>
+      <div>
+        {% for image in vendor_images %}
+        <img src="{{ image.image.url }}" class="vendor_images" width="150" height="150" alt="Vendor Image">
+        {% endfor %}
+      </div>
+
+      {% if user.is_vendor and vendor.user == user %}
+      <form method="POST" id="image-form" action="{% url 'vendors:profile' slug=vendor.user.username %}"
+        enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form add_image_form %}
+        <input type="submit" class="btn btn-primary" name="add_image" value="Add">
+      </form>
+      {% endif %}
     </div>
 
 
@@ -235,73 +361,74 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
 
-        $(document).ready(function () {
+      $(document).ready(function () {
 
+        $("#logo-form").hide();
+        $("#logo-button-show").show();
+        $("#logo-button-hide").hide();
+
+        $("#cover-form").hide();
+        $("#cover-button-show").show();
+        $("#cover-button-hide").hide();
+
+        $("#about-form").hide();
+        $("#about-button-show").show();
+        $("#about-button-hide").hide();
+
+        $("#tag-form").hide();
+        $("#tag-button-show").show();
+        $("#tag-button-hide").hide();
+
+        $("#logo-button-show").click(function () {
+          $("#logo-form").show();
+          $("#logo-button-hide").show();
+          $("#logo-button-show").hide();
+        });
+
+        $("#logo-button-hide").click(function () {
           $("#logo-form").hide();
           $("#logo-button-show").show();
           $("#logo-button-hide").hide();
+        });
 
+        $("#cover-button-show").click(function () {
+          $("#cover-form").show();
+          $("#cover-button-hide").show();
+          $("#cover-button-show").hide();
+        });
+
+        $("#cover-button-hide").click(function () {
           $("#cover-form").hide();
           $("#cover-button-show").show();
           $("#cover-button-hide").hide();
+        });
 
+        $("#about-button-show").click(function () {
+          $("#about-form").show();
+          $("#about-button-hide").show();
+          $("#about-button-show").hide();
+        });
+
+        $("#about-button-hide").click(function () {
           $("#about-form").hide();
           $("#about-button-show").show();
           $("#about-button-hide").hide();
+        });
 
+        $("#tag-button-show").click(function () {
+          $("#tag-form").show();
+          $("#tag-button-hide").show();
+          $("#tag-button-show").hide();
+        });
+
+        $("#tag-button-hide").click(function () {
           $("#tag-form").hide();
           $("#tag-button-show").show();
           $("#tag-button-hide").hide();
+        });
 
-          $("#logo-button-show").click(function() {
-            $("#logo-form").show();
-            $("#logo-button-hide").show();
-            $("#logo-button-show").hide();
-          });
-
-          $("#logo-button-hide").click(function() {
-            $("#logo-form").hide();
-            $("#logo-button-show").show();
-            $("#logo-button-hide").hide();
-          });
-
-          $("#cover-button-show").click(function() {
-            $("#cover-form").show();
-            $("#cover-button-hide").show();
-            $("#cover-button-show").hide();
-          });
-
-          $("#cover-button-hide").click(function() {
-            $("#cover-form").hide();
-            $("#cover-button-show").show();
-            $("#cover-button-hide").hide();
-          });
-
-          $("#about-button-show").click(function() {
-            $("#about-form").show();
-            $("#about-button-hide").show();
-            $("#about-button-show").hide();
-          });
-
-          $("#about-button-hide").click(function() {
-            $("#about-form").hide();
-            $("#about-button-show").show();
-            $("#about-button-hide").hide();
-          });
-
-          $("#tag-button-show").click(function() {
-            $("#tag-form").show();
-            $("#tag-button-hide").show();
-            $("#tag-button-show").hide();
-          });
-
-          $("#tag-button-hide").click(function() {
-            $("#tag-form").hide();
-            $("#tag-button-show").show();
-            $("#tag-button-hide").hide();
-          });
-
-        })
+      })
     </script>
-{% endblock vendor_content %}
-
+    <script src="{% static 'js/lightbox.js' %}"></script>
+    <script src="{% static 'js/vendor.js' %}"></script>
+    {% endblock vendor_content %}
