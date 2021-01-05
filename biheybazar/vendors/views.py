@@ -39,7 +39,7 @@ class VendorListView(ListView):
     # template_name = 'users/index.html'
     # context_object_name = 'vendor_list'
     def get_context_data(self,**kwargs):
-        vendor = Vendor.objects.all()
+        vendor = Vendor.objects.all().order_by('-review_int')[:6]
         categories = Category.objects.all()
         context= super(VendorListView,self).get_context_data(**kwargs)
         context['vendor_list']=vendor
