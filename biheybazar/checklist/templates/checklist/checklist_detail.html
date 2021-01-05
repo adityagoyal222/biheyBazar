@@ -166,7 +166,7 @@
                         <img src="{{vendor.vendor.logo.url}}" alt="">
                     </div>
                     <div class="vendor-info">
-                        <h5 class="vendor-name">{{vendor.vendor.vendor_name}}
+                        <h5 class="vendor-name"><a href="{% url 'vendors:profile' slug=vendor.vendor.user.username %}">{{vendor.vendor.vendor_name}}</a>
                             <a href="{% url 'checklist:vendor_remove' pk=vendor.pk %}" class="icon">
                                 <span class="material-icons delete">clear</span>
                             </a><span class="popup">Remove Vendor</span>

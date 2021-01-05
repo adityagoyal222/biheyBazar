@@ -30,6 +30,8 @@ class Vendor(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='category')
     about = RichTextField(blank=True,default='',null=True)
     review_int = models.IntegerField(default=0)
+    address = models.CharField(max_length=200, blank=True, null=True)
+    contact = models.CharField(max_length=15, blank=True, null=True)
 
     # String representation of vendor model
     def __str__(self):
@@ -72,6 +74,10 @@ class VendorImage(models.Model):
     vendor = models.ForeignKey(Vendor, on_delete=CASCADE, related_name='images')
     image = models.ImageField(upload_to='vendor_images')
 
+class VendorPricing(models.Model):
+    vendor = models.ForeignKey(Vendor, on_delete=CASCADE, related_name='pricing')
+    description = models.CharField(max_length=150, blank=False)
+    price = models.CharField(max_length=50, blank=False)
 
 class Tag(models.Model):
     CHOICES = (
