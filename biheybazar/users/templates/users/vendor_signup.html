@@ -9,35 +9,34 @@
     <div class="signup-container">
         <div class="user signinbox">
             <div class="signup-box">
-                <form method="POST">
+                <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <h2>Sign Up</h2>
-                    <input type="text" name="" id="" placeholder="Username" required>
-                    <input type="email" name="" id="" placeholder="Email">
-                    <input type="password" name="" id="" placeholder="Password">
-                    <input type="password" name="" id="" placeholder="Confirm Password">
-                    <input type="text" name="" id="" placeholder="Vendor Name">
-                    <select name="" id="">
-                        <option>Field of service</option>
-                        <option>Venue</option>
-                        <option>Photographer</option>
-                        <option>Makeup</option>
-                        <option>Tailor</option>
-                        <option>Decorator</option>
-                        <option>Catering</option>
-                        <option>Entertainment</option>
-                        <option>Jewellery</option>
-                        <option>Pandits</option>
+                    <input type="text" name="username" id="" placeholder="Username" required>
+                    <input type="email" name="email" id="" placeholder="Email">
+                    <input type="password" name="password1" id="" placeholder="Password">
+                    <input type="password" name="password2" id="" placeholder="Confirm Password">
+                    <input type="text" name="vendor_name" id="" placeholder="Vendor Name">
+                    <input type="file" name="cover_image" placeholder="Cover Image">
+                    <input type="file" name="logo" placeholder="Logo">
+                    <select name="category" id="">
+                        
+                        {% for category in categories %}
+                            <option val="{{category}}" name="category">{{category.category_name}}</option>
+                        {% endfor %}
                     </select>
-                    <button class="signup-customer" type="submit">Sign Up</button>
+                    <button class="signup-vendor" type="submit">Sign Up</button>
                     <p class="signup">Already have an account? <a href="{% url 'users:login' %}">Log In</a></p>
                     <button class="signup-vendor" type="button">
                         <a href="{% url 'users:signup_customer' %}">Sign Up as Customer</a>
                     </button>
+                    {{user_form.errors}}
+                    {{vendor_form.errors}}
                 </form>
             </div>
             <div class="signup-image"><img src="{% static 'images/v-signin.jpg' %}" alt=""></div>
         </div>
     </div>
 </section>
+
 {% endblock content %}
