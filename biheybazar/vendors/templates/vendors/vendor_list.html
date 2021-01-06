@@ -36,7 +36,7 @@
             {% for vendor in vendor_list %}
             {% if vendor.category == category %}
             <div class="card vendorCardVL">
-                <img class="vendorPicVL" src="{% static 'images/filler1.png' %}">
+                <img class="vendorPicVL" src="{{vendor.logo.url}}">
                 <div class="vendorNameVL">
     
                         <h5 class="vendorNameTextVL">{{vendor.vendor_name|slice:":24"}}</h5>
