@@ -88,13 +88,13 @@ class UserVendorForm(UserCreationForm):
 class VendorSignUpForm(forms.ModelForm):
     user = UserVendorForm()
     class Meta:
-        exclude=('user', 'slug','about', 'address', 'contact')
+        exclude=('user', 'about', 'slug', 'address', 'contact', 'review_int', 'category')
         model = Vendor
 
 
         widgets={
             'about':forms.Textarea(attrs={ 'class':"about-text"})
-            }
+        }
 
 
 
@@ -103,17 +103,17 @@ class VendorSignUpForm(forms.ModelForm):
         self.fields['vendor_name'].label = 'Vendor Name'
         self.fields['cover_image'].label = 'Cover Image'
         # self.fields['category'].label = 'Categories'
-        self.fields['category'].label = 'Category'
         # self.fields['about'].label=''
 
     @transaction.atomic()
-    def save(self, user):
+    def save(self, user, category):
         vendor = Vendor.objects.create(
+            review_int=0,
             user=user, # foreign key -> user object
             vendor_name=self.cleaned_data['vendor_name'],
             logo=self.cleaned_data['logo'],
             cover_image=self.cleaned_data['cover_image'],
             # about=self.cleaned_data['about'],
-            category=self.cleaned_data['category'],
+            category=category,
             slug=user.username)
         return vendor

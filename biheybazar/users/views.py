@@ -20,6 +20,7 @@ from checklist.models import Checklist
 
 from .tokens import account_activation_token
 from vendors.models import Vendor
+from vendors.models import Category
 
 
 from customers.models import Customer
@@ -88,18 +89,20 @@ def customerSignUpView(request):
 
 # View for signing up vendor
 def vendorSignUpView(request):
+    category = Category.objects.all()
     if request.method == 'POST':
         # Two form needs to be created for signup view
         user_form = UserVendorForm(request.POST)
         vendor_form = VendorSignUpForm(request.POST, request.FILES)
-
         if user_form.is_valid() and vendor_form.is_valid():
             # form validation and updating models
             user = user_form.save(commit=False)
             user.is_vendor=True
             user.save()
             user_obj = User.objects.get(username=user_form.cleaned_data['username'])
-            vendor_form.save(user_obj)
+            category = Category.objects.filter(category_name=request.POST['category']).first()
+            print(category)
+            vendor_form.save(user_obj, category)
             user.is_active = False
             user.save()
             current_site = get_current_site(request)
@@ -120,12 +123,14 @@ def vendorSignUpView(request):
 
         else:
             context = {
+                'categories': category,
                 'user_form': user_form,
                 'vendor_form': vendor_form,
             }
 
     else:
         context = {
+            'categories': category,
             'user_form': UserVendorForm(),
             'vendor_form': VendorSignUpForm(),
         }

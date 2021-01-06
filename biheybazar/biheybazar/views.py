@@ -1,7 +1,7 @@
 from django.views.generic import (TemplateView, ListView)
 from vendors.models import Vendor, Category
 class HomePage(TemplateView):
-    template_name='users\index.html'
+    template_name='users/index.html'
 
 
     def get_context_data(self,**kwargs):

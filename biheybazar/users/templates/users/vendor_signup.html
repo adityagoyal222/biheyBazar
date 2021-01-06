@@ -1,21 +1,42 @@
-{#  vendors_signup.html extends from users(app) base.html #}
+{# vendors_signup.html extends from users(app) base.html #}
 {% extends 'users/base.html' %}
 {% load bootstrap4 %}
+{% load static %}
 
 {# block content contains the main content of this page i.e form to sign up as vendor#}
 {% block content %}
-    <div class="container">
-        <h1>Sign Up - Vendor</h1>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            
-            {% bootstrap_form user_form %}
-            {% bootstrap_form vendor_form %}
-            <div class="about-text">
-            {{vendor_form.media}}
+<section>
+    <div class="signup-container">
+        <div class="user signinbox">
+            <div class="signup-box">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h2>Sign Up</h2>
+                    <input type="text" name="username" id="" placeholder="Username" required>
+                    <input type="email" name="email" id="" placeholder="Email">
+                    <input type="password" name="password1" id="" placeholder="Password">
+                    <input type="password" name="password2" id="" placeholder="Confirm Password">
+                    <input type="text" name="vendor_name" id="" placeholder="Vendor Name">
+                    <input type="file" name="cover_image" placeholder="Cover Image">
+                    <input type="file" name="logo" placeholder="Logo">
+                    <select name="category" id="">
+                        
+                        {% for category in categories %}
+                            <option val="{{category}}" name="category">{{category.category_name}}</option>
+                        {% endfor %}
+                    </select>
+                    <button class="signup-vendor" type="submit">Sign Up</button>
+                    <p class="signup">Already have an account? <a href="{% url 'users:login' %}">Log In</a></p>
+                    <button class="signup-vendor" type="button">
+                        <a href="{% url 'users:signup_customer' %}">Sign Up as Customer</a>
+                    </button>
+                    {{user_form.errors}}
+                    {{vendor_form.errors}}
+                </form>
+            </div>
+            <div class="signup-image"><img src="{% static 'images/v-signin.jpg' %}" alt=""></div>
         </div>
-            <input type="submit" class="btn btn-success" value="Sign Up">
-        </form>
     </div>
+</section>
+
 {% endblock content %}
-    

@@ -1,318 +1,130 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+.user-profile-container {
+  padding-bottom: 10px;
 }
 
-body {
-  font-family: "Montserrat", sans-serif;
-
-  overflow-x: hidden;
-
-  background: #f2f2f2;
-}
-/* Page */
-
-.page-container {
-  margin-bottom: 20px;
+/* Header Div */
+.user-profile-info {
+  display: flex;
+  align-items: center;
+  background-color: #2b2d42;
+  height: 40vh;
 }
 
-/* Cover Picture */
-.profile-head {
-  position: relative;
-
-  width: 100%;
-  margin: auto;
-
-  background-color: #fff;
-  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
+.user-profile-info .container {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-around; */
+}
+/* User Image */
+.user-profile-image {
+  height: 150px;
+  width: 150px;
 }
 
-.background-img {
-  margin: auto;
-  width: 80%;
-  height: 25%;
-}
-
-.background-img img {
+.user-profile-image img {
   width: 100%;
   height: 100%;
-
-  border-bottom-right-radius: 3px;
-  border-bottom-left-radius: 3px;
-}
-
-/* Profile Picture */
-
-.vendor-image {
-  position: relative;
-
-  width: 200px;
-  margin: auto;
-  margin-top: -180px;
-
-  border: 2px solid white;
   border-radius: 50%;
+  border: 3px solid white;
   background: #fff;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-.profile-edit {
-  position: relative;
-  float: right;
-  margin-top: 33%;
-  background-color: rgba(255, 255, 255, 0.5);
-  color: rgba(0, 0, 0, 0.5);
-  font-size: 20px;
-  padding: 10px 10px;
-  border: none;
-  cursor: pointer;
-  border-radius: 50%;
+/* User Details */
+.user-profile-details {
+  margin-left: 8%;
+  color: #fff;
 }
 
-.profile-edit:hover {
-  color: black;
-}
-/* Vendor Name */
-
-.vendor-data {
-  display: flex;
-  flex-direction: column;
-
-  padding-top: 40px;
+/* Image Change */
+.user-image-change {
+  margin-left: auto;
+  background-color: #ef233c;
 }
 
-.vendor-name {
-  font-size: 28px;
-  font-weight: 600;
-
-  margin: auto;
-  margin-top: 5px;
-}
-
-.vendor-rating {
-  margin: auto;
-  margin-top: 5px;
-  margin-bottom: 5px;
-
-  
-}
-
-/* Vendor Details */
-
-.vendor-info {
-  display: flex;
-
-  width: 90%;
+.user-image-change-btn {
+  text-decoration: none;
   margin-top: 20px;
-  padding: 0px !important;
+  margin: 25px;
 }
 
-/* Left Side */
-
-.basic-info {
-  width: 35%;
+/* Password Change */
+.user-password-change {
+  width: 50%;
   height: fit-content;
-  margin-right: 5px;
-  padding: 50px 30px 30px 30px;
-
-  border-radius: 10px;
   background: #fff;
-  box-shadow: 0px 1px 0px 1px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  transition: 0.5s;
+  margin: 50px auto;
+  border-radius: 5px;
+  box-shadow: 1px 3px 3px 0px rgba(85, 85, 85, 0.377);
 }
 
-.vendor-location {
-  font-weight: 500;
-
-  margin: auto;
-  margin-top: 10px;
+.user-password-change h2 {
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+  width: 100%;
   margin-bottom: 10px;
-
-  color: #333;
-}
-
-.contact-no,
-.vendor-email,
-.vendor-description,
-.add-to-checklist {
-  font-size: 15px;
-
-  margin-bottom: 10px;
-
   color: #555;
 }
 
-.add-to-checklist {
+.user-password-change form input {
   width: 100%;
   padding: 10px;
-
-  cursor: pointer;
-
-  color: #fff;
-  border: 0;
+  background: #f5f5f5;
+  color: #333;
+  border: none;
   border-radius: 10px;
   outline: none;
-  background: #e93547;
+  box-shadow: none;
+  margin: 8px 0;
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: 300;
 }
 
-/* Right Side */
-
-.detailed-info {
-  width: 100%;
-
-  border-radius: 10px;
-  background: #fff;
-  box-shadow: 0px 1px 0px 1px rgba(0, 0, 0, 0.2);
-}
-
-.info-tabs {
-  z-index: -1;
-
-  width: 100%;
-}
-
-.info-tabs ul {
-  display: flex;
-  justify-content: center;
-
-  height: 40px;
-
-  list-style-type: none;
-}
-
-.info-tabs ul li {
-  width: 100%;
-  padding: 10px;
-
+.user-password-change form input[type="submit"] {
+  max-width: 100%;
+  background: #ef233c;
+  color: #fff;
   cursor: pointer;
-  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
 }
 
-.info-tabs ul li.active,
-.info-tabs ul li:hover {
-  box-shadow: 0px -3px 0px rgba(233, 53, 71, 0.6) inset;
-}
-
-.detailed-tabs {
-  z-index: -1;
-
-  width: 100%;
-}
-
-.tab {
-  display: none;
-
-  width: 100%;
-  padding: 20px;
-
-  /* text-align: center; */
-}
-
-/* Portfolio */
-.portfolio-row {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.portfolio-row .portfolio-column {
-  flex: 33.3%;
-  width: auto;
-  overflow: hidden;
-  padding: 0 4px;
-  height: 100%;
-}
-
-.portfolio-column img {
-  margin-top: 3%;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-}
-
-/* Review */
-
-.customer-details {
-  /* display: flex; */
-  margin: 20px 20px 0 20px;
-}
-
-.customer-pic img {
-  float: left;
-  width: 50px;
-  height: 50px;
-
-  border-radius: 50%;
-}
-
-.customer-name {
-  float: left;
-  margin: 0 0 10px 20px;
-}
-
-.rating {
-  float: right;
-  
-  margin-left: auto;
-  margin-top: 10px;
-  margin-right: 20px;
-}
-
-.customer-review {
-  margin: 0 20px 5px 20px;
-  padding: 0px 20px;
-  text-align: justify;
-}
-
-.review-input {
-  padding: 20px;
-}
-
-.rating-post {
-  
-  margin-left: auto;
-  margin-top: 10px;
-  margin-right: 20px;
-}
-/* Responsiveness */
-
-@media (max-width: 1000px) {
-  .vendor-image {
-    width: 150px;
-    margin-top: -150px;
+@media (max-width: 780px) {
+  .user-profile-info {
+    height: 60vh;
   }
 
-  .vendor-info {
+  .user-password-change {
+    width: 90%;
+  }
+}
+
+@media (max-width: 426px) {
+  .user-profile-info .container {
     flex-direction: column;
-
-    padding-right: 0px;
   }
 
-  .basic-info {
-    width: 100%;
-    margin-bottom: 10px;
+  .user-profile-image {
+    margin: auto;
+  }
+
+  .user-image-change {
+    margin: auto;
+    /* margin-top: 10px; */
   }
 }
 
-@media (max-width: 700px) {
-  .vendor-image {
-    width: 100px;
-    margin-top: -100px;
-  }
-
-  .vendor-info {
+@media (max-width: 380px) {
+  .user-profile-info .container {
     flex-direction: column;
-
-    padding-right: 0px;
-  }
-
-  .basic-info {
-    width: 100%;
-  }
-}
-
-@media (max-width: 500px) {
-  .rating {
-    margin-top: -20px;
-    margin-right: 120px;
   }
 }

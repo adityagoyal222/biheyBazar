@@ -30,7 +30,7 @@ SECRET_KEY = 'yim8q#2mz*hgx&c5bc9b+_ypi1qa_j=z*@oaqw(4yu!(rt3le1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['biheybazar.pythonanywhere.com', '127.0.0.1']
 
 INTERNAL_IPS = [
     # ...
@@ -118,11 +118,10 @@ WSGI_APPLICATION = 'biheybazar.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'biheybazar',
-        'USER': 'root',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'NAME': 'biheybazar$default',
+        'USER': 'biheybazar',
+        'PASSWORD': 'databasebb',
+        'HOST': 'biheybazar.mysql.pythonanywhere-services.com',
     }
 }
 

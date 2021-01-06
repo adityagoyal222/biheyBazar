@@ -47,6 +47,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 28px;
 }
 .vendorNameTextVL {
   color: black;
@@ -57,4 +58,26 @@
 
 .bd-footer {
   background-color: #f7f7f7;
+}
+
+.vendorListHeader {
+  /* new change */
+  font-size: 18px;
+  color: white;
+}
+@media only screen and (max-width: 600px){
+
+  .categoryNameVL{
+    font-size: 20px;
+  }
+  .categorySeeMoreVL{
+    font-size: 12px;
+    margin-right: 5px;
+  }
+  .messageVL{
+    margin: 0px;
+  }
+  .vendorListHeader{
+    font-size: 15px;
+  }
 }
