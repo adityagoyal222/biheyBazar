@@ -30,7 +30,7 @@ SECRET_KEY = 'yim8q#2mz*hgx&c5bc9b+_ypi1qa_j=z*@oaqw(4yu!(rt3le1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['biheybazar.pythonanywhere.com']
 
 INTERNAL_IPS = [
     # ...
@@ -67,7 +67,7 @@ CKEDITOR_CONFIGS = {
                 [ "Link", "Unlink", "Anchor", "SectionLink", "Subscript", "Superscript"], ['Undo', 'Redo',],
                 ['Smiley'],
                 ]
-    
+
     },
 }
 MIDDLEWARE = [
@@ -118,14 +118,12 @@ WSGI_APPLICATION = 'biheybazar.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'biheybazar',
-        'USER': 'root',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'NAME': 'biheybazar$default',
+        'USER': 'biheybazar',
+        'PASSWORD': 'softwarica',
+        'HOST': 'biheybazar.mysql.pythonanywhere-services.com',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -180,7 +178,7 @@ AUTH_USER_MODEL = "users.User"
 
 
 #if user is valid, they will be redirected to following url after logging in
-LOGIN_REDIRECT_URL = 'users:check' 
+LOGIN_REDIRECT_URL = 'users:check'
 
 
 LOGOUT_REDIRECT_URL = '/'
@@ -199,4 +197,4 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
 
 
 # Activate Django-Heroku.
-# django_heroku.settings(locals()) 
+# django_heroku.settings(locals())
