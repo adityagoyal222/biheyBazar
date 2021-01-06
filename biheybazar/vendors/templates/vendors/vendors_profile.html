@@ -18,6 +18,7 @@
           <label for="coverimageinput" class="fas fa-camera profile-edit"></label>
           <input type="submit" id="cover-image-form-button" class="fas fa-camera profile-edit" name="update_cover" value="Update Cover Image">
         </form> -->
+        {% if user.is_vendor and vendor.user == user %}
       <div class="card-img-overlay">
         <!-- <button type="button" class="btn btn-primary" id="cover-button-show">Edit Cover Image</button>
         <button type="button" class="btn btn-primary" id="cover-button-hide">Close</button> -->
@@ -52,6 +53,7 @@
       </div>
     </div>
       </div>
+      {% endif %}
     </div>
     <div class="vendor-data">
       <img class="vendor-image" src="{{vendor.logo.url}}" alt="">
@@ -114,7 +116,7 @@
         {% if user.is_vendor and vendor.user == user %}
           <span><i class="fas fa-pen" id="address-button-show" style="float: right;"></i></span>
           <span class="material-icons delete" id="address-button-hide" style="float: right;">clear</span>
-    
+
           <form method="POST" id="address-form" action="{% url 'vendors:profile' slug=vendor.user.username %}">
             {% csrf_token %}
             {% bootstrap_form update_address_form %}
@@ -154,7 +156,7 @@
         {% else %}
         <i>No Description.</i>
       {% endif %}
-      
+
       {% if user.is_vendor and vendor.user == user %}
         <span><i class="fas fa-pen" id="about-button-show" style="float: right;"></i></span>
         <span class="material-icons delete" id="about-button-hide" style="float: right;">clear</span>
@@ -165,6 +167,7 @@
         </form>
       {% endif %}
     </div>
+    {% if user.is_customer %}
     <button class="add-to-checklist" data-toggle="modal" data-target="#staticBackdrop2">Add to Checklist</button>
     <div class="modal fade add-modal" id="staticBackdrop2" data-backdrop="static" data-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -186,6 +189,7 @@
         </div>
       </div>
     </div>
+    {% endif %}
   </div>
   <div class="detailed-info">
     <div class="info-tabs">
@@ -203,10 +207,10 @@
               <!-- !Add a loop for inserting images -->
               <h4>Images:</h4>
               <div>
-                
+
                 {% if vendor_images %}
                   {% for image in vendor_images %}
-                  
+
                     <a href="{{ image.image.url }}" data-lightbox="mygallery">
                       <img src="{{ image.image.url }}" style="object-fit: cover; height: 150px; width: 250px;" alt="">
                     </a>
@@ -214,9 +218,9 @@
                       <a href="{% url 'vendors:image_delete' pk=image.pk %}" class="icon">
                         <span class="material-icons delete">clear</span>
                       </a>
-                  
+
                     {% endif %}
-                  
+
                   {% endfor %}
                 {% else %}
                   <i>No Images Provided.</i>
@@ -225,7 +229,7 @@
           </div>
           <div>
             <!-- ?Button for adding image -->
-            
+
             {% if user.is_vendor and vendor.user == user %}
               <form method="POST" id="image-form" action="{% url 'vendors:profile' slug=vendor.user.username %}"
                 enctype="multipart/form-data">
@@ -244,7 +248,7 @@
         <div class="pricing">
           <h4>Pricing:</h4>
           <div>
-            
+
             {% if vendor_pricing %}
               {% for pricing in vendor_pricing %}
               <p>
@@ -259,7 +263,7 @@
             {% else %}
               <i>No Pricing provided.</i>
             {% endif %}
-                  
+
             {% if user.is_vendor and vendor.user == user %}
             <button type="button" class="btn btn-primary" id="pricing-button-show">Add Pricing</button>
             <button type="button" class="btn btn-primary" id="pricing-button-hide">Close</button>
@@ -284,6 +288,10 @@
 <script src="{% static 'js/lightbox.js' %}"></script>
 <script src="{% static 'js/vendors.js' %}"></script>
 <script>
+    document.getElementById("imageinput").onchange = function() {
+      document.getElementById("image-form-button").click();
+    };
+
   $(document).ready(function () {
     $("#address-form").hide();
     $("#address-button-show").show();
