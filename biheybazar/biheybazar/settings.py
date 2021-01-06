@@ -118,10 +118,11 @@ WSGI_APPLICATION = 'biheybazar.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'biheybazar$default',
-        'USER': 'biheybazar',
-        'PASSWORD': 'databasebb',
-        'HOST': 'biheybazar.mysql.pythonanywhere-services.com',
+        'NAME': 'biheybazar',
+        'USER': 'root',
+        'PASSWORD': 'password',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
 

@@ -12,3 +12,4 @@ function tabs(panelIndex) {
   tab[panelIndex].style.display = "block";
 }
 tabs(0);
+

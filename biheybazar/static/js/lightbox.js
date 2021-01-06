@@ -42,7 +42,6 @@
   Lightbox.defaults = {
     albumLabel: "Image %1 of %2",
     alwaysShowNavOnTouchDevices: false,
-<<<<<<< HEAD
     fadeDuration: 200,
     fitImagesInViewport: true,
     imageFadeDuration: 200,
@@ -50,15 +49,6 @@
     // maxHeight: 600,
     positionFromTop: 50,
     resizeDuration: 200,
-=======
-    fadeDuration: 50,
-    fitImagesInViewport: true,
-    imageFadeDuration: 50,
-    // maxWidth: 800,
-    // maxHeight: 600,
-    positionFromTop: 50,
-    resizeDuration: 50,
->>>>>>> 2ec265f2f9fe0296a911fee88c4085c971acf6e0
     showImageNumberLabel: true,
     wrapAround: false,
     disableScrolling: false,
