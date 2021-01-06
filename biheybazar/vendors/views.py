@@ -46,6 +46,19 @@ class VendorListView(ListView):
         context['categories']=categories  
         return context
     
+class CategoryDetailView(DetailView):
+    model = Category
+    template_name = 'vendors/categoryDetail.html'
+
+    def get_context_data(self,**kwargs):
+        # self.request.session['vendor_slug'] = self.kwargs['slug']
+        categories= Category.objects.filter(pk=self.kwargs['pk']).first()
+        vendor= Vendor.objects.filter(category=categories)
+        print(categories)
+        context= super(CategoryDetailView,self).get_context_data(**kwargs)
+        context['vendor_list']=vendor
+        context['categories']=categories  
+        return context
 
 # Category
 class CreateCategory(LoginRequiredMixin, CreateView):
