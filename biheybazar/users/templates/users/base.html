@@ -123,7 +123,13 @@
                     <li class="nav-item dropdown">
                         <a class="btn dropdown-button" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
-                            <img class="profile-image" src="{% static 'images/profilePic.png' %}"> &nbsp;
+                            <img class="profile-image" src="
+                                {% if user.is_customer %}
+                                    {{customer_context.profile_pic.url}}
+                                {% else %}
+                                    {{vendor_context.profile_pic.url}}
+                                {% endif %}
+                            "> &nbsp;
                             {{user.username}}</a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             

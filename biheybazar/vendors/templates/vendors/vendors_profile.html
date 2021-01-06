@@ -18,6 +18,7 @@
           <label for="coverimageinput" class="fas fa-camera profile-edit"></label>
           <input type="submit" id="cover-image-form-button" class="fas fa-camera profile-edit" name="update_cover" value="Update Cover Image">
         </form> -->
+        {% if user.is_vendor and vendor.user == user %}
       <div class="card-img-overlay">
         <!-- <button type="button" class="btn btn-primary" id="cover-button-show">Edit Cover Image</button>
         <button type="button" class="btn btn-primary" id="cover-button-hide">Close</button> -->
@@ -52,6 +53,7 @@
       </div>
     </div>
       </div>
+      {% endif %}
     </div>
     <div class="vendor-data">
       <img class="vendor-image" src="{{vendor.logo.url}}" alt="">
@@ -284,6 +286,9 @@
 <script src="{% static 'js/lightbox.js' %}"></script>
 <script src="{% static 'js/vendors.js' %}"></script>
 <script>
+    document.getElementById("imageinput").onchange = function() {
+      document.getElementById("image-form-button").click();
+    };
   $(document).ready(function () {
     $("#address-form").hide();
     $("#address-button-show").show();

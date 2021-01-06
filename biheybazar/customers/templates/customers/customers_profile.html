@@ -46,13 +46,13 @@
     </div>
     <!-- !change password not working -->
     <div class="user-password-change">
-        <form method="POST" action="{% url 'customers:profile' pk=customer.pk %}">
+        <form method="POST" class="change_password_form" action="{% url 'customers:profile' pk=customer.pk %}">
             {% csrf_token %}
             <h2>Update Password</h2>
             <input type="password" name="old_password" placeholder="Current Password">
             <input type="password" name="new_password" placeholder="New Password">
             <input type="password" name="confirm_password" placeholder="Confirm Password">
-            <input type="submit" name="" value="Confirm">
+            <input type="submit" name="change_password" value="Confirm">
         </form>
     </div>
 </div>
