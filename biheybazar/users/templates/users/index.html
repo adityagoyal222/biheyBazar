@@ -78,7 +78,7 @@
         <img class="card-img-top" src="{% static 'images/vase.jpg'  %}">
         <div class="card-body">
           <h5 class="card-title">{{category.category_name}}</h5>
-          <a href="#" class="stretched-link"></a>
+          <a href="{% url 'vendors:vendorCategory' pk=category.pk %}" class="stretched-link"></a>
         </div>
       </div>
     </div>

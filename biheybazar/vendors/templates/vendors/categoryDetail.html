@@ -1,0 +1,87 @@
+{% extends 'vendors/base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+
+
+{% block vendor_content %}
+<link rel="stylesheet" href="{% static 'css/vendorListStyle.css'%}">
+<div class="position-relative overflow-hidden py-1 px-5 px-md-5 m-0 text-center bg-light">
+<div class="card my-2 p-2 rounded messageVL">
+    <p class="vendorListHeader text-left m-1">
+        You are currently viewing all available vendors. To see vendors according to your wedding location
+        and culture,
+        <a class="gotoRecommendations" href="testRecommendations.html" style="color: white;"><b>go to
+                recommendations</b></a>.
+    </p>
+</div>
+<!-- individual category starts-->
+
+
+<hr>
+<div class="categoryContainerVL">
+    <h3 class="categoryNameVL">{{categories}}</h3>
+</div>
+<!-- AAA this block is repeated for each vendor -->
+<!-- individual vendor link -no limit for number of vendors-->
+{% for vendor in vendor_list %}
+<div class="card vendorCardVL">
+    <a href=""><img class="vendorPicVL" src="{% static 'images/filler1.png' %}"></a>
+    <div class="vendorNameVL">
+        <a href="" class="vendorNameTextVL">
+            <h5>{{vendor.vendor_name}}</h5>
+        </a>
+    </div>
+</div>
+{% endfor %}
+
+{% for vendor in vendor_list %}
+<div class="card vendorCardVL">
+    <a href=""><img class="vendorPicVL" src="{% static 'images/filler1.png' %}"></a>
+    <div class="vendorNameVL">
+        <a href="" class="vendorNameTextVL">
+            <h5>{{vendor.vendor_name}}</h5>
+        </a>
+    </div>
+</div>
+{% endfor %}
+<!-- AAA end of repeatable block  -->
+
+
+<!-- end of a page -->
+<div style="clear: both; margin-bottom: 10px;"></div>
+
+<!-- footer -->
+<hr>
+<footer class="container pt-1 pb-2">
+    <div class="row">
+        <div class="col-6 col-md">
+            <a class="list-unstyled text-muted" href="#">BiheyBazar</a>
+        </div>
+        <div class="col-6 col-md">
+            <a class="list-unstyled text-muted" href="#">Help</a>
+        </div>
+        <div class="col-6 col-md">
+            <a class="list-unstyled text-muted" href="#">FAQ</a>
+        </div>
+        <div class="col-6 col-md">
+            <a class="list-unstyled text-muted" href="#">Terms</a>
+        </div>
+        <div class="col-6 col-md">
+            <a class="list-unstyled text-muted" href="#">Pricing</a>
+        </div>
+        <div class="col-6 col-md">
+            <a class="list-unstyled text-muted" href="#">About Us</a>
+        </div>
+        <div class="col-6 col-md">
+            <a class="list-unstyled text-muted" href="#">Contact</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md">
+            <small class="d-block mt-3 text-muted" style="text-align: center;">
+                &copy;2021 BiheyBazar</small>
+        </div>
+    </div>
+</footer>
+</div>
+{% endblock %}
