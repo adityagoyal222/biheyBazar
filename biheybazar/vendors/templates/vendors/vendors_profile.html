@@ -10,9 +10,19 @@
 <div class="page-container">
   <div class="profile-head">
     <div class="background-img card">
-      <img src="{% static 'images/background.jpg'%}" alt="">
+      <img src="{{vendor.cover_image.url}}" alt="">
+      <form method="POST" id="cover-form" action="{% url 'vendors:profile' slug=vendor.user.username %}"
+          enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="file" name="cover_image" id="coverimageinput">
+          <label for="coverimageinput" class="fas fa-camera profile-edit"></label>
+          <input type="submit" id="cover-image-form-button" class="fas fa-camera profile-edit" name="update_cover" value="Update Cover Image">
+        </form>
       <div class="card-img-overlay">
-        <i class="fas fa-camera profile-edit"></i>
+        <!-- <button type="button" class="btn btn-primary" id="cover-button-show">Edit Cover Image</button>
+        <button type="button" class="btn btn-primary" id="cover-button-hide">Close</button> -->
+        
+        <!-- <i class="fas fa-camera profile-edit"></i> -->
       </div>
     </div>
     <div class="vendor-data">
@@ -67,24 +77,87 @@
 <div class="vendor-info container-fluid">
   <div class="basic-info">
     <div class="vendor-location">
-      <h4><span><i class="fas fa-map-marker-alt"></i></span> Vendor Address,&nbsp;<span>Detail</span>
+      <h4><span><i class="fas fa-map-marker-alt"></i></span>
+        {% if vendor.address %}
+          {{vendor.address}}
+        {% else %}
+          <i>No address provided.</i>
+        {% endif %}
+        {% if user.is_vendor and vendor.user == user %}
+          <span><i class="fas fa-pen" id="address-button-show" style="float: right;"></i></span>
+          <span class="material-icons delete" id="address-button-hide" style="float: right;">clear</span>
+    
+          <form method="POST" id="address-form" action="{% url 'vendors:profile' slug=vendor.user.username %}">
+            {% csrf_token %}
+            {% bootstrap_form update_address_form %}
+            <input type="submit" class="btn btn-primary" name="update_address" value="Update Address">
+          </form>
+        {% endif %}
       </h4>
     </div>
     <div>
       <hr class="my-2">
     </div>
     <h4>Contact</h4>
-    <div class="contact-no"><span><i class="fas fa-mobile"></i></span> Vendor Phone</div>
-    <div class="contact-no"><span><i class="fas fa-phone-square-alt"></i></span> Vendor Office</div>
-    <div class="vendor-email"><span><i class="fas fa-envelope"></i></span> Vendor Email</div>
+    <div class="contact-no"><span><i class="fas fa-mobile"></i></span>&nbsp;
+      {% if vendor.contact %}
+        {{vendor.contact}}
+      {% else %}
+        <i>No contact info provided.</i>
+      {% endif %}
+      {% if user.is_vendor and vendor.user == user %}
+        <span><i class="fas fa-pen" id="contact-button-show" style="float: right;"></i></span>
+        <span class="material-icons delete" id="contact-button-hide" style="float: right;">clear</span>
+        <form method="POST" id="contact-form" action="{% url 'vendors:profile' slug=vendor.user.username %}">
+          {% csrf_token %}
+          {% bootstrap_form update_contact_form %}
+          <input type="submit" class="btn btn-primary" name="update_contact" value="Update Contact">
+        </form>
+      {% endif %}
+    </div>
+    <div class="vendor-email"><span><i class="fas fa-envelope"></i></span>&nbsp;{{vendor.user.email}}</div>
     <div>
       <hr class="my-2">
     </div>
     <h4>About</h4>
-    <div class="vendor-description">{{vendor.about|safe}}
-      <span><i class="fas fa-pen" style="float: right;"></i></span>
+    <div class="vendor-description">
+      {% if vendor.about %}
+        {{vendor.about|safe}}
+        {% else %}
+        <i>No Description.</i>
+      {% endif %}
+      
+      {% if user.is_vendor and vendor.user == user %}
+        <span><i class="fas fa-pen" id="about-button-show" style="float: right;"></i></span>
+        <span class="material-icons delete" id="about-button-hide" style="float: right;">clear</span>
+        <form method="POST" id="about-form" action="{% url 'vendors:profile' slug=vendor.user.username %}">
+          {% csrf_token %}
+          {% bootstrap_form update_about_form %}
+          <input type="submit" class="btn btn-primary" name="update_about" value="Update About">
+        </form>
+      {% endif %}
     </div>
-    <button class="add-to-checklist">Add to Checklist</button>
+    <button class="add-to-checklist" data-toggle="modal" data-target="#staticBackdrop">Add to Checklist</button>
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Add Vendor to Checklist</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{% url 'vendors:profile' slug=vendor.user.username %}">
+            {% csrf_token %}
+            {% bootstrap_form add_checklist_form %}
+            <input type="submit" class="btn btn-primary" value="Add To Checklist" name="add_to_checklist">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
   <div class="detailed-info">
     <div class="info-tabs">
@@ -100,20 +173,78 @@
           <div class="portfolio-row">
             <div class="portfolio-column">
               <!-- !Add a loop for inserting images -->
-              <a href="{% static 'images/profilePic.png'%}" data-lightbox="mygallery"><img
+              <h4>Images:</h4>
+              <div>
+                
+                {% if vendor_images %}
+                  {% for image in vendor_images %}
+                    <img src="{{ image.image.url }}" class="vendor_images" width="150" height="150" alt="Vendor Image">
+                    {% if user.is_vendor and vendor.user == user %}
+                      <a href="{% url 'vendors:image_delete' pk=image.pk %}" class="icon">
+                        <span class="material-icons delete">clear</span>
+                      </a>
+                    {% endif %}
+                  {% endfor %}
+                {% else %}
+                  <i>No Images Provided.</i>
+                {% endif %}
+                
+                
+              <!-- <a href="{% static 'images/profilePic.png'%}" data-lightbox="mygallery"><img
                   src="{% static 'images/profilePic.png'%}" alt=""></a>
               <a href="images/paimon.jpg" data-lightbox="mygallery"><img src="images/paimon.jpg" alt=""></a>
               <a href="images/filler1.jpg" data-lightbox="mygallery"><img src="images/filler1.jpg" alt=""></a>
-              <a href="images/profimg.png" data-lightbox="mygallery"><img src="images/profimg.png" alt=""></a>
+              <a href="images/profimg.png" data-lightbox="mygallery"><img src="images/profimg.png" alt=""></a> -->
             </div>
           </div>
           <div>
             <!-- ?Button for adding image -->
-            <a href=""><i class="fas fa-plus-circle add-image"></i></a>
+            
+            {% if user.is_vendor and vendor.user == user %}
+              <form method="POST" id="image-form" action="{% url 'vendors:profile' slug=vendor.user.username %}"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="image" id="imageinput">
+                <label for="imageinput" class="fas fa-plus-circle add-image imageinputlabel"></label>
+                <!-- <a href=""><i class="fas fa-plus-circle add-image"></i></a> -->
+                <input type="submit" id="image-form-button" name="add_image" value="Add">
+              </form>
+            {% endif %}
           </div>
         </div>
       </div>
-      <div class="detailed-pricing tab">Pricing</div>
+      <div class="detailed-pricing tab">
+        <div class="pricing">
+          <h4>Pricing:</h4>
+          <div>
+            
+            {% if vendor_pricing %}
+              {% for pricing in vendor_pricing %}
+              <p>
+                {{pricing.description}} &nbsp;&nbsp;&nbsp; Rs. {{pricing.price}}
+                {% if user.is_vendor and vendor.user == user %}
+                <a href="{% url 'vendors:pricing_delete' pk=pricing.pk %}" class="icon">
+                  <span class="material-icons delete">clear</span>
+                </a>
+                {% endif %}
+              </p>
+              {% endfor %}
+            {% else %}
+              <i>No Pricing provided.</i>
+            {% endif %}
+                  
+            {% if user.is_vendor and vendor.user == user %}
+            <button type="button" class="btn btn-primary" id="pricing-button-show">Add Pricing</button>
+            <button type="button" class="btn btn-primary" id="pricing-button-hide">Close</button>
+            <form method="POST" id="pricing-form" action="{% url 'vendors:profile' slug=vendor.user.username %}">
+              {% csrf_token %}
+              {{add_pricing_form}}
+              <input type="submit" class="btn btn-primary" name="add_pricing" value="Add">
+            </form>
+            {% endif %}
+          </div>
+        </div>
+      </div>
       <div class="detailed-rewiews tab">
         {% include 'vendors/reviews.html' %}
       </div>
@@ -507,6 +638,12 @@
 <script src="{% static 'js/vendors.js' %}"></script>
 <script>
 
+  document.getElementById("imageinput").onchange = function() {
+      document.getElementById("image-form-button").click();
+  };
+  document.getElementById("coverimageinput").onchange = function() {
+      document.getElementById("cover-image-form-button").click();
+  };
   $(document).ready(function () {
 
     $("#logo-form").hide();

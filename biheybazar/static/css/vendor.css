@@ -235,6 +235,32 @@ body {
   transition: 0.3s;
 }
 
+#imageinput {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+#coverimageinput {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+#image-form-button {
+  display: none;
+}
+
+#cover-image-form-button {
+  display: none;
+}
+
 .add-image:hover {
   color: #e93547;
 }
