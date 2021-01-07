@@ -1,7 +1,7 @@
 
 {% load static %}
 {% load bootstrap4 %}
-   
+
 
 <style>
     .checked {
@@ -34,7 +34,7 @@
         <textarea class="form-control mb-3" id="desc-text" rows="3"
             placeholder="Post your review here"></textarea>
             <form class="rate-form" id="rate-form" method="POST">
-                {% csrf_token %}     
+                {% csrf_token %}
             <!-- space for rating -->
             <button  type="submit" onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-2x" id="first"></button>
             <button  type="submit" onClick="window.location.href=window.location.href" name='ratings' class="fa fa-star my-btn fa-2x" id="second"></button>
@@ -46,7 +46,9 @@
 </div>
 {% endif %}
 
-{% for review in reviews %}
+{% if reviews %}
+
+    {% for review in reviews %}
 <div class="card">
     <div class="customer-details">
         <div class="customer-pic">
@@ -72,7 +74,7 @@
         <button  class="fa fa-star my-btn " ></button>
         <button  class="fa fa-star my-btn "></button>
         {% endifequal %}
-        
+
         {% ifequal review.ratings  3 %}
         <button  class="fa fa-star my-btn checked" ></button>
         <button  class="fa fa-star my-btn checked" ></button>
@@ -80,7 +82,7 @@
         <button  class="fa fa-star my-btn " ></button>
         <button  class="fa fa-star my-btn "></button>
         {% endifequal %}
-        
+
         {% ifequal review.ratings  4 %}
         <button  class="fa fa-star my-btn checked" ></button>
         <button  class="fa fa-star my-btn checked" ></button>
@@ -105,10 +107,10 @@
 </div>
 {% endfor %}
 
+{% else %}
+<i>No Reviews yet.</i>
+{% endif %}
 
-
-    
-    
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="{% static 'js/master.js' %}"></script>
