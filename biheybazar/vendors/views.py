@@ -13,7 +13,7 @@ from customers.models import Customer
 from .forms import (AddTagForm, UpdateLogoForm,
                  UpdateAboutForm, UpdateCoverImageForm,
                   AddImageForm, AddToChecklistForm,
-                  UpdateAddressForm, UpdateContactForm, 
+                  UpdateAddressForm, UpdateContactForm,
                   AddPricingForm)
 from django.http import HttpResponseRedirect
 # Create your views here.
@@ -43,9 +43,9 @@ class VendorListView(ListView):
         categories = Category.objects.all()
         context= super(VendorListView,self).get_context_data(**kwargs)
         context['vendor_list']=vendor
-        context['categories']=categories  
+        context['categories']=categories
         return context
-    
+
 class CategoryDetailView(DetailView):
     model = Category
     template_name = 'vendors/categoryDetail.html'
@@ -57,7 +57,7 @@ class CategoryDetailView(DetailView):
         print(categories)
         context= super(CategoryDetailView,self).get_context_data(**kwargs)
         context['vendor_list']=vendor
-        context['categories']=categories  
+        context['categories']=categories
         return context
 
 # Category
@@ -72,7 +72,7 @@ class VenueListView(ListView):
 
 
     # context_object_name = 'vendor_list'
-    def get_context_data(self,kwargs):
+    def get_context_data(self,**kwargs):
         # vendor = Vendor.objects.filter(Vendor.category)
         # print(vendor)
         # for v in vendor:
@@ -85,7 +85,7 @@ class VenueListView(ListView):
         print(vendor)
         for v in vendor:
             print(v.category)
-        context= super(VenueListView,self).get_context_data(kwargs)
+        context= super(VenueListView,self).get_context_data(**kwargs)
         context['venues']=vendor
         # context['categories']=categories
         return context
@@ -164,7 +164,7 @@ class VendorProfile(FormView,DetailView):
         # kwargs['vendor']=self.kwargs['slug']
         # return kwargs
 
-    # def get_queryset(self):      
+    # def get_queryset(self):
     #     reviews=Review.objects.all()
     #     context = {'reviews':reviews}
     #     return super().get_queryset()
@@ -182,7 +182,7 @@ class VendorProfile(FormView,DetailView):
                 review_form.save(vendor, customer)
             else:
                 context['rate-form'] = review_form
-        
+
         elif 'add_to_checklist' in request.POST:
             add_to_checklist_form = AddToChecklistForm(request.POST, user=self.request.user)
             if add_to_checklist_form.is_valid():
@@ -190,7 +190,7 @@ class VendorProfile(FormView,DetailView):
                 add_to_checklist_form.save(vendor)
             else:
                 context['add_to_checklist_form'] = add_to_checklist_form
-        
+
         elif 'update_logo' in request.POST:
             update_logo_form = UpdateLogoForm(request.POST, request.FILES)
             if update_logo_form.is_valid():
@@ -198,7 +198,7 @@ class VendorProfile(FormView,DetailView):
                 update_logo_form.save(vendor)
             else:
                 context['update_logo_form'] = update_logo_form
-        
+
         elif 'update_cover' in request.POST:
             update_cover_form = UpdateCoverImageForm(request.POST, request.FILES)
             if update_cover_form .is_valid():
@@ -206,7 +206,7 @@ class VendorProfile(FormView,DetailView):
                 update_cover_form.save(vendor)
             else:
                 context['update_cover_form'] = update_cover_form
-        
+
         elif 'update_about' in request.POST:
             update_about_form = UpdateAboutForm(request.POST)
             if update_about_form.is_valid():
@@ -246,7 +246,7 @@ class VendorProfile(FormView,DetailView):
                 add_pricing_form.save(vendor)
             else:
                 context['add_pricing_form'] = add_pricing_form
-        
+
         elif 'add_tag' in request.POST:
             add_tag_form = AddTagForm(request.POST, user=request.user)
             if add_tag_form.is_valid():

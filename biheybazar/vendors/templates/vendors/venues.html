@@ -1,22 +1,72 @@
 {% extends 'vendors/base.html'%}
-
+{% load static %}
+{% load bootstrap4 %}
 
 
 {% block content %}
 
+<link rel="stylesheet" href="{% static 'css/vendorListStyle.css'%}">
 
+    <!-- <div class="container-fluid row my-3 p-2 rounded " ></div> -->
+    <div class="categoryContainerVL">
+        <h3 class="categoryNameVL">Venues</h3>
+    </div>
 {% for vendor in venues %}
     {% if vendor.category.category_name == 'Venues' %}
-    <div class="container">
-        <img src="{{ vendor.logo.url }}" height=150, width=150 class="profile_pic" alt="profile_pic">
-    <H3><a href="{% url 'vendors:profile' slug=vendor.user.username %}">{{vendor.vendor_name}}
-       
-    </a></H3> 
+    <div class="card vendorCardVL">
+        <img class="vendorPicVL" src="{{ vendor.logo.url }}">
+        <div class="vendorNameVL">
+
+            <h5 class="vendorNameTextVL">{{vendor.vendor_name|slice:":24"}}</h5>
+            <a href="{% url 'vendors:profile' slug=vendor.user.username %}" class="stretched-link"></a>
+        </div>
+        <div class="mt-0">
+
+            {% ifequal vendor.review_int 1 %}
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn "></span>
+            <span class="fa fa-star my-btn "></span>
+            <span class="fa fa-star my-btn "></span>
+            <span class="fa fa-star my-btn"></span>
+            {% endifequal %}
+
+            {% ifequal vendor.review_int 2 %}
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn "></span>
+            <span class="fa fa-star my-btn "></span>
+            <span class="fa fa-star my-btn"></span>
+            {% endifequal %}
+
+            {% ifequal vendor.review_int 3 %}
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn "></span>
+            <span class="fa fa-star my-btn"></span>
+            {% endifequal %}
+
+            {% ifequal vendor.review_int 4 %}
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn"></span>
+            {% endifequal %}
+
+            {% ifequal vendor.review_int 5 %}
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            <span class="fa fa-star my-btn checked"></span>
+            {% endifequal %}
+        </div>
     </div>
     {% endif %}
-        
-    
+
+
 {% endfor %}
-    
+
 
 {% endblock content %}
