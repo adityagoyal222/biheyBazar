@@ -36,7 +36,7 @@
     {% for vendor in vendor_list %}
     {% if vendor.category == category %}
     <div class="card vendorCardVL">
-        <img class="vendorPicVL" src="{% static 'images/filler1.png' %}">
+        <img class="vendorPicVL" src="{{ vendor.logo.url }}">
         <div class="vendorNameVL">
 
             <h5 class="vendorNameTextVL">{{vendor.vendor_name|slice:":24"}}</h5>
@@ -92,94 +92,6 @@
     <div style="clear: both; margin-bottom: 10px;"></div>
     {% endfor %}
 
-
-
-
-
-
-    <hr>
-    <footer class="container pt-1 pb-2">
-        <div class="row">
-            <div class="col-6 col-md">
-                <a class="list-unstyled text-muted" href="#">BiheyBazar</a>
-            </div>
-            <div class="col-6 col-md">
-                <a class="list-unstyled text-muted" href="#">Help</a>
-            <!-- individual vendor link -max 6 per category-->
-            {% for vendor in vendor_list %}
-            {% if vendor.category == category %}
-            <div class="card vendorCardVL">
-                <img class="vendorPicVL" src="{{vendor.logo.url}}">
-                <div class="vendorNameVL">
-    
-                        <h5 class="vendorNameTextVL">{{vendor.vendor_name|slice:":24"}}</h5>
-                        <a href="{% url 'vendors:profile' slug=vendor.user.username %}" class="stretched-link"></a>
-                </div>
-            <div class="mt-0">
-              
-              {% ifequal vendor.review_int 1 %}
-              <span class="fa fa-star my-btn checked"></span>
-              <span class="fa fa-star my-btn "></span>
-              <span class="fa fa-star my-btn "></span>
-              <span class="fa fa-star my-btn "></span>
-              <span class="fa fa-star my-btn"></span>
-              {% endifequal %}
-
-              {% ifequal vendor.review_int 2 %}
-              <span class="fa fa-star my-btn checked"></span>
-              <span class="fa fa-star my-btn checked"></span>
-              <span class="fa fa-star my-btn "></span>
-              <span class="fa fa-star my-btn "></span>
-              <span class="fa fa-star my-btn"></span>
-              {% endifequal %}
-
-              {% ifequal vendor.review_int 3 %}
-              <span class="fa fa-star my-btn checked"></span>
-              <span class="fa fa-star my-btn checked"></span>
-              <span class="fa fa-star my-btn checked"></span>
-              <span class="fa fa-star my-btn "></span>
-              <span class="fa fa-star my-btn"></span>
-              {% endifequal %}
-
-              {% ifequal vendor.review_int 4 %}
-              <span class="fa fa-star my-btn checked"></span>
-              <span class="fa fa-star my-btn checked"></span>
-              <span class="fa fa-star my-btn checked"></span>
-              <span class="fa fa-star my-btn checked"></span>
-              <span class="fa fa-star my-btn"></span>
-              {% endifequal %}
-
-              {% ifequal vendor.review_int 5 %}
-              <span class="fa fa-star my-btn checked"></span>
-              <span class="fa fa-star my-btn checked"></span>
-              <span class="fa fa-star my-btn checked"></span>
-              <span class="fa fa-star my-btn checked"></span>
-              <span class="fa fa-star my-btn checked"></span>
-              {% endifequal %}
-            </div>
-            <div class="col-6 col-md">
-                <a class="list-unstyled text-muted" href="#">FAQ</a>
-            </div>
-            <div class="col-6 col-md">
-                <a class="list-unstyled text-muted" href="#">Terms</a>
-            </div>
-            <div class="col-6 col-md">
-                <a class="list-unstyled text-muted" href="#">Pricing</a>
-            </div>
-            <div class="col-6 col-md">
-                <a class="list-unstyled text-muted" href="#">About Us</a>
-            </div>
-            <div class="col-6 col-md">
-                <a class="list-unstyled text-muted" href="#">Contact</a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-md">
-                <small class="d-block mt-3 text-muted" style="text-align: center;">
-                    &copy;2021 BiheyBazar</small>
-            </div>
-        </div>
-    </footer>
 </div>
 
 {% endblock %}
