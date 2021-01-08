@@ -25,7 +25,7 @@
 <!-- individual vendor link -no limit for number of vendors-->
 {% for vendor in vendor_list %}
 <div class="card vendorCardVL">
-    <a href=""><img class="vendorPicVL" src="{% static 'images/filler1.png' %}"></a>
+    <a href=""><img class="vendorPicVL" src="{{ vendor.logo.url }}"></a>
     <div class="vendorNameVL">
         <a href="" class="vendorNameTextVL">
             <h5>{{vendor.vendor_name}}</h5>
@@ -34,54 +34,11 @@
 </div>
 {% endfor %}
 
-{% for vendor in vendor_list %}
-<div class="card vendorCardVL">
-    <a href=""><img class="vendorPicVL" src="{% static 'images/filler1.png' %}"></a>
-    <div class="vendorNameVL">
-        <a href="" class="vendorNameTextVL">
-            <h5>{{vendor.vendor_name}}</h5>
-        </a>
-    </div>
-</div>
-{% endfor %}
 <!-- AAA end of repeatable block  -->
 
 
 <!-- end of a page -->
 <div style="clear: both; margin-bottom: 10px;"></div>
 
-<!-- footer -->
-<hr>
-<footer class="container pt-1 pb-2">
-    <div class="row">
-        <div class="col-6 col-md">
-            <a class="list-unstyled text-muted" href="#">BiheyBazar</a>
-        </div>
-        <div class="col-6 col-md">
-            <a class="list-unstyled text-muted" href="#">Help</a>
-        </div>
-        <div class="col-6 col-md">
-            <a class="list-unstyled text-muted" href="#">FAQ</a>
-        </div>
-        <div class="col-6 col-md">
-            <a class="list-unstyled text-muted" href="#">Terms</a>
-        </div>
-        <div class="col-6 col-md">
-            <a class="list-unstyled text-muted" href="#">Pricing</a>
-        </div>
-        <div class="col-6 col-md">
-            <a class="list-unstyled text-muted" href="#">About Us</a>
-        </div>
-        <div class="col-6 col-md">
-            <a class="list-unstyled text-muted" href="#">Contact</a>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-md">
-            <small class="d-block mt-3 text-muted" style="text-align: center;">
-                &copy;2021 BiheyBazar</small>
-        </div>
-    </div>
-</footer>
 </div>
 {% endblock %}

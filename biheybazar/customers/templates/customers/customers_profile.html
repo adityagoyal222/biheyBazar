@@ -17,6 +17,7 @@
                 <p class="user-email">{{customer.user.email}}</p>
             </div>
             <div class="user-image-change">
+
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#staticBackdrop">Change
                     Picture</button>
                 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
@@ -41,9 +42,13 @@
                         </div>
                     </div>
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
     <!-- !change password not working -->
     <div class="user-password-change">
         <form method="POST" class="change_password_form" action="{% url 'customers:profile' pk=customer.pk %}">
@@ -54,6 +59,14 @@
             <input type="password" name="confirm_password" placeholder="Confirm Password">
             <input type="submit" name="change_password" value="Confirm">
         </form>
+    </div>
+    <div class="container">
+        <center>
+            <div style="margin-top:20px;">
+                <a class="btn btn-danger" href="{% url 'customers:questions' %}">Change Recommendations</a>
+            </div>
+        </center>
+
     </div>
 </div>
 <!-- NEW CODE -->

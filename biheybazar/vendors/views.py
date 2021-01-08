@@ -46,6 +46,18 @@ class VendorListView(ListView):
         context['categories']=categories
         return context
 
+class RecommendationListView(ListView):
+    model = Vendor
+    template_name = 'vendors/recommendation_list.html'
+    # context_object_name = 'vendor_list'
+    def get_context_data(self,**kwargs):
+        vendor = Vendor.objects.all().order_by('-review_int')[:6]
+        categories = Category.objects.all()
+        context= super(RecommendationListView,self).get_context_data(**kwargs)
+        context['vendor_list']=vendor
+        context['categories']=categories
+        return context
+
 class CategoryDetailView(DetailView):
     model = Category
     template_name = 'vendors/categoryDetail.html'

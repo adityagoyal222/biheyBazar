@@ -13,6 +13,6 @@ urlpatterns = [
     url(r'^delete/pricing/(?P<pk>[-\w]+)/$', views.DeleteVendorPricing.as_view(), name="pricing_delete"),
     url(r'list/', views.VendorListView.as_view(), name="vendor_list"),
     url(r'venues/',views.VenueListView.as_view(),name='venues'),
-    url(r'^category/(?P<pk>[-\w]+)/$',views.CategoryDetailView.as_view(),name='vendorCategory')
-
+    url(r'^category/(?P<pk>[-\w]+)/$',views.CategoryDetailView.as_view(),name='vendorCategory'),
+    url(r'^recommendations/$', views.RecommendationListView.as_view(), name="recommendation_list"),
 ]
